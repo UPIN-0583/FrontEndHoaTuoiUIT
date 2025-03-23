@@ -39,7 +39,7 @@ export default function Hero() {
                     </div>
                     </div>
                 </div>
-            <div className="relative pr-12">
+            <div className="relative">
                 <Image src="/hero-image.jpg" alt="Flower Girl" width={400} height={300} className=" rounded-lg shadow-lg" />
             </div>
         </section>
