@@ -6,21 +6,18 @@ export default function Hero() {
     <div  className="bg-gray-100 shadow-md px-12">
         <section className="container mx-auto flex items-center justify-between py-8 px-12">
             <div >
-                <div className="bg-purple-100 text-purple-700 py-1 px-4 inline-block rounded-full text-sm">
-                🌸 Your Trusted Online Flower Shop
-                </div>
                 <h2 className="text-5xl font-bold text-gray-800 mt-4">
-                The Ultimate <span className="text-purple-600">Flower</span> <br /> Shopping Destination
+                <span className="text-purple-600">🌸Hoa Tươi UIT</span> <br /> Hoa của sự tinh túy
                 </h2>
-                <p className="text-gray-600 mt-4 max-w-2xl">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore. sjadasbdias 
+                <p className="text-gray-600 mt-4 max-w-xl">
+                Hoa Tươi UIT cung cấp giỏ hoa tươi, hộp hoa đẹp, bó hoa nghệ thuật được thiết kế tinh tế, phù hợp cho mọi dịp như sinh nhật, kỷ niệm, khai trương hay tặng người thân. Đặt hoa online dễ dàng, đa dạng mẫu mã, giá hợp lý. 
                 </p>
                 <div className="mt-16 space-x-6">
                 <a href="#" className="bg-purple-600 text-white px-6 py-3 rounded-lg shadow-md font-semibold hover:bg-purple-700">
-                    Shop Now →
+                    Mua ngay →
                 </a>
                 <a href="#" className="text-gray-800 font-semibold hover:underline">
-                    View All Products
+                    Xem thêm
                 </a>
                 </div>
                 <div className="flex mt-6 items-center space-x-4">
@@ -37,8 +34,8 @@ export default function Hero() {
 
                     {/* Nội dung đánh giá */}
                     <div>
-                        <p className="text-black text-lg font-semibold">4.9+ Ratings</p>
-                        <p className="text-gray-500 text-sm">Trusted by 95k+ Customers</p>
+                        <p className="text-black text-lg font-semibold">4.9+ ⭐</p>
+                        <p className="text-gray-500 text-sm">Hơn 95k+ người dùng tin tưởng</p>
                     </div>
                     </div>
                 </div>

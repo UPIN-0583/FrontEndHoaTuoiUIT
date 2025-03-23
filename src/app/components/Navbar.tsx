@@ -9,10 +9,10 @@ export default function Navbar() {
     <header className="bg-white shadow-md">
       {/* Top Bar */}
       <div className="bg-purple-700 text-white text-sm text-center py-2 flex justify-between px-20">
-        <span>Call Us : +123-456-789</span>
+        <span>Hotline: +123-456-789</span>
         <span>
-          Sign up and <strong>GET 20% OFF</strong> for your first order.{" "}
-          <a href="#" className="underline">Sign up now</a>
+          <a href="#" className="underline">Đăng ký ngay</a>
+          &nbsp;và nhận <strong>giảm giá 20%</strong> cho đơn hàng đầu tiên.
         </span>
         <div className="flex space-x-3">
           <a href="#" target="_blank" rel="noopener noreferrer">
@@ -37,11 +37,11 @@ export default function Navbar() {
       </h1>
         <nav>
           <ul className="flex space-x-6 text-gray-700">
-            <li><a href="#" className="hover:text-purple-500">Home</a></li>
-            <li><a href="#" className="hover:text-purple-500">Shop</a></li>
-            <li><a href="#" className="hover:text-purple-500">Occasions</a></li>
-            <li><a href="#" className="hover:text-purple-500">About Us</a></li>
-            <li><a href="#" className="hover:text-purple-500">Contact Us</a></li>
+            <li><a href="#" className="hover:text-purple-500">Trang chủ</a></li>
+            <li><a href="#" className="hover:text-purple-500">Sản phẩm</a></li>
+            <li><a href="#" className="hover:text-purple-500">Chủ đề</a></li>
+            <li><a href="#" className="hover:text-purple-500">Giới thiệu</a></li>
+            <li><a href="#" className="hover:text-purple-500">Liên hệ</a></li>
             <li><a href="#" className="hover:text-purple-500">Blogs</a></li>
           </ul>
         </nav>

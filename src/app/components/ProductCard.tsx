@@ -1,6 +1,8 @@
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faStar } from "@fortawesome/free-solid-svg-icons";
+import { faStar, faHeart, faCartShopping, faExpand } from "@fortawesome/free-solid-svg-icons";
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
 
 interface ProductCardProps {
   title: string;
@@ -21,6 +23,22 @@ export default function ProductCard({ title, price, oldPrice, discount, rating, 
           </span>
         )}
         <Image src="/avatars/avatar2.jpg" alt={title} width={200} height={200} className="rounded-xl" />
+
+        {/* Icons khi hover */}
+        <div className="absolute top-2 right-2 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          {/* Mở ảnh lớn */}
+          <button className="bg-white p-2 rounded-full shadow-md hover:bg-gray-100">
+            <FontAwesomeIcon icon={faExpand} className="text-gray-600 w-4 h-4" />
+          </button>
+          {/* Yêu thích */}
+          <button className="bg-white p-2 rounded-full shadow-md hover:bg-gray-100">
+            <FontAwesomeIcon icon={faHeart} className="text-red-500 w-4 h-4" />
+          </button>
+          {/* Thêm vào giỏ hàng */}
+          <button className="bg-white p-2 rounded-full shadow-md hover:bg-gray-100">
+            <FontAwesomeIcon icon={faCartShopping} className="text-green-500 w-4 h-4" />
+          </button>
+        </div>
       </div>
 
       <div className="mt-4 text-left">
