@@ -7,7 +7,13 @@ const categories = ["Roses", "Tulips", "Lilies", "Orchids", "Daisies", "Sunflowe
 const occasions = ["Weddings", "Birthday", "Anniversary", "Thank You", "Graduation", "Get Well Soon"];
 const colors = ["Red", "Pink", "White", "Yellow", "Purple", "Mixed"];
 
-export default function SidebarFilter({ priceRange, setPriceRange }) {
+export default function SidebarFilter({ 
+  priceRange, 
+  setPriceRange 
+}: { 
+  priceRange: [number, number]; 
+  setPriceRange: (value: [number, number]) => void;
+}) {
   return (
     <div className="w-1/5 p-4 bg-white shadow rounded-lg text-black">
       <h2 className="font-semibold text-2xl my-4">Filter Options</h2>

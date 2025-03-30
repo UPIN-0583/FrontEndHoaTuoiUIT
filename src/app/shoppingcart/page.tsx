@@ -5,10 +5,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 const initialCart = [
-  { id: 1, name: "Blue White Bouquets", price: 45, quantity: 4, image: "/bouquet1.png" },
-  { id: 2, name: "Royal Pink Bouquets", price: 48, quantity: 2, image: "/bouquet2.png" },
-  { id: 3, name: "Lavenders Bouquets", price: 24, quantity: 1, image: "/bouquet3.png" },
-  { id: 4, name: "Fresh Flower Basket", price: 42, quantity: 2, image: "/basket.png" },
+  { id: 1, name: "Blue White Bouquets", price: 45, quantity: 4, image: "/images/flowers/hoa1.jpg" },
+  { id: 2, name: "Royal Pink Bouquets", price: 48, quantity: 2, image: "/images/flowers/hoa2.jpg" },
+  { id: 3, name: "Lavenders Bouquets", price: 24, quantity: 1, image: "/images/flowers/hoa3.jpg" },
+  { id: 4, name: "Fresh Flower Basket", price: 42, quantity: 2, image: "/images/flowers/hoa4.jpg" },
 ];
 
 export default function ShoppingCart() {
@@ -54,17 +54,17 @@ export default function ShoppingCart() {
                     {item.name}
                   </td>
                   <td className="p-3">${item.price.toFixed(2)}</td>
-                  <td className="p-3 flex items-center gap-2">
+                  <td className="p-3 ">
                     <button
                       onClick={() => updateQuantity(item.id, -1)}
-                      className="px-2 py-1 bg-gray-200 rounded"
+                      className="px-2 py-1 bg-gray-200 rounded mr-2"
                     >
                       -
                     </button>
                     {item.quantity}
                     <button
                       onClick={() => updateQuantity(item.id, 1)}
-                      className="px-2 py-1 bg-gray-200 rounded"
+                      className="px-2 py-1 bg-gray-200 rounded ml-2"
                     >
                       +
                     </button>
