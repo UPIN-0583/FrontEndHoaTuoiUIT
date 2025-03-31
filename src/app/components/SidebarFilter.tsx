@@ -1,19 +1,13 @@
 "use client";
 
-import { useState } from "react";
-import { Range } from "react-range";
+// import { useState } from "react";
+// import { Range } from "react-range";
 
 const categories = ["Roses", "Tulips", "Lilies", "Orchids", "Daisies", "Sunflowers"];
 const occasions = ["Weddings", "Birthday", "Anniversary", "Thank You", "Graduation", "Get Well Soon"];
 const colors = ["Red", "Pink", "White", "Yellow", "Purple", "Mixed"];
 
-export default function SidebarFilter({ 
-  priceRange, 
-  setPriceRange 
-}: { 
-  priceRange: [number, number]; 
-  setPriceRange: (value: [number, number]) => void;
-}) {
+export default function SidebarFilter() {
   return (
     <div className="w-1/5 p-4 bg-white shadow rounded-lg text-black">
       <h2 className="font-semibold text-2xl my-4">Filter Options</h2>
@@ -32,7 +26,14 @@ export default function SidebarFilter({
         </label>
       ))}
 
-      <h3 className="font-semibold mt-6 mb-2">Price</h3>
+    <h3 className="font-semibold mt-6 mb-2">By Color</h3>
+      {colors.map((o) => (
+        <label key={o} className="block">
+          <input type="checkbox" className="mr-2" /> {o}
+        </label>
+      ))}
+
+      {/* <h3 className="font-semibold mt-6 mb-2">Price</h3>
       <div className="mb-4">
         <p>${priceRange[0]} - ${priceRange[1]}</p>
         <Range
@@ -68,9 +69,7 @@ export default function SidebarFilter({
             />
           )}
         />
-      </div>
-
-      
+      </div> */}      
     </div>
   );
 }

@@ -10,14 +10,12 @@ import Features from "../components/Features";
 export default function Home() {
   return (
     <div>
-      <Navbar />
       <Hero />
       <Occasions/>
       <TopSellers/>
       <SaleOff/>
       <BlogSection/>
       <Features/>
-      <Footer/>
     </div>
   );
 }

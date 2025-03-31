@@ -14,8 +14,9 @@ const initialCart = [
 export default function ShoppingCart() {
   const [cart, setCart] = useState(initialCart);
   const [coupon, setCoupon] = useState("");
+  const [appliedDiscount, setAppliedDiscount] = useState(0);
 
-  const updateQuantity = (id : number, amount: number) => {
+  const updateQuantity = (id : number , amount : number) => {
     setCart((prevCart) => 
       prevCart.map((item) => {
         return item.id === id ? { ...item, quantity: Math.max(1, item.quantity + amount) } : item;
@@ -27,9 +28,16 @@ export default function ShoppingCart() {
     setCart((prevCart) => prevCart.filter((item) => item.id !== id));
   };
   
+  const applyCoupon = () => {
+    if (coupon === "DISCOUNT30") {
+      setAppliedDiscount(30);
+    } else {
+      setAppliedDiscount(0);
+    }
+  };
+
   const subtotal = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
-  const discount = coupon === "DISCOUNT30" ? 30 : 0;
-  const total = subtotal - discount;
+  const total = subtotal - appliedDiscount;
 
   return (
     <div className="bg-white p-6">
@@ -89,14 +97,19 @@ export default function ShoppingCart() {
                 value={coupon}
                 onChange={(e) => setCoupon(e.target.value)}
               />
-              <button className="bg-purple-600 text-white px-4 py-2 rounded">Apply Coupon</button>
+              <button 
+                onClick={applyCoupon}
+                className="bg-purple-600 text-white px-4 py-2 rounded"
+              >
+                Apply Coupon
+              </button>
             </div>
             <button className="text-red-500">Clear Shopping Cart</button>
           </div>
         </div>
 
         {/* Order Summary */}
-        <div className="w-1/3 bg-white shadow-md  p-8 rounded-lg ">
+        <div className="w-1/3 bg-white shadow-md p-8 rounded-lg ">
           <h3 className="text-2xl font-semibold text-black ">Order Summary</h3>
           <div className="flex justify-between mt-6 text-black ">
             <span>Items</span> <span>{cart.reduce((acc, item) => acc + item.quantity, 0)}</span>
@@ -105,7 +118,7 @@ export default function ShoppingCart() {
             <span>Sub Total</span> <span>${subtotal.toFixed(2)}</span>
           </div>
           <div className="flex justify-between mt-2 text-black">
-            <span>Coupon Discount</span> <span>-${discount.toFixed(2)}</span>
+            <span>Coupon Discount</span> <span>-${appliedDiscount.toFixed(2)}</span>
           </div>
           <div className="flex justify-between mt-6 font-bold text-lg text-black ">
             <span>Total</span> <span>${total.toFixed(2)}</span>

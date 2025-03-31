@@ -16,7 +16,7 @@ export default function CheckoutPage() {
     <div className="bg-white">
       <div className="max-w-6xl mx-auto p-6 flex">
         <div className="w-2/3 bg-white shadow-md rounded-lg p-6">
-          <h1 className="text-xl font-bold mb-4 text-black">Thông tin người mua</h1>
+          <h1 className="text-xl font-bold mb-4 text-black text-center">Thông tin người mua</h1>
           <form className="mt-4">
             <div className="mb-4">
               <label className="block text-gray-700 font-medium">*Họ và tên:</label>
@@ -35,17 +35,18 @@ export default function CheckoutPage() {
               <input type="text" className="w-full border rounded-md p-2" />
             </div>
           </form>
-          <button className="w-full bg-red-500 text-white p-3 rounded-md text-lg">Tiếp tục</button>
+          <button className="w-full bg-purple-600 text-white p-3 rounded-md text-lg">Tiếp tục</button>
         </div>
         
         <div className="w-1/3 bg-white shadow-md rounded-lg p-6 ml-4">
+          <h1 className="text-xl font-semibold text-black text-center">Thông tin đơn hàng</h1>
           <div className="pt-4 text-black">
             {initialCart.map((item) => (
               <div key={item.id} className="flex justify-between mb-4">
                 <div className="flex">
                   <Image src={item.image} alt={item.name} width={48} height={48} className="mr-4" />
                   <div className="">
-                    <p className="text-red-500">{item.name}</p>
+                    <p className="text-black">{item.name}</p>
                     <p>{item.quantity} x {item.price} đ</p>
                   </div>
                 </div>

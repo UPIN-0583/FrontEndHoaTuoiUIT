@@ -1,5 +1,6 @@
 "use client"; 
 
+import Image from "next/image";
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -21,7 +22,7 @@ const ProductDetail = () => {
     { name: "Premium", price: 90 },
   ];
 
-  const colors = ["Blue", "Purple"];
+  //const colors = ["Blue", "Purple"];
 
   return (
     <div className="max-w-5xl mx-auto p-6 bg-white shadow-md rounded-lg text-black">
@@ -29,15 +30,16 @@ const ProductDetail = () => {
       <div className="flex gap-6">
         {/* Left Section */}
         <div className="w-1/2">
-          <img
+          <Image
             src="/avatars/avatar1.jpg"
             alt="Blue White Bouquets"
             className="w-full rounded-lg"
+            width={200} height={300}
           />
-          {/* Thumbnails
-          <div className="flex gap-2 mt-3">
+          {/* Thumbnails */}
+          {/* <div className="flex gap-2 mt-3">
             {[1, 2, 3, 4].map((_, i) => (
-              <img
+              <Image
                 key={i}
                 src="/flower.jpg"
                 className={`w-16 h-16 rounded-lg border ${
