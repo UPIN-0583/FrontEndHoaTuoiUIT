@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react";
+import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
@@ -58,7 +59,7 @@ export default function ShoppingCart() {
               {cart.map((item) => (
                 <tr key={item.id} className="border-b text-black">
                   <td className="p-3 flex items-center gap-3">
-                    <img src={item.image} alt={item.name} className="w-12 h-12" />
+                    <Image src={item.image} alt={item.name} width={48} height={48}  className="w-12 h-12" />
                     {item.name}
                   </td>
                   <td className="p-3">${item.price.toFixed(2)}</td>
