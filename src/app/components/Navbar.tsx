@@ -72,12 +72,12 @@ export default function Navbar() {
               </a>
             </li>
             <li>
-              <a href="#" className="hover:text-purple-500">
+              <a href="/contact" className="hover:text-purple-500">
                 Liên hệ
               </a>
             </li>
             <li>
-              <a href="#" className="hover:text-purple-500">
+              <a href="/blog" className="hover:text-purple-500">
                 Blogs
               </a>
             </li>
