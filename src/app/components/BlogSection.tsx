@@ -37,28 +37,28 @@ export default function BlogSection() {
 
   return (
     <section className="py-12 bg-white">
-        {/* Tiêu đề chính */}
-        <div className="flex items-center justify-between text-center mx-52">
-            <div className="text-left">
-                <h3 className="text-gray-500 uppercase font-semibold">News & Blogs</h3>
-                <h2 className="text-4xl font-bold text-black">
-                    Our Latest <span className="text-purple-600">News & Blogs</span>
-                </h2>
-            </div>
-            <button className="px-6 py-2 bg-purple-600 text-white rounded-full">
-                View All Blogs
-            </button> 
+      {/* Tiêu đề chính */}
+      <div className="flex items-center justify-between text-center mx-4 md:mx-12 lg:mx-32">
+        <div className="text-left">
+          <h3 className="text-gray-500 uppercase font-semibold">News & Blogs</h3>
+          <h2 className="text-4xl font-bold text-black">
+            Our Latest <span className="text-purple-600">News & Blogs</span>
+          </h2>
         </div>
+        <button className="px-6 py-2 bg-purple-600 text-white rounded-full">
+          View All Blogs
+        </button>
+      </div>
 
-        {/* Danh sách bài viết */}
-        <div className="mt-8 flex flex-wrap justify-center gap-6 mx-48">
-          {/* Danh sách bài viết (chỉ hiển thị 3 blog) */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 p-5">
-            {blogPosts.slice(0, 3).map((post, index) => (
-              <BlogCard key={index} post={post} />
-            ))}
-          </div>
+      {/* Danh sách bài viết */}
+      <div className="mt-8 flex flex-wrap justify-center gap-6 mx-4 md:mx-12 lg:mx-32">
+        {/* Danh sách bài viết (chỉ hiển thị 3 blog) */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 p-5">
+          {blogPosts.slice(0, 3).map((post, index) => (
+            <BlogCard key={index} post={post} />
+          ))}
         </div>
+      </div>
     </section>
   );
 }

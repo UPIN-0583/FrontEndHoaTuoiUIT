@@ -1,86 +1,175 @@
+"use client"
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFacebook, faXTwitter, faPinterest, faInstagram} from "@fortawesome/free-brands-svg-icons";
+import {
+    faFacebook,
+    faXTwitter,
+    faPinterest,
+    faInstagram,
+} from "@fortawesome/free-brands-svg-icons";
+import { faLocation, faMailBulk, faMobileAlt } from "@fortawesome/free-solid-svg-icons";
+
 
 export default function Footer() {
-  return (
-    <footer className="bg-purple-700 text-white p-10 rounded-lg px-20">
-      <div className="flex items-center justify-between">
-        {/* Logo & Description */}
-        <div className="col-span-1 md:col-span-2">
-          <div className="flex items-center gap-2">
-            <div className="bg-purple-500 p-3 rounded-full">
-              <span className="text-2xl">🌸</span>
-            </div>
-            <h2 className="text-2xl font-bold">Hoa Tươi UIT</h2>
-          </div>
-          <p className="mt-3 text-sm max-w-96">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna.
-          </p>
-          {/* Social Icons */}
-          <div className="flex gap-3 mt-4">
-            <div className="flex space-x-3">
-                <a href="#" target="_blank" rel="noopener noreferrer">
-                <FontAwesomeIcon icon={faFacebook} className="text-white " />
-                </a>
-                <a href="#" target="_blank" rel="noopener noreferrer">
-                <FontAwesomeIcon icon={faXTwitter} className="text-white" />
-                </a>
-                <a href="#" target="_blank" rel="noopener noreferrer">
-                <FontAwesomeIcon icon={faPinterest} className="text-white" />
-                </a>
-                <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
-                <FontAwesomeIcon icon={faInstagram} className="text-white" />
-                </a>
-            </div>
-          </div>
-        </div>
+    const Company = [
+        {
+            title: "Trang chủ",
+            link: "/#",
+        },
+        {
+            title: "Giới thiệu",
+            link: "/about",
+        },
+        {
+            title: "Liên hệ",
+            link: "/contact",
+        },
+        {
+            title: "Blog",
+            link: "/blog",
+        },
+    ];
 
-        {/* Links */}
-        <div className="flex gap-8">
-            <div>
-            <h3 className="font-semibold pb-2">Company</h3>
-            <ul className="mt-2 text-sm space-y-2">
-                <li>About Us</li>
-                <li>Blog</li>
-                <li>Contact Us</li>
-                <li>Career</li>
-            </ul>
-            </div>
-            <div>
-            <h3 className="font-semibold pb-2">Customer Services</h3>
-            <ul className="mt-2 text-sm space-y-2">
-                <li>My Account</li>
-                <li>Track Your Order</li>
-                <li>Return</li>
-                <li>FAQ</li>
-            </ul>
-            </div>
-            <div>
-            <h3 className="font-semibold pb-2">Our Information</h3>
-            <ul className="mt-2 text-sm space-y-2">
-                <li>Privacy</li>
-                <li>User Terms & Condition</li>
-                <li>Return Policy</li>
-            </ul>
-            </div>
-            <div>
-            <h3 className="font-semibold pb-2">Contact Info</h3>
-            <ul className="mt-2 text-sm space-y-2">
-                <li>+0123-456-789</li>
-                <li>example@gmail.com</li>
-                <li>8502 Preston Rd. Inglewood, Maine 98380</li>
-            </ul>
+    const Services = [
+        {
+            title: "Tài khoản",
+            link: "/account",
+        },
+        {
+            title: "Theo dõi đơn hàng",
+            link: "/tracking",
+        },
+        {
+            title: "Trả hàng",
+            link: "/return",
+        },
+        {
+            title: "Câu hỏi thường gặp",
+            link: "/faq",
+        },
+    ];
+
+    const Information = [
+        {
+            title: "Quyền truy cập",
+            link: "/privacy",
+        },
+        {
+            title: "Chính sách người dùng",
+            link: "/term",
+        },
+        {
+            title: "Chính sách đổi trả",
+            link: "/returnpolicy",
+        },
+
+    ];
+
+    return (
+        <div>
+            <div className="grid md:grid-cols-3 mx-4 sm:mx-6 md:mx-10 my-5 py-5 bg-purple-700 rounded-2xl">
+                {/* company details  */}
+                <div className="py-6 md:py-8 px-6 md:px-20 text-center md:text-left">
+                    <a href="#">
+                        <h1 className="text-2xl md:text-3xl font-bold text-white">🌸Hoa Tươi UIT</h1>
+                    </a>
+                    <p className="text-white pt-3 text-sm md:text-base">
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Et facere
+                        qui libero.
+                    </p>
+                    <div className="flex justify-center md:justify-start gap-6 md:gap-10 mt-6 text-xl md:text-2xl">
+                        <a href="#" className="hover:text-purple-200 transition-colors">
+                            <FontAwesomeIcon icon={faFacebook} className="text-white" />
+                        </a>
+                        <a href="#" className="hover:text-purple-200 transition-colors">
+                            <FontAwesomeIcon icon={faXTwitter} className="text-white" />
+                        </a>
+                        <a href="#" className="hover:text-purple-200 transition-colors">
+                            <FontAwesomeIcon icon={faPinterest} className="text-white" />
+                        </a>
+                        <a href="#" className="hover:text-purple-200 transition-colors">
+                            <FontAwesomeIcon icon={faInstagram} className="text-white" />
+                        </a>
+                    </div>
+                </div>
+
+                {/* footer links  */}
+                <div className="col-span-2 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div className="py-4 md:py-8 px-6 md:px-4 text-center sm:text-left">
+                        <h1 className="text-lg md:text-xl text-white font-semibold mb-3">
+                            Công ty
+                        </h1>
+                        <ul className="space-y-2 md:space-y-3">
+                            {Company.map((data, index) => (
+                                <li key={index}>
+                                    <a
+                                        href={data.link}
+                                        className="text-white/70 hover:text-white duration-300 text-sm md:text-base"
+                                    >
+                                        {data.title}
+                                    </a>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+
+                    <div className="py-4 md:py-8 px-6 md:px-4 text-center sm:text-left">
+                        <h1 className="text-lg md:text-xl text-white font-semibold mb-3">
+                            Dịch vụ khách hàng
+                        </h1>
+                        <ul className="space-y-2 md:space-y-3">
+                            {Services.map((data, index) => (
+                                <li key={index}>
+                                    <a
+                                        href={data.link}
+                                        className="text-white/70 hover:text-white duration-300 text-sm md:text-base"
+                                    >
+                                        {data.title}
+                                    </a>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+
+                    <div className="py-4 md:py-8 px-6 md:px-4 text-center sm:text-left">
+                        <h1 className="text-lg md:text-xl text-white font-semibold mb-3">
+                            Về chúng tôi
+                        </h1>
+                        <ul className="space-y-2 md:space-y-3">
+                            {Information.map((data, index) => (
+                                <li key={index}>
+                                    <a
+                                        href={data.link}
+                                        className="text-white/70 hover:text-white duration-300 text-sm md:text-base"
+                                    >
+                                        {data.title}
+                                    </a>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+
+                    <div className="py-4 md:py-8 px-6 md:px-4 text-center sm:text-left">
+                        <h1 className="text-lg md:text-xl text-white font-semibold mb-3">
+                            Liên hệ
+                        </h1>
+                        <div className="text-white/70 space-y-4 text-sm md:text-base">
+                            <div className="flex items-center gap-3 justify-center sm:justify-start">
+                                <FontAwesomeIcon icon={faLocation} />
+                                <p>HCM-UIT</p>
+                            </div>
+                            <div className="flex items-center gap-3 justify-center sm:justify-start">
+                                <FontAwesomeIcon icon={faMobileAlt} />
+                                <p>0987654321</p>
+                            </div>
+                            <div className="flex items-center gap-3 justify-center sm:justify-start">
+                                <FontAwesomeIcon icon={faMailBulk} />
+                                <p>@UIT</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        
-      </div>
-
-      {/* Copyright */}
-      <div className="mt-8 text-center text-sm border-t border-purple-600 pt-4">
-        <p>
-          <span className="font-bold">Copyright &copy; 2024</span> Flower Shop Website. <span className="font-bold">All Rights Reserved.</span>
-        </p>
-      </div>
-    </footer>
-  );
+    )
 }
