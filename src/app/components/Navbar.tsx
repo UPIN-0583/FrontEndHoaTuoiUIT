@@ -13,6 +13,7 @@ import {
   faPinterest,
   faInstagram,
 } from "@fortawesome/free-brands-svg-icons";
+import Link from "next/link";
 
 export default function Navbar() {
   return (
@@ -52,34 +53,34 @@ export default function Navbar() {
         <nav className="hidden md:block">
           <ul className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-6 text-gray-700">
             <li>
-              <a href="#" className="hover:text-purple-500">
+              <Link href="/" className="hover:text-purple-500">
                 Trang chủ
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="/products" className="hover:text-purple-500">
+              <Link href="/products" className="hover:text-purple-500">
                 Sản phẩm
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="/theme" className="hover:text-purple-500">
+              <Link href="/theme" className="hover:text-purple-500">
                 Chủ đề
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="/about" className="hover:text-purple-500">
+              <Link href="/about" className="hover:text-purple-500">
                 Giới thiệu
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="/contact" className="hover:text-purple-500">
+              <Link href="/contact" className="hover:text-purple-500">
                 Liên hệ
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="/blog" className="hover:text-purple-500">
+              <Link href="/blog" className="hover:text-purple-500">
                 Blogs
-              </a>
+              </Link>
             </li>
           </ul>
         </nav>
