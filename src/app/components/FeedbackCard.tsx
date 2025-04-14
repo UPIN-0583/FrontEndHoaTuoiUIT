@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React from "react";
 
 interface FeedbackCardProps {
@@ -21,10 +22,12 @@ const FeedbackCard: React.FC<FeedbackCardProps> = ({ rating, title, content, nam
             <h3 className="font-bold text-lg mb-2">{title}</h3>
             <p className="text-gray-600 text-sm mb-4">{content}</p>
             <div className="flex items-center">
-                <img
+                <Image
                     src={image}
                     alt={name}
                     className="w-12 h-12 rounded-full mr-4 object-cover"
+                    width={100}
+                    height={100}
                 />
                 <div>
                     <p className="font-semibold">{name}</p>

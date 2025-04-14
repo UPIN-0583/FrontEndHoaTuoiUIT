@@ -190,7 +190,7 @@ export default function Blog() {
                             </div>
                         </div>
                         <div className="relative ">
-                            <img
+                            <Image
                                 src="/hero-image.jpg"
                                 alt="Floral Deals"
                                 className="rounded-2xl w-full h-[500px] object-cover"

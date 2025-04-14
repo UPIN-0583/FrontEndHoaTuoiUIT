@@ -2,7 +2,7 @@
 import { faEye, faRocket } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import Head from 'next/head'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import Image from "next/image"
 import FeedbackCarousel from "../components/FeedbackCarousel"
 
@@ -128,7 +128,6 @@ const flowerImages = [
 
 export default function About() {
     const [selectedImage, setSelectedImage] = useState<FlowerImage | null>(null);
-    const [isMobile, setIsMobile] = useState(false);
 
     interface FlowerImage {
         id: number;
@@ -139,16 +138,7 @@ export default function About() {
         className: string;
     }
 
-    // Handle responsive layout
-    useEffect(() => {
-        const handleResize = () => {
-            setIsMobile(window.innerWidth < 640)
-        }
 
-        handleResize()
-        window.addEventListener('resize', handleResize)
-        return () => window.removeEventListener('resize', handleResize)
-    }, [])
 
     const handleImageClick = (image: FlowerImage) => {
         setSelectedImage(image)
@@ -173,9 +163,9 @@ export default function About() {
                 <div className="mt-10 md:mt-0 md:ml-12 max-w-xl text-center md:text-left">
                     <h4 className="text-gray-600 text-2xl">About Us</h4>
                     <h2 className="text-4xl font-semibold mt-2">
-                        <span className="text-purple-600 font-bold">Delivering Nature's</span>{" "}
-                        <br />
-                        Beauty to Your Door
+                        <p className="text-purple-600 font-bold">Delivering Nature</p>
+                        <p className="text-gray-500 font-bold">Beauty to Your Door</p>
+
                     </h2>
                     <p className="text-gray-500 mt-4 text-2xl">
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
