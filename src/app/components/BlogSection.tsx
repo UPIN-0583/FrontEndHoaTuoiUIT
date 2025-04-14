@@ -45,7 +45,7 @@ export default function BlogSection() {
             Our Latest <span className="text-purple-600">News & Blogs</span>
           </h2>
         </div>
-        <button className="px-6 py-2 bg-purple-600 text-white rounded-full">
+        <button className="px-6 py-2 bg-purple-600 text-white rounded-full cursor-pointer">
           View All Blogs
         </button>
       </div>

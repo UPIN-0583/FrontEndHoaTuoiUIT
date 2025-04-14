@@ -52,22 +52,22 @@ export default function Navbar() {
         <nav className="hidden md:block">
           <ul className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-6 text-gray-700">
             <li>
-              <a href="#" className="hover:text-purple-500">
+              <a href="/" className="hover:text-purple-500">
                 Trang chủ
               </a>
             </li>
             <li>
-              <a href="#" className="hover:text-purple-500">
+              <a href="/products" className="hover:text-purple-500">
                 Sản phẩm
               </a>
             </li>
             <li>
-              <a href="#" className="hover:text-purple-500">
+              <a href="/theme" className="hover:text-purple-500">
                 Chủ đề
               </a>
             </li>
             <li>
-              <a href="#" className="hover:text-purple-500">
+              <a href="/about" className="hover:text-purple-500">
                 Giới thiệu
               </a>
             </li>
