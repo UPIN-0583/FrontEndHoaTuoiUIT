@@ -42,75 +42,88 @@ export default function ShoppingCart() {
 
   return (
     <div className="bg-white p-6">
-      <div className="max-w-6xl mx-auto flex gap-6">
+      <div className="max-w-6xl mx-auto flex flex-col md:flex-row gap-6">
         {/* Cart Items */}
-        <div className="w-2/3 bg-white shadow-md rounded-lg p-6">
-          <table className="w-full border-collapse text-left">
-            <thead>
-              <tr className="bg-purple-500 text-white">
-                <th className="p-3">Product</th>
-                <th className="p-3">Price</th>
-                <th className="p-3">Quantity</th>
-                <th className="p-3">Subtotal</th>
-                <th className="p-3">Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {cart.map((item) => (
-                <tr key={item.id} className="border-b text-black">
-                  <td className="p-3 flex items-center gap-3">
-                    <Image src={item.image} alt={item.name} width={48} height={48}  className="w-12 h-12" />
-                    {item.name}
-                  </td>
-                  <td className="p-3">${item.price.toFixed(2)}</td>
-                  <td className="p-3 ">
-                    <button
-                      onClick={() => updateQuantity(item.id, -1)}
-                      className="px-2 py-1 bg-gray-200 rounded mr-2"
-                    >
-                      -
-                    </button>
-                    {item.quantity}
-                    <button
-                      onClick={() => updateQuantity(item.id, 1)}
-                      className="px-2 py-1 bg-gray-200 rounded ml-2"
-                    >
-                      +
-                    </button>
-                  </td>
-                  <td className="p-3">${(item.price * item.quantity).toFixed(2)}</td>
-                  <td className="p-3">
-                    <button onClick={() => removeItem(item.id)} className="text-red-500">
-                      <FontAwesomeIcon icon={faTrash} />
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+        <div className="md:w-2/3  bg-white shadow-md rounded-lg p-6">
+        {cart.length > 0 ? (
+          <div className="hidden md:flex flex-col gap-4">
+            {cart.map((item) => (
+              <div key={item.id} className="p-4 rounded-lg shadow-md flex items-center gap-6 justify-between">
+                {/* Sản phẩm */}
+                <div className="flex items-center gap-4 flex-1">
+                  <Image src={item.image} alt={item.name} width={64} height={64} className="w-16 h-16" />
+                  <div>
+                    <h3 className="font-semibold text-lg">{item.name}</h3>
+                    <p className="text-gray-600">${item.price.toFixed(2)}</p>
+                  </div>
+                </div>
 
-          <div className="flex justify-between mt-6">
-            <div className="flex gap-3 text-black">
-              <input
-                type="text"
-                placeholder="Coupon Code"
-                className="border p-2 rounded text-black"
-                value={coupon}
-                onChange={(e) => setCoupon(e.target.value)}
-              />
-              <button 
-                onClick={applyCoupon}
-                className="bg-purple-600 text-white px-4 py-2 rounded"
-              >
-                Apply Coupon
-              </button>
-            </div>
-            <button className="text-red-500">Clear Shopping Cart</button>
+                {/* Số lượng */}
+                <div className="flex items-center gap-2">
+                  <button onClick={() => updateQuantity(item.id, -1)} className="px-3 py-1 bg-gray-200 rounded">-</button>
+                  <span className="w-6 text-center">{item.quantity}</span>
+                  <button onClick={() => updateQuantity(item.id, 1)} className="px-3 py-1 bg-gray-200 rounded">+</button>
+                </div>
+
+                {/* Tổng tiền */}
+                <p className="text-lg font-bold">${(item.price * item.quantity).toFixed(2)}</p>
+
+                {/* Nút xóa */}
+                <button onClick={() => removeItem(item.id)} className="text-red-500">
+                  <FontAwesomeIcon icon={faTrash} />
+                </button>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p className="text-center text-gray-500">Your cart is empty.</p>
+        )}
+
+          {/* Mobile View */}
+          <div className="md:hidden flex flex-col gap-4">
+            {cart.map((item) => (
+              <div key={item.id} className="p-4 rounded-lg shadow-md">
+                <div className="flex items-center gap-4">
+                  <Image src={item.image} alt={item.name} width={64} height={64} className="w-16 h-16" />
+                  <div className="flex-1">
+                    <h3 className="font-semibold text-lg">{item.name}</h3>
+                    <p className="text-gray-600">${item.price.toFixed(2)}</p>
+                  </div>
+                  <button onClick={() => removeItem(item.id)} className="text-red-500">
+                    <FontAwesomeIcon icon={faTrash} />
+                  </button>
+                </div>
+                <div className="flex items-center justify-between mt-3">
+                  <div className="flex items-center gap-2">
+                    <button onClick={() => updateQuantity(item.id, -1)} className="px-3 py-1 bg-gray-200 rounded">-</button>
+                    <span>{item.quantity}</span>
+                    <button onClick={() => updateQuantity(item.id, 1)} className="px-3 py-1 bg-gray-200 rounded">+</button>
+                  </div>
+                  <p className="text-lg font-bold">${(item.price * item.quantity).toFixed(2)}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="flex flex-row justify-between mt-6">
+            <input
+              type="text"
+              placeholder="Coupon Code"
+              className="border p-2 rounded text-black text-sm md:text-lg mr-2"
+              value={coupon}
+              onChange={(e) => setCoupon(e.target.value)}
+            />
+            <button 
+              onClick={applyCoupon}
+              className="bg-purple-600 text-white px-4 py-2 rounded"
+            >
+              Apply Coupon
+            </button>
           </div>
         </div>
 
         {/* Order Summary */}
-        <div className="w-1/3 bg-white shadow-md p-8 rounded-lg ">
+        <div className="md:w-1/3 bg-white shadow-md p-8 rounded-lg ">
           <h3 className="text-2xl font-semibold text-black ">Order Summary</h3>
           <div className="flex justify-between mt-6 text-black ">
             <span>Items</span> <span>{cart.reduce((acc, item) => acc + item.quantity, 0)}</span>

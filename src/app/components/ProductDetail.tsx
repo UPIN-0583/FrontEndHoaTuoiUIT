@@ -9,6 +9,7 @@ import {
   faHeart,
   faMinus,
   faPlus,
+  faCreditCard
 } from "@fortawesome/free-solid-svg-icons";
 
 const ProductDetail = () => {
@@ -27,9 +28,9 @@ const ProductDetail = () => {
   return (
     <div className="max-w-5xl mx-auto p-6 bg-white shadow-md rounded-lg text-black">
       {/* Product Display */}
-      <div className="flex gap-6">
+      <div className="flex flex-col md:flex-row gap-6">
         {/* Left Section */}
-        <div className="w-1/2">
+        <div className="md:w-2/3">
           <Image
             src="/avatars/avatar1.jpg"
             alt="Blue White Bouquets"
@@ -52,7 +53,7 @@ const ProductDetail = () => {
         </div>
 
         {/* Right Section */}
-        <div className="w-1/2">
+        <div>
           <h3 className="text-gray-500">Bouquets</h3>
           <h2 className="text-2xl font-semibold">Blue White Bouquets</h2>
           <div className="flex items-center mt-2">
@@ -81,7 +82,7 @@ const ProductDetail = () => {
               {sizes.map((size) => (
                 <button
                   key={size.name}
-                  className={`p-3 border rounded-lg ${
+                  className={`p-3 border text-sm rounded-lg ${
                     selectedSize === size.name
                       ? "border-purple-500 text-purple-600"
                       : "border-gray-300"
@@ -117,33 +118,39 @@ const ProductDetail = () => {
 
 
           {/* Quantity Selector */}
-          <div className="mt-4 flex items-center">
-            <button
-              className="p-2 border rounded-lg"
-              onClick={() => setQuantity(quantity > 1 ? quantity - 1 : 1)}
-            >
-              <FontAwesomeIcon icon={faMinus} />
-            </button>
-            <span className="mx-4">{quantity}</span>
-            <button
-              className="p-2 border rounded-lg"
-              onClick={() => setQuantity(quantity + 1)}
-            >
-              <FontAwesomeIcon icon={faPlus} />
-            </button>
+          <div className="flex flex-row mt-4 justify-between lg:justify-normal lg:gap-10 ">
+            <div className="flex items-center">
+              <button
+                className="p-2 border rounded-lg"
+                onClick={() => setQuantity(quantity > 1 ? quantity - 1 : 1)}
+              >
+                <FontAwesomeIcon icon={faMinus} />
+              </button>
+              <span className="mx-4">{quantity}</span>
+              <button
+                className="p-2 border rounded-lg"
+                onClick={() => setQuantity(quantity + 1)}
+              >
+                <FontAwesomeIcon icon={faPlus} />
+              </button>
+            </div>
+            <div className="items-center">
+              <button className="p-2 border rounded-lg">
+                <FontAwesomeIcon icon={faHeart} />
+              </button>
+            </div>
           </div>
+          
 
           {/* Buttons */}
           <div className="mt-6 flex gap-3">
-            <button className="flex-1 bg-purple-600 text-white p-3 rounded-lg flex items-center justify-center gap-2">
+            <button className="flex-1 bg-purple-600 text-white p-3 rounded-lg flex sm:flex-row flex-col items-center justify-center gap-2">
               <FontAwesomeIcon icon={faShoppingCart} />
               Add To Cart
             </button>
-            <button className="flex-1 bg-pink-500 text-white p-3 rounded-lg">
+            <button className="flex-1 bg-pink-500 text-white p-3 rounded-lg flex sm:flex-row flex-col items-center justify-center gap-2">
+               <FontAwesomeIcon icon={faCreditCard}/>
               Buy Now
-            </button>
-            <button className="p-3 border rounded-lg">
-              <FontAwesomeIcon icon={faHeart} />
             </button>
           </div>
         </div>
