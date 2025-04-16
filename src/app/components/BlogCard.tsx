@@ -1,66 +1,54 @@
 "use client";
-import Image from "next/image";
-import { FC } from "react";
+import Image from 'next/image';
+import TagLabel from './TagLabel';
 
-export interface BlogPost {
-  image: string;
-  category: string;
+interface BlogCardProps {
+  imageSrc: string;
+  tag: string;
   author: string;
   date: string;
   title: string;
   excerpt: string;
-  link: string;
+  href: string;
 }
 
-interface BlogCardProps {
-  post: BlogPost;
-}
-
-const BlogCard: FC<BlogCardProps> = ({ post }) => {
+export default function BlogCard({
+  imageSrc,
+  tag,
+  author,
+  date,
+  title,
+  excerpt,
+  href,
+}: BlogCardProps) {
   return (
-    <div className="bg-white rounded-lg shadow hover:shadow-lg transition-shadow overflow-hidden">
-      {/* Ảnh đại diện */}
-      <div className="relative w-full h-48 md:h-52 lg:h-56">
-        <Image
-          src={post.image}
-          alt={post.title}
-          fill
-          className="object-cover"
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-        />
-        {/* Category tag */}
-        <div className="absolute top-3 left-3 bg-purple-600 text-white text-xs font-medium px-2 py-1 rounded-full">
-          {post.category}
-        </div>
+    <div className="rounded-3xl relative shadow-md ">
+      <div className="relative">
+          <Image
+              src={imageSrc}
+              alt={title}
+              width={800}
+              height={600}
+              className="object-cover w-full h-[230px] sm:h-[250px] md:h-[300px] rounded-3xl"
+          />
+          <div className="absolute bottom-3 -left-4 z-10">
+              <TagLabel text={tag} />
+          </div>
       </div>
-
-      {/* Nội dung bài viết */}
-      <div className="p-4">
-        {/* Tác giả & ngày đăng */}
-        <div className="flex items-center text-sm text-gray-400 mb-2">
-          <span>{post.author}</span>
-          <span className="mx-2">•</span>
-          <span>{post.date}</span>
-        </div>
-
-        {/* Tiêu đề */}
-        <h3 className="text-lg font-semibold text-gray-800 mb-2">
-          {post.title}
-        </h3>
-
-        {/* Mô tả ngắn */}
-        <p className="text-gray-600 mb-4 line-clamp-3">{post.excerpt}</p>
-
-        {/* Đường dẫn xem chi tiết */}
-        <a
-          href={post.link}
-          className="text-purple-600 font-medium hover:underline"
-        >
-          Read More
-        </a>
+      <div className="p-4 sm:p-6">
+          <p className="text-xl md:text-sm text-gray-500">
+              {author} &nbsp;<span className="text-purple-400 text-xl">●</span>&nbsp; {date}
+          </p>
+          <h3 className="text-lg sm:text-xl font-semibold mt-2 mb-3">
+              {title}
+          </h3>
+          <p className="text-gray-600 text-sm mb-4">
+              {excerpt}
+          </p>
+          <a href={href} className="text-purple-600 font-medium hover:underline text-sm">
+              Read More
+          </a>
       </div>
     </div>
   );
-};
-
-export default BlogCard;
+}

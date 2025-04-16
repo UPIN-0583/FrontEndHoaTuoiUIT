@@ -193,6 +193,8 @@ export default function Blog() {
                             <Image
                                 src="/hero-image.jpg"
                                 alt="Floral Deals"
+                                width={400}
+                                height={300}
                                 className="rounded-2xl w-full h-[500px] object-cover"
                             />
                             <div className="absolute inset-0 flex flex-col justify-end items-center p-5 text-white bg-gradient-to-t from-black/60 to-transparent rounded-2xl">
