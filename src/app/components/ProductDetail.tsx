@@ -15,15 +15,12 @@ import {
 const ProductDetail = () => {
   const [quantity, setQuantity] = useState(1);
   const [selectedSize, setSelectedSize] = useState("Standard");
-  //const [selectedColor, setSelectedColor] = useState("Blue");
-
   const sizes = [
     { name: "Standard", price: 45 },
     { name: "Deluxe", price: 60 },
     { name: "Premium", price: 90 },
   ];
 
-  //const colors = ["Blue", "Purple"];
 
   return (
     <div className="max-w-5xl mx-auto p-6 bg-white shadow-md rounded-lg text-black">
@@ -37,19 +34,6 @@ const ProductDetail = () => {
             className="w-full rounded-lg"
             width={200} height={300}
           />
-          {/* Thumbnails */}
-          {/* <div className="flex gap-2 mt-3">
-            {[1, 2, 3, 4].map((_, i) => (
-              <Image
-                key={i}
-                src="/flower.jpg"
-                className={`w-16 h-16 rounded-lg border ${
-                  i === 0 ? "border-purple-500" : "border-gray-300"
-                } cursor-pointer`}
-                alt="thumbnail"
-              />
-            ))}
-          </div> */}
         </div>
 
         {/* Right Section */}
@@ -95,28 +79,6 @@ const ProductDetail = () => {
             </div>
           </div>
 
-          {/* Color Options
-          <div className="mt-4">
-            <h4 className="font-semibold">Flower Color: {selectedColor}</h4>
-            <div className="flex gap-3 mt-2">
-              {colors.map((color) => (
-                <button
-                  key={color}
-                  className={`w-6 h-6 rounded-full border-2 ${
-                    selectedColor === color
-                      ? "border-purple-500"
-                      : "border-gray-300"
-                  }`}
-                  style={{
-                    backgroundColor: color.toLowerCase(),
-                  }}
-                  onClick={() => setSelectedColor(color)}
-                />
-              ))}
-            </div>
-          </div> */}
-
-
           {/* Quantity Selector */}
           <div className="flex flex-row mt-4 justify-between lg:justify-normal lg:gap-10 ">
             <div className="flex items-center">
@@ -134,24 +96,24 @@ const ProductDetail = () => {
                 <FontAwesomeIcon icon={faPlus} />
               </button>
             </div>
-            <div className="items-center">
-              <button className="p-2 border rounded-lg">
-                <FontAwesomeIcon icon={faHeart} />
-              </button>
-            </div>
           </div>
           
 
           {/* Buttons */}
           <div className="mt-6 flex gap-3">
-            <button className="flex-1 bg-purple-600 text-white p-3 rounded-lg flex sm:flex-row flex-col items-center justify-center gap-2">
+            <button className="flex-4 bg-purple-600 text-white p-3 rounded-lg flex sm:flex-row flex-col items-center justify-center gap-2">
               <FontAwesomeIcon icon={faShoppingCart} />
               Add To Cart
             </button>
-            <button className="flex-1 bg-pink-500 text-white p-3 rounded-lg flex sm:flex-row flex-col items-center justify-center gap-2">
+            <button className="flex-4 bg-pink-500 text-white p-3 rounded-lg flex sm:flex-row flex-col items-center justify-center gap-2">
                <FontAwesomeIcon icon={faCreditCard}/>
               Buy Now
             </button>
+            <div className="flex-1 items-center">
+              <button className="p-2 border rounded-lg">
+                <FontAwesomeIcon icon={faHeart} />
+              </button>
+            </div>
           </div>
         </div>
       </div>

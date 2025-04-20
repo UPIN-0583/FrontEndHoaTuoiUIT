@@ -15,12 +15,12 @@ const occasions = [
 ];
 
 const products = [
-  { title: "Rose Boutique", category: "Bouquets", price: "$35.00", rating: 4.8, img: "/avatars/avatar1.jpg" },
-  { title: "Rose Bouquets", category: "Bouquets", price: "$35.00", rating: 4.9, img: "/avatars/avatar1.jpg" },
-  { title: "Flower Basket", category: "Basket", price: "$80.00", rating: 5.0, img: "/avatars/avatar1.jpg" },
-  { title: "Colorful Rose", category: "Bouquets", price: "$45.00", rating: 4.8, img: "/avatars/avatar1.jpg" },
-  { title: "Pink Flowers", category: "Flowers", price: "$20.00", oldPrice: "$40.00", discount: "50%", rating: 4.9, img: "/avatars/avatar1.jpg" },
-  { title: "Rose Bouquets", category: "Bouquets", price: "$90.00", oldPrice: "$100.00", discount: "10%", rating: 4.8, img: "/avatars/avatar1.jpg" }
+  {id:1, title: "Rose Boutique", category: "Bouquets", price: 35.00, rating: 4.8, img: "/images/flowers/hoa1.jpg" },
+  {id:2, title: "Rose Bouquets", category: "Bouquets", price: 35.00, rating: 4.9, img: "/images/flowers/hoa2.jpg" },
+  {id:3, title: "Flower Basket", category: "Basket", price: 80.00, rating: 5.0, img: "/images/flowers/hoa3.jpg" },
+  {id:4, title: "Colorful Rose", category: "Bouquets", price: 45.00, rating: 4.8, img: "/images/flowers/hoa4.jpg" },
+  {id:5, title: "Pink Flowers", category: "Flowers", price: 20.00, oldPrice:40.00, discount: "50%", rating: 4.9, img: "/images/flowers/hoa2.jpg" },
+  {id:5, title: "Rose Bouquets", category: "Bouquets", price: 90.00, oldPrice: 100.00, discount: "10%", rating: 4.8, img: "/images/flowers/hoa3.jpg" }
 ];
 
 const blogPosts = [
@@ -168,7 +168,7 @@ export default function Home() {
             <p className="text-gray-500 mb-6 text-center md:text-left">
               Sed ut perspiciatis unde omnis iste natus error sit voluptatem.
             </p>
-            <div className=" grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 justify-items-center items-center">
+            <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 justify-items-center items-center">
               {products.map((product, index) => (
                 <ProductCard key={index} {...product} />
               ))}
