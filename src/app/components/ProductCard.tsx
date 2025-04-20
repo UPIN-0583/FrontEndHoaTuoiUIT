@@ -4,8 +4,9 @@ import { faStar, faHeart, faCartShopping } from "@fortawesome/free-solid-svg-ico
 
 interface ProductCardProps {
   title: string;
-  price: string;
-  oldPrice?: string; // Không bắt buộc
+  price: number;
+  //category: string;
+  oldPrice?: number; // Không bắt buộc
   discount?: string; // Không bắt buộc
   rating: number;
   img: string;
@@ -13,7 +14,7 @@ interface ProductCardProps {
 
 export default function ProductCard({ title, price, oldPrice, discount, rating, img }: ProductCardProps) {
   return (
-    <div className="group bg-white p-5 rounded-2xl shadow-md w-60 relative overflow-hidden">
+    <div className="group bg-white p-5 rounded-2xl shadow-md w-45 md:w-60 relative overflow-hidden hover:bg-gray-100 transition-colors duration-300">
       {/* Phần hình ảnh */}
       <div className="relative">
         {/* Hiển thị discount nếu có */}
@@ -48,8 +49,8 @@ export default function ProductCard({ title, price, oldPrice, discount, rating, 
         </div>
         <h4 className="font-semibold text-black">{title}</h4>
         <div className="flex items-center gap-2">
-          <span className="text-lg font-bold text-black">{price}</span>
-          {oldPrice && <span className="text-gray-400 line-through">{oldPrice}</span>}
+          <span className="text-lg font-bold text-black">${price}</span>
+          {oldPrice && <span className="text-gray-400 line-through">${oldPrice}</span>}
         </div>
       </div>
     </div>
