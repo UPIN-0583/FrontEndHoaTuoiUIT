@@ -3,7 +3,7 @@ User-agent: *
 Allow: /
 
 # Host
-Host: https://hoatuoiuit.id.com
+Host: https://hoatuoiuit.id.vn
 
 # Sitemaps
-Sitemap: https://hoatuoiuit.id.com/sitemap.xml
+Sitemap: https://hoatuoiuit.id.vn/sitemap.xml
