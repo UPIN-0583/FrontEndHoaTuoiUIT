@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://hoatuoiuit.id.com
+
+# Sitemaps
+Sitemap: https://hoatuoiuit.id.com/sitemap.xml
