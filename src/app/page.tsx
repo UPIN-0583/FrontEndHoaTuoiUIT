@@ -3,6 +3,7 @@ import ProductCarousel from "./components/ProductCarousel";
 import ProductCard from "./components/ProductCard";
 import BlogCard from "./components/BlogCard";
 import Features from "./components/Features";
+import Head from 'next/head';
 
 import Image from "next/image";
 
@@ -58,6 +59,16 @@ const blogPosts = [
 export default function Home() {
   return (
     <div>
+      <Head>
+        <title>Trang chủ | Hoa Tươi UIT</title>
+        <meta name="description" content="Hoa Tươi UIT cung cấp giỏ hoa tươi, hộp hoa đẹp, giao nhanh tận nơi nội ô làng đại học. Đặt hoa online dễ dàng, đa dạng mẫu mã, giá hợp lý." />
+        <meta name="keywords" content="hoa tươi UIT, hoa của sự tinh túy, hoa tươi sinh viên UIT, giỏ hoa tươi, hộp hoa tươi, bình hoa tươi, cách bảo quản hoa tươi lâu, cách chọn hoa tươi theo dịp lễ, hoa tặng vợ, hoa tặng Valentine, hoa Giáng Sinh, hoa khai trương, hoa tặng tốt nghiệp,mua hoa hồng, mua hoa cúc, mua hoa tulip, mua hoa hướng dương, mua hoa lan, mua hoa mẫu đơn" />
+        <meta property="og:title" content="Tiêu đề chia sẻ lên Facebook" />
+        <meta property="og:description" content="Mô tả khi chia sẻ" />
+        <meta property="og:image" content="URL ảnh thumbnail" />
+        <meta name="google-site-verification" content="8osYK3jlo0lQlpudXAb1b68GCFIdl7dOh2xnM5HNI8E" />
+      </Head>
+
       {/* <Hero /> */}
       <div className="bg-gray-100 shadow-md px-4 sm:px-12">
           <section className="container mx-auto flex flex-col-reverse md:flex-row items-center justify-center py-8 px-4 sm:px-12 gap-8">
