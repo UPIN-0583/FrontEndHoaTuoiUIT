@@ -94,24 +94,24 @@ export default function Navbar() {
               className="text-gray-700 hover:text-purple-500 relative top-1/2 z-10 -translate-y-2.5 right-3 duration-200 cursor-pointer"
             />
           </div>
-          <a href="/wishlist">
+          <Link href="/wishlist">
             <FontAwesomeIcon
               icon={faHeart}
               className="text-gray-700 hover:text-purple-500"
             />
-          </a>
-          <a href="/cart">
+          </Link>
+          <Link href="/cart">
             <FontAwesomeIcon
               icon={faShoppingBag}
               className="text-gray-700 hover:text-purple-500"
             />
-          </a>
-          <a href="/account">
+          </Link>
+          <Link href="/account">
             <FontAwesomeIcon
               icon={faUser}
               className="text-gray-700 hover:text-purple-500"
             />
-          </a>
+          </Link>
         </div>
       </div>
     </header>
