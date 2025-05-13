@@ -2,12 +2,60 @@ import Image from "next/image";
 import ProductCard from "./ProductCard";
 
 const products = [
-  { title: "Rose Boutique", category: "Bouquets", price: "$35.00", oldPrice: "$70.00", discount: "50%", rating: 4.8, img: "/avatars/avatar1.jpg" },
-  { title: "Rose Bouquets", category: "Bouquets", price: "$35.00", oldPrice: "$50.00", discount: "30%", rating: 4.9, img: "/avatars/avatar1.jpg" },
-  { title: "Flower Basket", category: "Basket", price: "$80.00", oldPrice: "$100.00", discount: "20%", rating: 5.0, img: "/avatars/avatar1.jpg" },
-  { title: "Colorful Rose", category: "Bouquets", price: "$45.00", oldPrice: "$50.00", discount: "10%", rating: 4.8, img: "/avatars/avatar1.jpg" },
-  { title: "Pink Flowers", category: "Flowers", price: "$20.00", oldPrice: "$40.00", discount: "50%", rating: 4.9, img: "/avatars/avatar1.jpg" },
-  { title: "Rose Bouquets", category: "Bouquets", price: "$90.00", oldPrice: "$100.00", discount: "10%", rating: 4.8, img: "/avatars/avatar1.jpg" },
+  {
+    title: "Rose Boutique",
+    category: "Bouquets",
+    price: "$35.00",
+    oldPrice: "$70.00",
+    discount: "50%",
+    rating: 4.8,
+    img: "/avatars/avatar1.jpg",
+  },
+  {
+    title: "Rose Bouquets",
+    category: "Bouquets",
+    price: "$35.00",
+    oldPrice: "$50.00",
+    discount: "30%",
+    rating: 4.9,
+    img: "/avatars/avatar1.jpg",
+  },
+  {
+    title: "Flower Basket",
+    category: "Basket",
+    price: "$80.00",
+    oldPrice: "$100.00",
+    discount: "20%",
+    rating: 5.0,
+    img: "/avatars/avatar1.jpg",
+  },
+  {
+    title: "Colorful Rose",
+    category: "Bouquets",
+    price: "$45.00",
+    oldPrice: "$50.00",
+    discount: "10%",
+    rating: 4.8,
+    img: "/avatars/avatar1.jpg",
+  },
+  {
+    title: "Pink Flowers",
+    category: "Flowers",
+    price: "$20.00",
+    oldPrice: "$40.00",
+    discount: "50%",
+    rating: 4.9,
+    img: "/avatars/avatar1.jpg",
+  },
+  {
+    title: "Rose Bouquets",
+    category: "Bouquets",
+    price: "$90.00",
+    oldPrice: "$100.00",
+    discount: "10%",
+    rating: 4.8,
+    img: "/avatars/avatar1.jpg",
+  },
 ];
 
 export default function SaleOff() {

@@ -40,7 +40,9 @@ export default function BlogSection() {
       {/* Tiêu đề chính */}
       <div className="flex items-center justify-between text-center mx-4 md:mx-12 lg:mx-32">
         <div className="text-left">
-          <h3 className="text-gray-500 uppercase font-semibold">News & Blogs</h3>
+          <h3 className="text-gray-500 uppercase font-semibold">
+            News & Blogs
+          </h3>
           <h2 className="text-4xl font-bold text-black">
             Our Latest <span className="text-purple-600">News & Blogs</span>
           </h2>
