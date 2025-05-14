@@ -37,25 +37,27 @@ export default function Account() {
     }
   };
 
-  const initialOrder = [
-  { id: 1, name: "Blue White Bouquets", occasion: "Bouquet", image: "/images/flowers/hoa1.jpg" },
-  { id: 2, name: "Royal Pink Bouquets", occasion: "Bouquet", image: "/images/flowers/hoa2.jpg" },
-  { id: 3, name: "Lavenders Bouquets", occasion: "Bouquet", image: "/images/flowers/hoa3.jpg" },
-  { id: 4, name: "Fresh Flower Basket", occasion: "Basket", image: "/images/flowers/hoa4.jpg" },
+  const initialOder = [
+    { id: 1, name: "Blue White Bouquets", occasion: "Bouquet", image: "/images/flowers/hoa1.jpg" },
+    { id: 2, name: "Royal Pink Bouquets", occasion: "Bouquet", image: "/images/flowers/hoa2.jpg" },
+    { id: 3, name: "Lavenders Bouquets", occasion: "Bouquet", image: "/images/flowers/hoa3.jpg" },
+    { id: 4, name: "Fresh Flower Basket", occasion: "Basket", image: "/images/flowers/hoa4.jpg" },
+
   ];
   const initialDeliveredOrder = [
-  { id: 5, name: "Red Rose", occasion: "Bouquet", image: "/images/flowers/hoa3.jpg" },
+    { id: 5, name: "Red Rose", occasion: "Bouquet", image: "/images/flowers/hoa3.jpg" },
   ];
 
   const [Order, setOrder] = useState(initialOrder);
   const [deliveredOrder, setDeliveredOrder] = useState(initialDeliveredOrder);
-  
+
   const removeItem = (id: number, listType: "pending" | "delivered") => {
-  if (listType === "pending") {
-    setOrder((prevOrder) => prevOrder.filter((item) => item.id !== id));
-  } else if (listType === "delivered") {
-    setDeliveredOrder((prevDelivered) => prevDelivered.filter((item) => item.id !== id));
-  }
+    if (listType === "pending") {
+      setOder((prevOder) => prevOder.filter((item) => item.id !== id));
+    } else if (listType === "delivered") {
+      setDeliveredOrder((prevDelivered) => prevDelivered.filter((item) => item.id !== id));
+    }
+
   };
 
   const [address, setAddress] = useState("123 Quang Trung, Linh Trung, Thủ Đức, TP. Hồ Chí Minh");
@@ -256,7 +258,7 @@ export default function Account() {
                 </div>
                 <div>
                   <p className="font-bold">Phương Thức</p>
-                  <p>Cash</p>
+                  <p>Tiền mặt</p>
                 </div>
                 <div>
                   <p className="font-bold">Ngày Giao</p>
@@ -264,16 +266,15 @@ export default function Account() {
                 </div>
               </div>
 
-              <div className="mt-4 space-y-2">
-                {deliveredOrder.map((item) => (
-                  <OderItem
-                    key={item.id}
-                    item={item}
-                    removeItem={() => removeItem(item.id, "delivered")}
-                    isMobile={false}
-                  />
-                ))}
-              </div>
+              {deliveredOrder.map((item) => (
+                <OderItem
+                  key={item.id}
+                  item={item}
+                  removeItem={() => removeItem(item.id, "delivered")}
+                  isMobile={false}
+                />
+              ))}
+
 
               <div className="mt-4 flex flex-col md:flex-row items-center justify-between gap-4">
                 <div className="flex items-center space-x-2">
@@ -483,15 +484,12 @@ export default function Account() {
               {sidebarItems.map((item) => (
                 <button
                   key={item}
-                  onClick={() => {
-                    setActiveSection(item);
-                    setIsMenuOpen(false);
-                  }}
-                  className={`w-full p-3 py-2 px-4 rounded-full transition ${
-                    activeSection === item
-                      ? "bg-purple-600 text-white"
-                      : "bg-white text-gray-700 border hover:text-purple-500"
-                  }`}
+                  onClick={() => setActiveSection(item)} // Cập nhật mục được chọn
+                  className={`w-full p-3 py-2 px-4 rounded-full transition ${activeSection === item
+                    ? "bg-purple-600 text-white"
+                    : "bg-white text-gray-700 border hover:text-purple-500"
+                    }`}
+
                 >
                   {item}
                 </button>

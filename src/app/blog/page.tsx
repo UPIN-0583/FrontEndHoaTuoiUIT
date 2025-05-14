@@ -19,9 +19,9 @@ export default function Blog() {
             <div className="max-w-[1200px] mx-auto px-4 pb-16">
                 {/* Section Title */}
                 <div className="text-center mb-12">
-                    <p className="text-gray-500 text-2xl">News & Blogs</p>
+                    <p className="text-gray-500 text-2xl">Tin Tức & Blog</p>
                     <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold">
-                        Our Latest <span className="text-purple-600">News & Blogs</span>
+                        Tin Tức & Blog <span className="text-purple-600">Mới Nhất</span>
                     </h2>
                 </div>
 
@@ -39,22 +39,21 @@ export default function Blog() {
                                     className="object-cover w-full h-[200px] sm:h-[250px] md:h-[300px] rounded-3xl"
                                 />
                                 <div className="absolute bottom-3 -left-3 z-10">
-                                    <TagLabel text="Wedding Bouquet" />
+                                    <TagLabel text="Bó Hoa Cưới" />
                                 </div>
                             </div>
                             <div className="p-4 sm:p-6">
                                 <p className="text-xl md:text-sm text-gray-500">
-                                    Jenny Alexander &nbsp;<span className="text-purple-400 text-xl">●</span>&nbsp; 13 October 2024
+                                    Jenny Alexander &nbsp;<span className="text-purple-400 text-xl">●</span>&nbsp; 13 Tháng 10, 2024
                                 </p>
                                 <h3 className="text-lg sm:text-xl font-semibold mt-2 mb-3">
-                                    Choosing the Perfect Wedding Bouquet for Your Big Day
+                                    Lựa Chọn Bó Hoa Cưới Hoàn Hảo Cho Ngày Trọng Đại
                                 </h3>
                                 <p className="text-gray-600 text-sm mb-4">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                                    eiusmod tempor incididunt ut labore et dolore magna aliqua...
+                                    Khám phá những bí quyết chọn lựa bó hoa cưới phù hợp với phong cách và cá tính của bạn trong ngày trọng đại...
                                 </p>
                                 <a href="#" className="text-purple-600 font-medium hover:underline text-sm">
-                                    Read More
+                                    Đọc Thêm
                                 </a>
                             </div>
                         </div>
@@ -68,22 +67,21 @@ export default function Blog() {
                                     className="object-cover w-full h-[200px] sm:h-[250px] md:h-[300px] rounded-3xl"
                                 />
                                 <div className="absolute bottom-3 -left-3 z-10">
-                                    <TagLabel text="Wedding Bouquet" />
+                                    <TagLabel text="Bó Hoa Cưới" />
                                 </div>
                             </div>
                             <div className="p-4 sm:p-6">
                                 <p className="text-xl md:text-sm text-gray-500">
-                                    Jenny Alexander &nbsp;<span className="text-purple-400 text-xl">●</span>&nbsp; 13 October 2024
+                                    Jenny Alexander &nbsp;<span className="text-purple-400 text-xl">●</span>&nbsp; 13 Tháng 10, 2024
                                 </p>
                                 <h3 className="text-lg sm:text-xl font-semibold mt-2 mb-3">
-                                    Choosing the Perfect Wedding Bouquet for Your Big Day
+                                    Lựa Chọn Bó Hoa Cưới Hoàn Hảo Cho Ngày Trọng Đại
                                 </h3>
                                 <p className="text-gray-600 text-sm mb-4">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                                    eiusmod tempor incididunt ut labore et dolore magna aliqua...
+                                    Khám phá những bí quyết chọn lựa bó hoa cưới phù hợp với phong cách và cá tính của bạn trong ngày trọng đại...
                                 </p>
                                 <a href="#" className="text-purple-600 font-medium hover:underline text-sm">
-                                    Read More
+                                    Đọc Thêm
                                 </a>
                             </div>
                         </div>
@@ -97,22 +95,21 @@ export default function Blog() {
                                     className="object-cover w-full h-[200px] sm:h-[250px] md:h-[300px] rounded-3xl"
                                 />
                                 <div className="absolute bottom-3 -left-3 z-10">
-                                    <TagLabel text="Wedding Bouquet" />
+                                    <TagLabel text="Bó Hoa Cưới" />
                                 </div>
                             </div>
                             <div className="p-4 sm:p-6">
                                 <p className="text-xl md:text-sm text-gray-500">
-                                    Jenny Alexander &nbsp;<span className="text-purple-400 text-xl">●</span>&nbsp; 13 October 2024
+                                    Jenny Alexander &nbsp;<span className="text-purple-400 text-xl">●</span>&nbsp; 13 Tháng 10, 2024
                                 </p>
                                 <h3 className="text-lg sm:text-xl font-semibold mt-2 mb-3">
-                                    Choosing the Perfect Wedding Bouquet for Your Big Day
+                                    Lựa Chọn Bó Hoa Cưới Hoàn Hảo Cho Ngày Trọng Đại
                                 </h3>
                                 <p className="text-gray-600 text-sm mb-4">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                                    eiusmod tempor incididunt ut labore et dolore magna aliqua...
+                                    Khám phá những bí quyết chọn lựa bó hoa cưới phù hợp với phong cách và cá tính của bạn trong ngày trọng đại...
                                 </p>
                                 <a href="#" className="text-purple-600 font-medium hover:underline text-sm">
-                                    Read More
+                                    Đọc Thêm
                                 </a>
                             </div>
                         </div>
@@ -123,11 +120,11 @@ export default function Blog() {
                     <div className="space-y-8">
                         {/* Search */}
                         <div>
-                            <h4 className="text-xl font-semibold mb-2 border-l-3 border-l-purple-400 px-2">Search</h4>
+                            <h4 className="text-xl font-semibold mb-2 border-l-3 border-l-purple-400 px-2">Tìm Kiếm</h4>
                             <div className="relative flex justify-between">
                                 <input
                                     type="text"
-                                    placeholder="Search"
+                                    placeholder="Tìm kiếm..."
                                     className="w-9/10 border border-gray-400 rounded-md py-2 px-4 pr-10 text-sm focus:ring-purple-500 focus:outline-purple-500"
                                 />
                                 <FontAwesomeIcon
@@ -139,9 +136,9 @@ export default function Blog() {
 
                         {/* Categories */}
                         <div>
-                            <h4 className="text-xl font-semibold mb-2 border-l-3 border-l-purple-400 px-2">Popular Category</h4>
+                            <h4 className="text-xl font-semibold mb-2 border-l-3 border-l-purple-400 px-2">Danh Mục Phổ Biến</h4>
                             <div className=" space-y-2">
-                                {["Weddings", "Birthday", "Anniversary", "Thank You", "Graduation"].map((item) => (
+                                {["Hoa Cưới", "Sinh Nhật", "Kỷ Niệm", "Cảm Ơn", "Tốt Nghiệp"].map((item) => (
                                     <button
                                         key={item}
                                         className="block w-9/10 border-gray-400 text-left text-gray-700 border rounded-md px-4 py-2 hover:bg-purple-500 hover:text-white text-sm cursor-pointer"
@@ -154,22 +151,22 @@ export default function Blog() {
 
                         {/* Recent Posts */}
                         <div>
-                            <h4 className="text-xl font-semibold mb-2 border-l-3 border-l-purple-400 px-2">Recent Post</h4>
+                            <h4 className="text-xl font-semibold mb-2 border-l-3 border-l-purple-400 px-2">Bài Viết Gần Đây</h4>
                             <div className="space-y-4">
                                 {[
                                     {
-                                        title: "The Art of Color Coordinating Your Bridal ...",
-                                        date: "09 December 2024",
+                                        title: "Nghệ Thuật Phối Màu Cho Bó Hoa Cưới...",
+                                        date: "09 Tháng 12, 2024",
                                         img: "/images/blogs/b2.jpg",
                                     },
                                     {
-                                        title: "Valentine’s Day Flowers: Make Her Heart Bloom",
-                                        date: "08 October 2024",
+                                        title: "Hoa Valentine: Làm Rung Động Trái Tim Cô Ấy",
+                                        date: "08 Tháng 10, 2024",
                                         img: "/images/blogs/b4.jpg",
                                     },
                                     {
-                                        title: "5 Reasons Why Car Delivered Bouquets Are...",
-                                        date: "07 October 2024",
+                                        title: "5 Lý Do Nên Chọn Dịch Vụ Giao Hoa Tận Nơi...",
+                                        date: "07 Tháng 10, 2024",
                                         img: "/images/blogs/b5.jpg",
                                     },
                                 ].map((post, idx) => (
@@ -198,12 +195,12 @@ export default function Blog() {
                                 className="rounded-2xl w-full h-[500px] object-cover"
                             />
                             <div className="absolute inset-0 flex flex-col justify-end items-center p-5 text-white bg-gradient-to-t from-black/60 to-transparent rounded-2xl">
-                                <p className="text-sm mb-1 ">Floral Deals</p>
+                                <p className="text-sm mb-1 ">Ưu Đãi Hoa</p>
                                 <h4 className="text-lg font-semibold leading-tight mb-3 text-center">
-                                    20% Off on Best Seller Flower Bouquets!
+                                    Giảm 20% Cho Các Bó Hoa Bán Chạy Nhất!
                                 </h4>
                                 <button className="bg-purple-500 hover:bg-purple-600 text-white px-4 py-1.5 text-sm rounded-full w-fit cursor-pointer">
-                                    Buy Now
+                                    Mua Ngay
                                 </button>
                             </div>
                         </div>
@@ -222,16 +219,16 @@ export default function Blog() {
             </div>
             <div className="bg-[#f7f7f7] py-16 px-4 md:px-20">
                 <div className="px-4 md:px-20">
-                    <p className="text-center text-2xl">Our Newsletter</p>
-                    <p className="font-semibold text-4xl text-center">Subscribe to Our Newsletter to</p>
-                    <p className="font-semibold text-4xl text-center">Get<span className="font-semibold text-4xl text-center text-purple-500"> Updates on Our Lastest Offers</span> </p>
+                    <p className="text-center text-2xl">Bản Tin Của Chúng Tôi</p>
+                    <p className="font-semibold text-4xl text-center">Đăng Ký Nhận Bản Tin Để</p>
+                    <p className="font-semibold text-4xl text-center">Cập Nhật <span className="font-semibold text-4xl text-center text-purple-500">Ưu Đãi Mới Nhất</span> </p>
                 </div>
-                <p className="text-center text-gray-500 py-5">Get 20% off on your first order just by subscribe to our newsletter</p>
+                <p className="text-center text-gray-500 py-5">Nhận ngay 20% giảm giá cho đơn hàng đầu tiên khi đăng ký nhận bản tin</p>
                 <div className="flex justify-center gap-5" >
-                    <input type="text" name="" id="" placeholder="Enter Email Address"
+                    <input type="text" name="" id="" placeholder="Nhập địa chỉ email"
                         className="bg-white pr-10 md:pr-30 pl-2 md:pl-5 py-3 md:py-4 rounded-full focus:ring-purple-500 focus:outline-purple-500" />
                     <button className="px-4 md:px-9 py-1 md:py-2 bg-purple-700 text-white rounded-full cursor-pointer">
-                        Subscribe
+                        Đăng Ký
                     </button>
                 </div>
             </div>

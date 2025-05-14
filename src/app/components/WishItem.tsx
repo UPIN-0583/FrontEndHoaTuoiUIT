@@ -22,11 +22,10 @@ const WishItem = ({ item, removeItem/*, addToCart*/, isMobile }: WishItemProps) 
   return (
     <div className="p-4 rounded-lg shadow-md">
       <div
-        className={`flex ${
-          isMobile
-            ? "items-center gap-4"
-            : "items-center gap-4 md:gap-6 md:justify-between"
-        }`}
+        className={`flex ${isMobile
+          ? "items-center gap-4"
+          : "items-center gap-4 md:gap-6 md:justify-between"
+          }`}
       >
         {/* Product Info */}
         <div className="flex items-center gap-4 flex-1">
@@ -55,14 +54,15 @@ const WishItem = ({ item, removeItem/*, addToCart*/, isMobile }: WishItemProps) 
         {!isMobile && (
           <div className="flex gap-12">
             <p className="text-lg font-bold">${item.price.toFixed(2)}</p>
-            <p className="text-lg font-bold">December 5 2020</p>     
-            <p className="text-lg font-bold"> In stock</p>       
+            <p className="text-lg font-bold">16/5/2024</p>
+            <p className="text-lg font-bold"> Còn hàng</p>
             <div className="flex items-center gap-5">
               <button
                 //onClick={() => addToCart(item)}
                 className="bg-purple-600 text-white px-4 py-1 rounded"
               >
-                <FontAwesomeIcon icon={faCartPlus} /> Add to Cart
+                <FontAwesomeIcon icon={faCartPlus} className="pr-2" />
+                Thêm vào giỏ
               </button>
               <button
                 onClick={() => removeItem(item.id)}
@@ -82,7 +82,7 @@ const WishItem = ({ item, removeItem/*, addToCart*/, isMobile }: WishItemProps) 
             //onClick={() => addToCart(item)}
             className="bg-purple-600 text-white px-4 py-1 rounded"
           >
-            Add to Cart
+            Thêm vào giỏ hàng
           </button>
           <p className="text-lg font-bold">${item.price.toFixed(2)}</p>
         </div>
