@@ -2,7 +2,7 @@
 "use client";
 import { useState } from "react";
 import Image from "next/image";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { FaEye, FaEyeSlash, FaBars } from "react-icons/fa";
 import OderItem from "../components/OderItems";
 
 export default function Account() {
@@ -37,7 +37,7 @@ export default function Account() {
     }
   };
 
-  const initialOder = [
+  const initialOrder = [
   { id: 1, name: "Blue White Bouquets", occasion: "Bouquet", image: "/images/flowers/hoa1.jpg" },
   { id: 2, name: "Royal Pink Bouquets", occasion: "Bouquet", image: "/images/flowers/hoa2.jpg" },
   { id: 3, name: "Lavenders Bouquets", occasion: "Bouquet", image: "/images/flowers/hoa3.jpg" },
@@ -47,12 +47,12 @@ export default function Account() {
   { id: 5, name: "Red Rose", occasion: "Bouquet", image: "/images/flowers/hoa3.jpg" },
   ];
 
-  const [Oder, setOder] = useState(initialOder);
+  const [Order, setOrder] = useState(initialOrder);
   const [deliveredOrder, setDeliveredOrder] = useState(initialDeliveredOrder);
   
   const removeItem = (id: number, listType: "pending" | "delivered") => {
   if (listType === "pending") {
-    setOder((prevOder) => prevOder.filter((item) => item.id !== id));
+    setOrder((prevOrder) => prevOrder.filter((item) => item.id !== id));
   } else if (listType === "delivered") {
     setDeliveredOrder((prevDelivered) => prevDelivered.filter((item) => item.id !== id));
   }
@@ -78,6 +78,7 @@ export default function Account() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   // Danh sách các mục trong sidebar
   const sidebarItems = [
     "Personal Information",
@@ -93,7 +94,7 @@ export default function Account() {
     switch (activeSection) {
       case "Personal Information":
         return (
-          <div className="w-2/3 px-6">
+          <div className="w-full px-6">
             <div className="flex justify-center items-center flex-col">
               {/* Avatar */}
               <div className="relative w-24 h-24">
@@ -112,7 +113,7 @@ export default function Account() {
             </div>
 
             <form className="mt-6 space-y-4">
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-bold text-gray-800 mb-2">First Name *</label>
                   <input
@@ -188,11 +189,13 @@ export default function Account() {
 
       case "My Orders":
         return (
-          <div className="w-2/3 px-6">
+          <div className="w-full px-6">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-xl font-bold text-gray-800">Orders (2)</h2>
               <div className="relative">
-                <select className="appearance-none border border-gray-300 rounded-lg px-3 py-1 pr-8 text-sm text-gray-700 focus:outline-none">
+                <select
+                  className="appearance-none border border-gray-300 rounded-lg px-3 py-1 pr-8 text-sm text-gray-700 focus:outline-none"
+                >
                   <option>All</option>
                   <option>Pending</option>
                   <option>Delivered</option>
@@ -201,9 +204,8 @@ export default function Account() {
               </div>
             </div>
 
-            {/* Đơn hàng 1 - Pending */}
             <div className="bg-white rounded-lg p-4 mb-4">
-              <div className="grid grid-cols-4 gap-4 text-sm text-gray-700 bg-pink-300 rounded-tl-2xl rounded-tr-xl p-2">
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-4 text-sm text-gray-700 bg-pink-300 rounded-tl-2xl rounded-tr-xl p-2">
                 <div>
                   <p className="font-bold">Order ID</p>
                   <p>#SDGT1254FD</p>
@@ -221,20 +223,20 @@ export default function Account() {
                   <p>21 December 2024</p>
                 </div>
               </div>
-              {Oder.map((item) => (
+              {Order.map((item) => (
                 <OderItem
                   key={item.id}
                   item={item}
-                  removeItem={() => removeItem(item.id, "pending")} // Truyền listType là "pending"
+                  removeItem={() => removeItem(item.id, "pending")}
                   isMobile={false}
                 />
               ))}
-              <div className="mt-4 flex items-center justify-between">
+              <div className="mt-4 flex flex-col md:flex-row items-center justify-between gap-4">
                 <div className="flex items-center space-x-2">
                   <span className="w-4 h-4 bg-orange-400 rounded-full"></span>
                   <p className="text-sm text-gray-600">Your Order has been Accepted</p>
                 </div>
-                <div className="space-x-2">
+                <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2">
                   <button className="bg-purple-600 text-white px-4 py-1 rounded-full text-sm">Track Order</button>
                   <button className="border border-gray-300 text-gray-700 px-4 py-1 rounded-full text-sm">Invoice</button>
                   <button className="text-red-500 text-sm">Cancel Order</button>
@@ -242,9 +244,8 @@ export default function Account() {
               </div>
             </div>
 
-            {/* Đơn hàng 2 - Delivered */}
             <div className="bg-white rounded-lg p-4 mb-4">
-              <div className="grid grid-cols-4 gap-4 text-sm text-gray-700 bg-pink-300 rounded-tl-2xl rounded-tr-xl p-2">
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-4 text-sm text-gray-700 bg-pink-300 rounded-tl-2xl rounded-tr-xl p-2">
                 <div>
                   <p className="font-bold">Order ID</p>
                   <p>#SDGT7412DF</p>
@@ -263,21 +264,23 @@ export default function Account() {
                 </div>
               </div>
 
-              {deliveredOrder.map((item) => (
-                <OderItem
-                  key={item.id}
-                  item={item}
-                  removeItem={() => removeItem(item.id, "delivered")} // Truyền listType là "delivered"
-                  isMobile={false}
-                />
-              ))}
+              <div className="mt-4 space-y-2">
+                {deliveredOrder.map((item) => (
+                  <OderItem
+                    key={item.id}
+                    item={item}
+                    removeItem={() => removeItem(item.id, "delivered")}
+                    isMobile={false}
+                  />
+                ))}
+              </div>
 
-              <div className="mt-4 flex items-center justify-between">
+              <div className="mt-4 flex flex-col md:flex-row items-center justify-between gap-4">
                 <div className="flex items-center space-x-2">
                   <span className="w-4 h-4 bg-green-400 rounded-full"></span>
                   <p className="text-sm text-gray-600">Your Order has been Delivered</p>
                 </div>
-                <div className="space-x-2">
+                <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2">
                   <button className="bg-purple-600 text-white px-4 py-1 rounded-full text-sm">Add Review</button>
                   <button className="border border-gray-300 text-gray-700 px-4 py-1 rounded-full text-sm">Invoice</button>
                 </div>
@@ -288,7 +291,7 @@ export default function Account() {
 
       case "Manage Address":
         return (
-          <div className="w-2/3 px-6">
+          <div className="w-full md:w-2/3 px-6">
             <h2 className="text-xl font-bold text-gray-800 mb-4">Manage Address</h2>
             <p className="text-gray-600 mb-4">Manage your addresses here.</p>
             <div className="space-y-4">
@@ -319,7 +322,7 @@ export default function Account() {
 
       case "Payment Method":
         return (
-          <div className="w-2/3 px-6">
+          <div className="w-full md:w-2/3 px-6">
             <h2 className="text-xl font-bold text-gray-800 mb-4">Payment Method</h2>
             <p className="text-gray-600 mb-4">Manage your payment methods here.</p>
             <div className="space-y-4">
@@ -388,7 +391,7 @@ export default function Account() {
 
       case "Password Manager":
         return (
-          <div className="w-2/3 px-6">
+          <div className="w-full md:w-2/3 px-6">
             <h2 className="text-xl font-bold text-gray-800 mb-4">Password Manager</h2>
             <p className="text-gray-600">Change your password here.</p>
             <form className="mt-4 space-y-4">
@@ -447,7 +450,7 @@ export default function Account() {
 
       case "Logout":
         return (
-          <div className="w-2/3 px-6">
+          <div className="w-full md:w-2/3 px-6">
             <h2 className="text-xl font-bold text-gray-800 mb-4">Logout</h2>
             <p className="text-gray-600">Are you sure you want to logout?</p>
             <button className="mt-4 p-2 bg-purple-600 text-white rounded-full">Yes, Logout</button>
@@ -461,15 +464,29 @@ export default function Account() {
 
   return (
     <div className="flex flex-col items-center justify-center p-4 md:p-6">
-      <div className="bg-white rounded-2xl p-4 md:p-6 w-8/10 flex flex-col md:flex-row gap-6">
-        <div className="flex">
-          {/* Sidebar */}
-          <div className="w-1/3">
+      <div className="bg-white rounded-2xl p-4 md:p-6 w-full max-w-7xl mx-auto flex flex-col gap-6">
+        <div className="relative flex w-full flex-col md:flex-row">
+          <button
+            className="md:hidden p-2 text-gray-700 focus:outline-none self-start"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+          >
+            <FaBars className="text-2xl" />
+          </button>
+
+          <div
+            className={`${
+              isMenuOpen ? "block" : "hidden"
+            } md:block w-full md:w-1/3 absolute md:static top-12 left-0 bg-white md:bg-transparent z-10 md:z-auto shadow-md md:shadow-none rounded-lg p-4 md:p-0 transition-all duration-300`}
+            onMouseLeave={() => setIsMenuOpen(false)}
+          >
             <nav className="space-y-2">
               {sidebarItems.map((item) => (
                 <button
                   key={item}
-                  onClick={() => setActiveSection(item)} // Cập nhật mục được chọn
+                  onClick={() => {
+                    setActiveSection(item);
+                    setIsMenuOpen(false);
+                  }}
                   className={`w-full p-3 py-2 px-4 rounded-full transition ${
                     activeSection === item
                       ? "bg-purple-600 text-white"
@@ -482,8 +499,7 @@ export default function Account() {
             </nav>
           </div>
 
-          {/* Nội dung động */}
-          {renderContent()}
+          <div className="w-full md:w-2/3 mt-4 md:mt-0">{renderContent()}</div>
         </div>
       </div>
     </div>
