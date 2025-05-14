@@ -16,7 +16,7 @@ export default function Account() {
 
   const [formData, setFormData] = useState(user);
   const [avatar, setAvatar] = useState("/avatars/avatar1.jpg"); // Ảnh mặc định
-  const [activeSection, setActiveSection] = useState("Personal Information"); // Trạng thái để theo dõi mục được chọn
+  const [activeSection, setActiveSection] = useState("Thông Tin Cá Nhân"); // Trạng thái để theo dõi mục được chọn
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setFormData({
@@ -38,24 +38,24 @@ export default function Account() {
   };
 
   const initialOder = [
-  { id: 1, name: "Blue White Bouquets", occasion: "Bouquet", image: "/images/flowers/hoa1.jpg" },
-  { id: 2, name: "Royal Pink Bouquets", occasion: "Bouquet", image: "/images/flowers/hoa2.jpg" },
-  { id: 3, name: "Lavenders Bouquets", occasion: "Bouquet", image: "/images/flowers/hoa3.jpg" },
-  { id: 4, name: "Fresh Flower Basket", occasion: "Basket", image: "/images/flowers/hoa4.jpg" },
+    { id: 1, name: "Blue White Bouquets", occasion: "Bouquet", image: "/images/flowers/hoa1.jpg" },
+    { id: 2, name: "Royal Pink Bouquets", occasion: "Bouquet", image: "/images/flowers/hoa2.jpg" },
+    { id: 3, name: "Lavenders Bouquets", occasion: "Bouquet", image: "/images/flowers/hoa3.jpg" },
+    { id: 4, name: "Fresh Flower Basket", occasion: "Basket", image: "/images/flowers/hoa4.jpg" },
   ];
   const initialDeliveredOrder = [
-  { id: 5, name: "Red Rose", occasion: "Bouquet", image: "/images/flowers/hoa3.jpg" },
+    { id: 5, name: "Red Rose", occasion: "Bouquet", image: "/images/flowers/hoa3.jpg" },
   ];
 
   const [Oder, setOder] = useState(initialOder);
   const [deliveredOrder, setDeliveredOrder] = useState(initialDeliveredOrder);
-  
+
   const removeItem = (id: number, listType: "pending" | "delivered") => {
-  if (listType === "pending") {
-    setOder((prevOder) => prevOder.filter((item) => item.id !== id));
-  } else if (listType === "delivered") {
-    setDeliveredOrder((prevDelivered) => prevDelivered.filter((item) => item.id !== id));
-  }
+    if (listType === "pending") {
+      setOder((prevOder) => prevOder.filter((item) => item.id !== id));
+    } else if (listType === "delivered") {
+      setDeliveredOrder((prevDelivered) => prevDelivered.filter((item) => item.id !== id));
+    }
   };
 
   const [address, setAddress] = useState("123 Quang Trung, Linh Trung, Thủ Đức, TP. Hồ Chí Minh");
@@ -80,18 +80,18 @@ export default function Account() {
   const [confirmPassword, setConfirmPassword] = useState("");
   // Danh sách các mục trong sidebar
   const sidebarItems = [
-    "Personal Information",
-    "My Orders",
-    "Manage Address",
-    "Payment Method",
-    "Password Manager",
-    "Logout",
+    "Thông Tin Cá Nhân",
+    "Đơn Hàng Của Tôi",
+    "Quản Lý Địa Chỉ",
+    "Phương Thức Thanh Toán",
+    "Quản Lý Mật Khẩu",
+    "Đăng Xuất",
   ];
 
   // Hàm render nội dung dựa trên mục được chọn
   const renderContent = () => {
     switch (activeSection) {
-      case "Personal Information":
+      case "Thông Tin Cá Nhân":
         return (
           <div className="w-2/3 px-6">
             <div className="flex justify-center items-center flex-col">
@@ -114,22 +114,22 @@ export default function Account() {
             <form className="mt-6 space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-bold text-gray-800 mb-2">First Name *</label>
+                  <label className="block text-sm font-bold text-gray-800 mb-2">Họ *</label>
                   <input
                     type="text"
                     name="firstName"
-                    placeholder="First name..."
+                    placeholder="Nhập họ..."
                     value={formData.firstName}
                     onChange={handleChange}
                     className="w-full p-3 border border-gray-300 rounded-full focus:ring-purple-500 focus:outline-purple-500"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-bold text-gray-800 mb-2">Last Name *</label>
+                  <label className="block text-sm font-bold text-gray-800 mb-2">Tên *</label>
                   <input
                     type="text"
                     name="lastName"
-                    placeholder="Last name..."
+                    placeholder="Nhập tên..."
                     value={formData.lastName}
                     onChange={handleChange}
                     className="w-full p-3 border border-gray-300 rounded-full focus:ring-purple-500 focus:outline-purple-500"
@@ -142,7 +142,7 @@ export default function Account() {
                 <input
                   type="email"
                   name="email"
-                  placeholder="Email..."
+                  placeholder="Nhập email..."
                   value={formData.email}
                   onChange={handleChange}
                   className="w-full p-3 border border-gray-300 rounded-full focus:ring-purple-500 focus:outline-purple-500"
@@ -150,11 +150,11 @@ export default function Account() {
               </div>
 
               <div>
-                <label className="block text-sm font-bold text-gray-800 mb-2">Phone *</label>
+                <label className="block text-sm font-bold text-gray-800 mb-2">Số điện thoại *</label>
                 <input
                   type="text"
                   name="phone"
-                  placeholder="Phone..."
+                  placeholder="Nhập số điện thoại..."
                   value={formData.phone}
                   onChange={handleChange}
                   className="w-full p-3 border border-gray-300 rounded-full focus:ring-purple-500 focus:outline-purple-500"
@@ -162,16 +162,16 @@ export default function Account() {
               </div>
 
               <div>
-                <label className="block text-sm font-bold text-gray-800 mb-2">Gender *</label>
+                <label className="block text-sm font-bold text-gray-800 mb-2">Giới tính *</label>
                 <select
                   name="gender"
                   value={formData.gender}
                   onChange={handleChange}
                   className="w-full p-3 border border-gray-300 rounded-full text-sm text-gray-900"
                 >
-                  <option>Female</option>
-                  <option>Male</option>
-                  <option>Other</option>
+                  <option>Nữ</option>
+                  <option>Nam</option>
+                  <option>Khác</option>
                 </select>
               </div>
 
@@ -180,22 +180,22 @@ export default function Account() {
                 onClick={handleUpdate}
                 className="w-52 py-3.5 bg-purple-600 text-white rounded-full"
               >
-                Update Changes
+                Cập Nhật Thay Đổi
               </button>
             </form>
           </div>
         );
 
-      case "My Orders":
+      case "Đơn Hàng Của Tôi":
         return (
           <div className="w-2/3 px-6">
             <div className="flex justify-between items-center mb-4">
-              <h2 className="text-xl font-bold text-gray-800">Orders (2)</h2>
+              <h2 className="text-xl font-bold text-gray-800">Đơn Hàng (2)</h2>
               <div className="relative">
                 <select className="appearance-none border border-gray-300 rounded-lg px-3 py-1 pr-8 text-sm text-gray-700 focus:outline-none">
-                  <option>All</option>
-                  <option>Pending</option>
-                  <option>Delivered</option>
+                  <option>Tất cả</option>
+                  <option>Chờ xử lý</option>
+                  <option>Đã giao</option>
                 </select>
                 <span className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500">▼</span>
               </div>
@@ -205,39 +205,39 @@ export default function Account() {
             <div className="bg-white rounded-lg p-4 mb-4">
               <div className="grid grid-cols-4 gap-4 text-sm text-gray-700 bg-pink-300 rounded-tl-2xl rounded-tr-xl p-2">
                 <div>
-                  <p className="font-bold">Order ID</p>
+                  <p className="font-bold">Mã Đơn Hàng</p>
                   <p>#SDGT1254FD</p>
                 </div>
                 <div>
-                  <p className="font-bold">Total Payment</p>
+                  <p className="font-bold">Tổng Thanh Toán</p>
                   <p>$354.00</p>
                 </div>
                 <div>
-                  <p className="font-bold">Payment Method</p>
+                  <p className="font-bold">Phương Thức</p>
                   <p>Paypal</p>
                 </div>
                 <div>
-                  <p className="font-bold">Estimated Delivery D...</p>
-                  <p>21 December 2024</p>
+                  <p className="font-bold">Dự Kiến Giao</p>
+                  <p>21 Tháng 12 2024</p>
                 </div>
               </div>
               {Oder.map((item) => (
                 <OderItem
                   key={item.id}
                   item={item}
-                  removeItem={() => removeItem(item.id, "pending")} // Truyền listType là "pending"
+                  removeItem={() => removeItem(item.id, "pending")}
                   isMobile={false}
                 />
               ))}
               <div className="mt-4 flex items-center justify-between">
                 <div className="flex items-center space-x-2">
                   <span className="w-4 h-4 bg-orange-400 rounded-full"></span>
-                  <p className="text-sm text-gray-600">Your Order has been Accepted</p>
+                  <p className="text-sm text-gray-600">Đơn hàng của bạn đã được xác nhận</p>
                 </div>
                 <div className="space-x-2">
-                  <button className="bg-purple-600 text-white px-4 py-1 rounded-full text-sm">Track Order</button>
-                  <button className="border border-gray-300 text-gray-700 px-4 py-1 rounded-full text-sm">Invoice</button>
-                  <button className="text-red-500 text-sm">Cancel Order</button>
+                  <button className="bg-purple-600 text-white px-4 py-1 rounded-full text-sm">Theo Dõi Đơn</button>
+                  <button className="border border-gray-300 text-gray-700 px-4 py-1 rounded-full text-sm">Hóa Đơn</button>
+                  <button className="text-red-500 text-sm">Hủy Đơn</button>
                 </div>
               </div>
             </div>
@@ -246,20 +246,20 @@ export default function Account() {
             <div className="bg-white rounded-lg p-4 mb-4">
               <div className="grid grid-cols-4 gap-4 text-sm text-gray-700 bg-pink-300 rounded-tl-2xl rounded-tr-xl p-2">
                 <div>
-                  <p className="font-bold">Order ID</p>
+                  <p className="font-bold">Mã Đơn Hàng</p>
                   <p>#SDGT7412DF</p>
                 </div>
                 <div>
-                  <p className="font-bold">Total Payment</p>
+                  <p className="font-bold">Tổng Thanh Toán</p>
                   <p>$35.00</p>
                 </div>
                 <div>
-                  <p className="font-bold">Payment Method</p>
-                  <p>Cash</p>
+                  <p className="font-bold">Phương Thức</p>
+                  <p>Tiền mặt</p>
                 </div>
                 <div>
-                  <p className="font-bold">Delivered Date</p>
-                  <p>15 December 2024</p>
+                  <p className="font-bold">Ngày Giao</p>
+                  <p>15 Tháng 12 2024</p>
                 </div>
               </div>
 
@@ -267,7 +267,7 @@ export default function Account() {
                 <OderItem
                   key={item.id}
                   item={item}
-                  removeItem={() => removeItem(item.id, "delivered")} // Truyền listType là "delivered"
+                  removeItem={() => removeItem(item.id, "delivered")}
                   isMobile={false}
                 />
               ))}
@@ -275,32 +275,32 @@ export default function Account() {
               <div className="mt-4 flex items-center justify-between">
                 <div className="flex items-center space-x-2">
                   <span className="w-4 h-4 bg-green-400 rounded-full"></span>
-                  <p className="text-sm text-gray-600">Your Order has been Delivered</p>
+                  <p className="text-sm text-gray-600">Đơn hàng của bạn đã được giao thành công</p>
                 </div>
                 <div className="space-x-2">
-                  <button className="bg-purple-600 text-white px-4 py-1 rounded-full text-sm">Add Review</button>
-                  <button className="border border-gray-300 text-gray-700 px-4 py-1 rounded-full text-sm">Invoice</button>
+                  <button className="bg-purple-600 text-white px-4 py-1 rounded-full text-sm">Đánh Giá</button>
+                  <button className="border border-gray-300 text-gray-700 px-4 py-1 rounded-full text-sm">Hóa Đơn</button>
                 </div>
               </div>
             </div>
           </div>
         );
 
-      case "Manage Address":
+      case "Quản Lý Địa Chỉ":
         return (
           <div className="w-2/3 px-6">
-            <h2 className="text-xl font-bold text-gray-800 mb-4">Manage Address</h2>
-            <p className="text-gray-600 mb-4">Manage your addresses here.</p>
+            <h2 className="text-xl font-bold text-gray-800 mb-4">Quản Lý Địa Chỉ</h2>
+            <p className="text-gray-600 mb-4">Quản lý địa chỉ nhận hàng của bạn tại đây.</p>
             <div className="space-y-4">
               {/* Ô nhập địa chỉ */}
               <div>
-                <label className="block text-sm font-bold text-gray-800 mb-2">Your Address</label>
+                <label className="block text-sm font-bold text-gray-800 mb-2">Địa Chỉ Của Bạn</label>
                 <input
                   type="text"
                   value={address}
                   onChange={(e) => setAddress(e.target.value)}
                   className="w-full p-3 border border-gray-300 rounded-full focus:ring-purple-500 focus:outline-purple-500"
-                  placeholder="Enter your address..."
+                  placeholder="Nhập địa chỉ..."
                 />
               </div>
               {/* Nút Cập nhật */}
@@ -311,46 +311,46 @@ export default function Account() {
                 }}
                 className="w-52 py-3.5 bg-purple-600 text-white rounded-full"
               >
-                Update Changes
+                Cập Nhật Thay Đổi
               </button>
             </div>
           </div>
         );
 
-      case "Payment Method":
+      case "Phương Thức Thanh Toán":
         return (
           <div className="w-2/3 px-6">
-            <h2 className="text-xl font-bold text-gray-800 mb-4">Payment Method</h2>
-            <p className="text-gray-600 mb-4">Manage your payment methods here.</p>
+            <h2 className="text-xl font-bold text-gray-800 mb-4">Phương Thức Thanh Toán</h2>
+            <p className="text-gray-600 mb-4">Quản lý các phương thức thanh toán của bạn.</p>
             <div className="space-y-4">
               {/* Card Holder Name */}
               <div>
-                <label className="block text-sm font-bold text-gray-800 mb-2">Card Holder Name*</label>
+                <label className="block text-sm font-bold text-gray-800 mb-2">Tên Chủ Thẻ*</label>
                 <input
                   type="text"
                   name="cardHolderName"
                   value={paymentInfo.cardHolderName}
                   onChange={handlePaymentChange}
                   className="w-full p-3 border border-gray-300 rounded-full focus:ring-purple-500 focus:outline-purple-500"
-                  placeholder="Enter card holder name..."
+                  placeholder="Nhập tên chủ thẻ..."
                 />
               </div>
               {/* Card Number */}
               <div>
-                <label className="block text-sm font-bold text-gray-800 mb-2">Card Number*</label>
+                <label className="block text-sm font-bold text-gray-800 mb-2">Số Thẻ*</label>
                 <input
                   type="text"
                   name="cardNumber"
                   value={paymentInfo.cardNumber}
                   onChange={handlePaymentChange}
                   className="w-full p-3 border border-gray-300 rounded-full focus:ring-purple-500 focus:outline-purple-500"
-                  placeholder="Enter card number..."
+                  placeholder="Nhập số thẻ..."
                 />
               </div>
               {/* Expiry Date và CVV */}
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-bold text-gray-800 mb-2">Expiry Date*</label>
+                  <label className="block text-sm font-bold text-gray-800 mb-2">Ngày Hết Hạn*</label>
                   <input
                     type="text"
                     name="expiryDate"
@@ -380,27 +380,27 @@ export default function Account() {
                 }}
                 className="w-52 py-3.5 bg-purple-600 text-white rounded-full"
               >
-                Update Changes
+                Cập Nhật Thay Đổi
               </button>
             </div>
           </div>
         );
 
-      case "Password Manager":
+      case "Quản Lý Mật Khẩu":
         return (
           <div className="w-2/3 px-6">
-            <h2 className="text-xl font-bold text-gray-800 mb-4">Password Manager</h2>
-            <p className="text-gray-600">Change your password here.</p>
+            <h2 className="text-xl font-bold text-gray-800 mb-4">Quản Lý Mật Khẩu</h2>
+            <p className="text-gray-600">Thay đổi mật khẩu tại đây.</p>
             <form className="mt-4 space-y-4">
               {/* New Password */}
               <div className="relative">
-                <label className="block text-sm font-bold text-gray-800 mb-2">New Password</label>
+                <label className="block text-sm font-bold text-gray-800 mb-2">Mật Khẩu Mới</label>
                 <input
                   type={showNewPassword ? "text" : "password"}
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
                   className="w-full p-3 border border-gray-300 rounded-full pr-10"
-                  placeholder="New password..."
+                  placeholder="Nhập mật khẩu mới..."
                 />
                 <button
                   type="button"
@@ -412,13 +412,13 @@ export default function Account() {
               </div>
               {/* Confirm New Password */}
               <div className="relative">
-                <label className="block text-sm font-bold text-gray-800 mb-2">Confirm New Password</label>
+                <label className="block text-sm font-bold text-gray-800 mb-2">Xác Nhận Mật Khẩu Mới</label>
                 <input
                   type={showConfirmPassword ? "text" : "password"}
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   className="w-full p-3 border border-gray-300 rounded-full pr-10"
-                  placeholder="Confirm new password..."
+                  placeholder="Nhập lại mật khẩu mới..."
                 />
                 <button
                   type="button"
@@ -439,18 +439,18 @@ export default function Account() {
                 }}
                 className="w-52 py-3.5 bg-purple-600 text-white rounded-full"
               >
-                Update Password
+                Cập Nhật Mật Khẩu
               </button>
             </form>
           </div>
         );
 
-      case "Logout":
+      case "Đăng Xuất":
         return (
           <div className="w-2/3 px-6">
-            <h2 className="text-xl font-bold text-gray-800 mb-4">Logout</h2>
-            <p className="text-gray-600">Are you sure you want to logout?</p>
-            <button className="mt-4 p-2 bg-purple-600 text-white rounded-full">Yes, Logout</button>
+            <h2 className="text-xl font-bold text-gray-800 mb-4">Đăng Xuất</h2>
+            <p className="text-gray-600">Bạn có chắc chắn muốn đăng xuất không?</p>
+            <button className="mt-4 p-2 bg-purple-600 text-white rounded-full">Đăng Xuất</button>
           </div>
         );
 
@@ -470,11 +470,10 @@ export default function Account() {
                 <button
                   key={item}
                   onClick={() => setActiveSection(item)} // Cập nhật mục được chọn
-                  className={`w-full p-3 py-2 px-4 rounded-full transition ${
-                    activeSection === item
-                      ? "bg-purple-600 text-white"
-                      : "bg-white text-gray-700 border hover:text-purple-500"
-                  }`}
+                  className={`w-full p-3 py-2 px-4 rounded-full transition ${activeSection === item
+                    ? "bg-purple-600 text-white"
+                    : "bg-white text-gray-700 border hover:text-purple-500"
+                    }`}
                 >
                   {item}
                 </button>

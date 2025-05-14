@@ -74,8 +74,7 @@ export default function Footer() {
                         <h1 className="text-2xl md:text-3xl font-bold text-white">🌸Hoa Tươi UIT</h1>
                     </a>
                     <p className="text-white pt-3 text-sm md:text-base">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Et facere
-                        qui libero.
+                        Từ trái tim UIT – gửi đến bạn những cánh hoa rạng rỡ và chân thành.
                     </p>
                     <div className="flex justify-center md:justify-start gap-6 md:gap-10 mt-6 text-xl md:text-2xl">
                         <a href="#" className="hover:text-purple-200 transition-colors">

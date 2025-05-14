@@ -38,7 +38,7 @@ export default function ProductList({ products, sortOption, setSortOption, curre
           Showing {startIndex + 1}-{Math.min(startIndex + productsPerPage, products.length)} of {products.length} results
         </p>
         <select
-          className="border p-2 md:p-2 max-[480px]:p-1 rounded text-base md:text-base max-[480px]:text-xs text-sm"
+          className="border p-2 md:p-2 max-[480px]:p-1 rounded text-base md:text-base max-[480px]:text-xs "
           value={sortOption}
           onChange={(e) => setSortOption(e.target.value)}
         >

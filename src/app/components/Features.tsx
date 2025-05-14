@@ -9,8 +9,8 @@ export default function Features() {
                 <div className="flex items-center gap-3 justify-center md:justify-center">
                     <FontAwesomeIcon icon={faShippingFast} className="text-purple-500 text-3xl" />
                     <div>
-                        <h4 className="font-semibold text-lg text-black">Free Shipping</h4>
-                        <p className="text-gray-500 text-sm">Free shipping for order above $50</p>
+                        <h4 className="font-semibold text-lg text-black">Miễn phí vận chuyển</h4>
+                        <p className="text-gray-500 text-sm">Miễn phí vận chuyển toàn quốc</p>
                     </div>
                 </div>
 
@@ -18,8 +18,8 @@ export default function Features() {
                 <div className="flex items-center gap-3 justify-center md:justify-center">
                     <FontAwesomeIcon icon={faWallet} className="text-purple-500 text-3xl" />
                     <div>
-                        <h4 className="font-semibold text-lg text-black">Flexible Payment</h4>
-                        <p className="text-gray-500 text-sm">Multiple secure payment options</p>
+                        <h4 className="font-semibold text-lg text-black">Thanh toán đa dạng</h4>
+                        <p className="text-gray-500 text-sm">Nhiều phương thức thanh toán</p>
                     </div>
                 </div>
 
@@ -27,8 +27,8 @@ export default function Features() {
                 <div className="flex items-center gap-3 justify-center md:justify-center">
                     <FontAwesomeIcon icon={faCheckCircle} className="text-purple-500 text-3xl" />
                     <div>
-                        <h4 className="font-semibold text-lg text-black">Quality Assurance</h4>
-                        <p className="text-gray-500 text-sm">Genuine and Safe Products</p>
+                        <h4 className="font-semibold text-lg text-black">Chất lượng tin cậy</h4>
+                        <p className="text-gray-500 text-sm">Sản phẩm an toàn & chính hãng</p>
                     </div>
                 </div>
 
@@ -36,8 +36,8 @@ export default function Features() {
                 <div className="flex items-center gap-3 justify-center md:justify-center">
                     <FontAwesomeIcon icon={faHeadset} className="text-purple-500 text-3xl" />
                     <div>
-                        <h4 className="font-semibold text-lg text-black">24×7 Support</h4>
-                        <p className="text-gray-500 text-sm">We support online all days.</p>
+                        <h4 className="font-semibold text-lg text-black">Hỗ trợ 24×7</h4>
+                        <p className="text-gray-500 text-sm">Luôn luôn sẵn sàng phục vụ</p>
                     </div>
                 </div>
             </div>

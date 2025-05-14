@@ -57,7 +57,16 @@ export default function BlogSection() {
         {/* Danh sách bài viết (chỉ hiển thị 3 blog) */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 p-5">
           {blogPosts.slice(0, 3).map((post, index) => (
-            <BlogCard key={index} post={post} />
+            <BlogCard
+              key={index}
+              imageSrc={post.image}
+              tag={post.category}
+              author={post.author}
+              date={post.date}
+              title={post.title}
+              excerpt={post.excerpt}
+              href={post.link}
+            />
           ))}
         </div>
       </div>
