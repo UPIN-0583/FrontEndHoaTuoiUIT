@@ -216,7 +216,7 @@ export default function Account() {
                 </div>
                 <div>
                   <p className="font-bold">Phương Thức</p>
-                  <p>Paypal</p>
+                  <p>Tiền mặt</p>
                 </div>
                 <div>
                   <p className="font-bold">Dự Kiến Giao</p>
