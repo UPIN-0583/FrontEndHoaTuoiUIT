@@ -9,46 +9,44 @@ import FeedbackCarousel from "../components/FeedbackCarousel"
 const feedbacks = [
     {
         rating: 5,
-        title: "Gorgeous Bouquets!",
+        title: "Hoa Đẹp Quá!",
         content:
-            "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.",
-        name: "Jenny Wilson",
-        role: "Happy Customer",
+            "Tôi thực sự ấn tượng với chất lượng hoa và dịch vụ ở đây. Những bó hoa luôn tươi mới, được sắp xếp tỉ mỉ và đẹp mắt. Nhân viên phục vụ rất nhiệt tình và chu đáo.",
+        name: "Nguyễn Thị Hương",
+        role: "Khách hàng thân thiết",
         image:
             "https://randomuser.me/api/portraits/women/4.jpg",
     },
     {
         rating: 5,
-        title: "Gorgeous Bouquets!",
+        title: "Dịch Vụ Tuyệt Vời!",
         content:
-            "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.",
-        name: "Jenny Wilson",
-        role: "Happy Customer",
+            "Đã là khách hàng thường xuyên của shop được 2 năm. Hoa luôn tươi mới, giao hàng đúng giờ và nhân viên rất thân thiện. Đặc biệt là những bó hoa được thiết kế rất độc đáo và ý nghĩa.",
+        name: "Trần Minh Anh",
+        role: "Khách hàng thân thiết",
         image:
             "https://randomuser.me/api/portraits/women/1.jpg",
     },
     {
         rating: 5,
-        title: "Gorgeous Bouquets!",
+        title: "Hài Lòng 100%",
         content:
-            "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.",
-        name: "Jenny Wilson",
-        role: "Happy Customer",
+            "Shop hoa này thực sự đã làm tôi ngạc nhiên. Từ chất lượng hoa đến cách phục vụ đều rất chuyên nghiệp. Những bó hoa luôn được gói cẩn thận và đẹp mắt.",
+        name: "Lê Thị Mai",
+        role: "Khách hàng thân thiết",
         image:
             "https://randomuser.me/api/portraits/women/2.jpg",
     },
     {
         rating: 5,
-        title: "Gorgeous Bouquets!",
+        title: "Đáng Để Quay Lại",
         content:
-            "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.",
-        name: "Jenny Wilson",
-        role: "Happy Customer",
+            "Lần đầu tiên đặt hoa ở đây và tôi rất hài lòng. Hoa tươi, đẹp và được giao đúng hẹn. Nhân viên tư vấn rất nhiệt tình và am hiểu về các loại hoa.",
+        name: "Phạm Thị Hà",
+        role: "Khách hàng mới",
         image:
             "https://randomuser.me/api/portraits/women/3.jpg",
     },
-
-
 ];
 
 const flowerImages = [
@@ -161,36 +159,35 @@ export default function About() {
                 </div>
 
                 <div className="mt-10 md:mt-0 md:ml-12 max-w-xl text-center md:text-left">
-                    <h4 className="text-gray-600 text-2xl">About Us</h4>
+                    <h4 className="text-gray-600 text-2xl">Về Chúng Tôi</h4>
                     <h2 className="text-4xl font-semibold mt-2">
-                        <p className="text-purple-600 font-bold">Delivering Nature</p>
-                        <p className="text-gray-500 font-bold">Beauty to Your Door</p>
-
+                        <p className="text-purple-600 font-bold">Mang Vẻ Đẹp</p>
+                        <p className="text-gray-500 font-bold">Thiên Nhiên Đến Nhà Bạn</p>
                     </h2>
                     <p className="text-gray-500 mt-4 text-2xl">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                        eiusmod tempor incididunt ut labore et dolore.
+                        Chúng tôi tự hào là địa chỉ tin cậy mang đến những bó hoa tươi thắm nhất,
+                        được chọn lọc kỹ lưỡng và sắp xếp tỉ mỉ, để gửi gắm những thông điệp yêu thương
+                        đến người thân của bạn.
                     </p>
 
                     <div className="mt-8 bg-purple-800 text-white rounded-xl flex flex-col sm:flex-row justify-around py-6 px-4">
                         <div className="mb-4 sm:mb-0 text-center">
                             <p className="text-3xl font-bold text-pink-400">20+</p>
-                            <p className="text-sm text-purple-200 ">Categories</p>
+                            <p className="text-sm text-purple-200 ">Danh Mục</p>
                         </div>
                         <div className="border-r-1 border-purple-400  "></div>
                         <div className="mb-4 sm:mb-0 text-center ">
                             <p className="text-3xl font-bold text-pink-400">1000+</p>
-                            <p className="text-sm text-purple-200 ">Products</p>
+                            <p className="text-sm text-purple-200 ">Sản Phẩm</p>
                         </div>
                         <div className="border-r-1 border-purple-400"></div>
                         <div className="text-center">
                             <p className="text-3xl font-bold text-pink-400">99%</p>
-                            <p className="text-sm text-purple-200">Satisfied Customer</p>
+                            <p className="text-sm text-purple-200">Khách Hàng Hài Lòng</p>
                         </div>
                     </div>
 
                     <p className="mt-6 italic text-gray-700 font-signature text-lg">
-                        Jenny Alexander
                     </p>
                 </div>
             </div>
@@ -257,9 +254,10 @@ export default function About() {
                         <div className="w-15 h-15 rounded-full bg-purple-700 text-white flex items-center justify-center mb-4">
                             <FontAwesomeIcon icon={faEye} className="text-2xl" />
                         </div>
-                        <h3 className="text-xl font-semibold mb-2">Our Vision</h3>
+                        <h3 className="text-xl font-semibold mb-2">Tầm Nhìn</h3>
                         <p className="text-gray-600 text-sm">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                            Trở thành địa chỉ tin cậy hàng đầu trong việc mang đến những bó hoa tươi thắm nhất,
+                            góp phần tô điểm cho cuộc sống và lan tỏa những thông điệp yêu thương đến mọi người.
                         </p>
                     </div>
 
@@ -268,18 +266,19 @@ export default function About() {
                         <div className="w-15 h-15 rounded-full bg-purple-700 text-white flex items-center justify-center mb-4">
                             <FontAwesomeIcon icon={faRocket} className="text-2xl" />
                         </div>
-                        <h3 className="text-xl font-semibold mb-2">Our Mission</h3>
+                        <h3 className="text-xl font-semibold mb-2">Sứ Mệnh</h3>
                         <p className="text-gray-600 text-sm">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                            Mang đến cho khách hàng những trải nghiệm tuyệt vời với dịch vụ chuyên nghiệp,
+                            sản phẩm chất lượng và sự tận tâm trong từng chi tiết nhỏ nhất.
                         </p>
                     </div>
                 </div>
             </div>
             <div className="bg-white py-16 px-4 md:px-20">
                 <div className="px-4 md:px-20">
-                    <p className="text-center text-2xl">Our Team</p>
-                    <p className="font-semibold text-4xl text-center">Meet The Passionate</p>
-                    <p className="font-semibold text-4xl text-center text-purple-500">Team Behind Our Success</p>
+                    <p className="text-center text-2xl">Đội Ngũ Của Chúng Tôi</p>
+                    <p className="font-semibold text-4xl text-center">Gặp Gỡ Những Con Người</p>
+                    <p className="font-semibold text-4xl text-center text-purple-500">Đầy Đam Mê Đằng Sau Thành Công</p>
                 </div>
                 <div className="flex flex-wrap gap-5 py-16 px-4 md:px-20 justify-center">
                     <div>
@@ -399,8 +398,8 @@ export default function About() {
             </div>
             <div className="bg-[#f7f7f7] py-16 px-4 md:px-20">
                 <div className="px-4 md:px-20">
-                    <p className="text-center text-2xl">Testimonial</p>
-                    <p className="font-semibold text-4xl text-center">What <span className="font-semibold text-4xl text-center text-purple-500"> Our Clients Say</span> </p>
+                    <p className="text-center text-2xl">Đánh Giá Từ Khách Hàng</p>
+                    <p className="font-semibold text-4xl text-center">Trải Nghiệm <span className="font-semibold text-4xl text-center text-purple-500">Từ Khách Hàng</span> </p>
                 </div>
                 <FeedbackCarousel feedbacks={feedbacks} />
             </div>
@@ -416,9 +415,9 @@ export default function About() {
                     <main className="container mx-auto px-2 sm:px-4 py-8 sm:py-16">
                         {/* Instagram Follow Section */}
                         <div className="text-center mb-8">
-                            <h2 className="text-2xl font-normal text-gray-600 mb-2">Follow Us</h2>
+                            <h2 className="text-2xl font-normal text-gray-600 mb-2">Theo Dõi Chúng Tôi</h2>
                             <h1 className="text-4xl sm:text-3xl md:text-4xl font-bold">
-                                Follow Us On <span className="text-purple-700">Instagram</span>
+                                Đồng Hành <span className="text-purple-700"> Cùng Chúng Tôi Trên Instagram</span>
                             </h1>
                         </div>
 
@@ -643,16 +642,16 @@ export default function About() {
             </div>
             <div className="bg-[#f7f7f7] py-16 px-4 md:px-20">
                 <div className="px-4 md:px-20">
-                    <p className="text-center text-2xl">Our Newsletter</p>
-                    <p className="font-semibold text-4xl text-center">Subscribe to Our Newsletter to</p>
-                    <p className="font-semibold text-4xl text-center">Get<span className="font-semibold text-4xl text-center text-purple-500"> Updates on Our Lastest Offers</span> </p>
+                    <p className="text-center text-2xl">Nhận Thông Báo</p>
+                    <p className="font-semibold text-4xl text-center">Đăng Ký Nhận Bản Tin Để</p>
+                    <p className="font-semibold text-4xl text-center">Cập Nhật <span className="font-semibold text-4xl text-center text-purple-500">Ưu Đãi Mới Nhất</span> </p>
                 </div>
-                <p className="text-center text-gray-500 py-5">Get 20% off on your first order just by subscribe to our newsletter</p>
+                <p className="text-center text-gray-500 py-5">Nhận ngay 20% giảm giá cho đơn hàng đầu tiên khi đăng ký nhận bản tin</p>
                 <div className="flex justify-center gap-5" >
-                    <input type="text" name="" id="" placeholder="Enter Email Address"
+                    <input type="text" name="" id="" placeholder="Nhập địa chỉ email của bạn"
                         className="bg-white pr-10 md:pr-30 pl-2 md:pl-5 py-3 md:py-4 rounded-full focus:ring-purple-500 focus:outline-purple-500" />
                     <button className="px-4 md:px-9 py-1 md:py-2 bg-purple-700 text-white rounded-full cursor-pointer">
-                        Subscribe
+                        Đăng Ký
                     </button>
                 </div>
             </div>

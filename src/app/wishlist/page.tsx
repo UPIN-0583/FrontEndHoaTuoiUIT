@@ -12,33 +12,33 @@ const initialWishlist = [
 
 export default function Wishlist() {
   const [wishlist, setWishlist] = useState(initialWishlist);
-// const [cart, setCart] = useState([]); // Simplified cart state for demo
+  // const [cart, setCart] = useState([]); // Simplified cart state for demo
 
   const removeItem = (id: number) => {
     setWishlist((prevWishlist) => prevWishlist.filter((item) => item.id !== id));
   };
 
-//   const addToCart = (item: WishItemType) => {
-//     setCart((prevCart) => [...prevCart, { ...item, quantity: 1 }]); // Add item to cart with quantity 1
-//     removeItem(item.id); // Optionally remove from wishlist after adding to cart
-//   };
+  //   const addToCart = (item: WishItemType) => {
+  //     setCart((prevCart) => [...prevCart, { ...item, quantity: 1 }]); // Add item to cart with quantity 1
+  //     removeItem(item.id); // Optionally remove from wishlist after adding to cart
+  //   };
 
   return (
     <div className="bg-white p-6">
       <div className="max-w-6xl mx-auto flex flex-col gap-6">
         {/* Wishlist Items */}
-        
+
         <div className="bg-white shadow-md rounded-lg p-6">
-            <h3 className="text-3xl font-semibold text-black justify-center mb-6 text-center mt-6">Wishlist</h3>
+          <h3 className="text-3xl font-semibold text-black justify-center mb-6 text-center mt-6">Wishlist</h3>
           {wishlist.length > 0 ? (
             <>
               {/* Desktop View */}
               <div className="hidden md:flex flex-col gap-4">
                 <div className="rounded-lg bg-purple-600 flex p-4 gap-16">
-                  <p className="text-lg font-bold text-white">Product</p>
-                  <p className="text-lg font-bold text-white ml-90">Price</p>
-                  <p className="text-lg font-bold text-white">Date Added</p>
-                  <p className="text-lg font-bold text-white">Stock Status</p>         
+                  <p className="text-lg font-bold text-white">Sản phẩm</p>
+                  <p className="text-lg font-bold text-white ml-90">Giá</p>
+                  <p className="text-lg font-bold text-white">Ngày thêm</p>
+                  <p className="text-lg font-bold text-white">Trạng thái</p>
                 </div>
                 {wishlist.map((item) => (
                   <WishItem

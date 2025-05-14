@@ -43,17 +43,17 @@ export default function ShoppingCart() {
       <div className="max-w-6xl mx-auto flex flex-col md:flex-row gap-6">
         {/* Cart Items */}
         <div className="md:w-2/3 bg-white shadow-md rounded-lg p-6">
-          <h3 className="text-2xl font-semibold text-black text-center mb-6">Shopping Cart</h3>
+          <h3 className="text-2xl font-semibold text-black text-center mb-6">Giỏ hàng</h3>
           {cart.length > 0 ? (
             <>
               {/* Desktop View */}
               <div className="hidden md:flex flex-col gap-4">
                 <div className="rounded-lg bg-purple-600 flex p-4 gap-16 justify-between">
-                    <p className="text-lg font-bold text-white">Product</p>
-                    <div className="flex gap-12 mr-12">
-                      <p className="text-lg font-bold text-white">Quantity</p>
-                      <p className="text-lg font-bold text-white">Price</p>  
-                    </div>   
+                  <p className="text-lg font-bold text-white">Sản phẩm</p>
+                  <div className="flex gap-12 mr-12">
+                    <p className="text-lg font-bold text-white">Số lượng</p>
+                    <p className="text-lg font-bold text-white">Giá</p>
+                  </div>
                 </div>
                 {cart.map((item) => (
                   <CartItem
@@ -80,7 +80,7 @@ export default function ShoppingCart() {
               </div>
             </>
           ) : (
-            <p className="text-center text-gray-500">Your cart is empty.</p>
+            <p className="text-center text-gray-500">Giỏ hàng trống.</p>
           )}
 
           <div className="flex flex-row justify-between mt-6 gap-4">
@@ -95,32 +95,32 @@ export default function ShoppingCart() {
               onClick={applyCoupon}
               className="bg-purple-600 text-white px-4 py-2 rounded"
             >
-              Apply Coupon
+              Dùng voucher
             </button>
           </div>
         </div>
 
         {/* Order Summary */}
         <div className="md:w-1/3 bg-white shadow-md p-8 rounded-lg h-80">
-          <h3 className="text-2xl font-semibold text-black">Order Summary</h3>
+          <h3 className="text-2xl font-semibold text-black text-center">Đặt hàng</h3>
           <div className="flex justify-between mt-6 text-black">
-            <span>Items</span>
+            <span>Sản phẩm</span>
             <span>{cart.reduce((acc, item) => acc + item.quantity, 0)}</span>
           </div>
           <div className="flex justify-between mt-2 text-black">
-            <span>Sub Total</span>
+            <span>Tạm tính</span>
             <span>${subtotal.toFixed(2)}</span>
           </div>
           <div className="flex justify-between mt-2 text-black">
-            <span>Coupon Discount</span>
+            <span>Voucher giảm giá</span>
             <span>-${appliedDiscount.toFixed(2)}</span>
           </div>
           <div className="flex justify-between mt-6 font-bold text-lg text-black">
-            <span>Total</span>
+            <span>Tổng cộng</span>
             <span>${total.toFixed(2)}</span>
           </div>
           <button className="w-full bg-purple-600 text-white py-2 rounded-2xl mt-6">
-            Proceed to Checkout
+            Thanh toán
           </button>
         </div>
       </div>
