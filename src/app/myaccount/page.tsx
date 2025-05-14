@@ -2,7 +2,7 @@
 "use client";
 import { useState } from "react";
 import Image from "next/image";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { FaEye, FaEyeSlash, FaBars } from "react-icons/fa";
 import OderItem from "../components/OderItems";
 
 export default function Account() {
@@ -42,12 +42,13 @@ export default function Account() {
     { id: 2, name: "Royal Pink Bouquets", occasion: "Bouquet", image: "/images/flowers/hoa2.jpg" },
     { id: 3, name: "Lavenders Bouquets", occasion: "Bouquet", image: "/images/flowers/hoa3.jpg" },
     { id: 4, name: "Fresh Flower Basket", occasion: "Basket", image: "/images/flowers/hoa4.jpg" },
+
   ];
   const initialDeliveredOrder = [
     { id: 5, name: "Red Rose", occasion: "Bouquet", image: "/images/flowers/hoa3.jpg" },
   ];
 
-  const [Oder, setOder] = useState(initialOder);
+  const [Order, setOrder] = useState(initialOrder);
   const [deliveredOrder, setDeliveredOrder] = useState(initialDeliveredOrder);
 
   const removeItem = (id: number, listType: "pending" | "delivered") => {
@@ -56,6 +57,7 @@ export default function Account() {
     } else if (listType === "delivered") {
       setDeliveredOrder((prevDelivered) => prevDelivered.filter((item) => item.id !== id));
     }
+
   };
 
   const [address, setAddress] = useState("123 Quang Trung, Linh Trung, Thủ Đức, TP. Hồ Chí Minh");
@@ -78,6 +80,7 @@ export default function Account() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   // Danh sách các mục trong sidebar
   const sidebarItems = [
     "Thông Tin Cá Nhân",
@@ -93,7 +96,7 @@ export default function Account() {
     switch (activeSection) {
       case "Thông Tin Cá Nhân":
         return (
-          <div className="w-2/3 px-6">
+          <div className="w-full px-6">
             <div className="flex justify-center items-center flex-col">
               {/* Avatar */}
               <div className="relative w-24 h-24">
@@ -112,7 +115,7 @@ export default function Account() {
             </div>
 
             <form className="mt-6 space-y-4">
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-bold text-gray-800 mb-2">Họ *</label>
                   <input
@@ -188,7 +191,7 @@ export default function Account() {
 
       case "Đơn Hàng Của Tôi":
         return (
-          <div className="w-2/3 px-6">
+          <div className="w-full px-6">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-xl font-bold text-gray-800">Đơn Hàng (2)</h2>
               <div className="relative">
@@ -196,14 +199,14 @@ export default function Account() {
                   <option>Tất cả</option>
                   <option>Chờ xử lý</option>
                   <option>Đã giao</option>
+
                 </select>
                 <span className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500">▼</span>
               </div>
             </div>
 
-            {/* Đơn hàng 1 - Pending */}
             <div className="bg-white rounded-lg p-4 mb-4">
-              <div className="grid grid-cols-4 gap-4 text-sm text-gray-700 bg-pink-300 rounded-tl-2xl rounded-tr-xl p-2">
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-4 text-sm text-gray-700 bg-pink-300 rounded-tl-2xl rounded-tr-xl p-2">
                 <div>
                   <p className="font-bold">Mã Đơn Hàng</p>
                   <p>#SDGT1254FD</p>
@@ -221,7 +224,7 @@ export default function Account() {
                   <p>21 Tháng 12 2024</p>
                 </div>
               </div>
-              {Oder.map((item) => (
+              {Order.map((item) => (
                 <OderItem
                   key={item.id}
                   item={item}
@@ -229,7 +232,7 @@ export default function Account() {
                   isMobile={false}
                 />
               ))}
-              <div className="mt-4 flex items-center justify-between">
+              <div className="mt-4 flex flex-col md:flex-row items-center justify-between gap-4">
                 <div className="flex items-center space-x-2">
                   <span className="w-4 h-4 bg-orange-400 rounded-full"></span>
                   <p className="text-sm text-gray-600">Đơn hàng của bạn đã được xác nhận</p>
@@ -238,13 +241,13 @@ export default function Account() {
                   <button className="bg-purple-600 text-white px-4 py-1 rounded-full text-sm">Theo Dõi Đơn</button>
                   <button className="border border-gray-300 text-gray-700 px-4 py-1 rounded-full text-sm">Hóa Đơn</button>
                   <button className="text-red-500 text-sm">Hủy Đơn</button>
+
                 </div>
               </div>
             </div>
 
-            {/* Đơn hàng 2 - Delivered */}
             <div className="bg-white rounded-lg p-4 mb-4">
-              <div className="grid grid-cols-4 gap-4 text-sm text-gray-700 bg-pink-300 rounded-tl-2xl rounded-tr-xl p-2">
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-4 text-sm text-gray-700 bg-pink-300 rounded-tl-2xl rounded-tr-xl p-2">
                 <div>
                   <p className="font-bold">Mã Đơn Hàng</p>
                   <p>#SDGT7412DF</p>
@@ -272,7 +275,8 @@ export default function Account() {
                 />
               ))}
 
-              <div className="mt-4 flex items-center justify-between">
+
+              <div className="mt-4 flex flex-col md:flex-row items-center justify-between gap-4">
                 <div className="flex items-center space-x-2">
                   <span className="w-4 h-4 bg-green-400 rounded-full"></span>
                   <p className="text-sm text-gray-600">Đơn hàng của bạn đã được giao thành công</p>
@@ -280,6 +284,7 @@ export default function Account() {
                 <div className="space-x-2">
                   <button className="bg-purple-600 text-white px-4 py-1 rounded-full text-sm">Đánh Giá</button>
                   <button className="border border-gray-300 text-gray-700 px-4 py-1 rounded-full text-sm">Hóa Đơn</button>
+
                 </div>
               </div>
             </div>
@@ -291,6 +296,7 @@ export default function Account() {
           <div className="w-2/3 px-6">
             <h2 className="text-xl font-bold text-gray-800 mb-4">Quản Lý Địa Chỉ</h2>
             <p className="text-gray-600 mb-4">Quản lý địa chỉ nhận hàng của bạn tại đây.</p>
+
             <div className="space-y-4">
               {/* Ô nhập địa chỉ */}
               <div>
@@ -322,6 +328,7 @@ export default function Account() {
           <div className="w-2/3 px-6">
             <h2 className="text-xl font-bold text-gray-800 mb-4">Phương Thức Thanh Toán</h2>
             <p className="text-gray-600 mb-4">Quản lý các phương thức thanh toán của bạn.</p>
+
             <div className="space-y-4">
               {/* Card Holder Name */}
               <div>
@@ -391,6 +398,7 @@ export default function Account() {
           <div className="w-2/3 px-6">
             <h2 className="text-xl font-bold text-gray-800 mb-4">Quản Lý Mật Khẩu</h2>
             <p className="text-gray-600">Thay đổi mật khẩu tại đây.</p>
+
             <form className="mt-4 space-y-4">
               {/* New Password */}
               <div className="relative">
@@ -451,6 +459,7 @@ export default function Account() {
             <h2 className="text-xl font-bold text-gray-800 mb-4">Đăng Xuất</h2>
             <p className="text-gray-600">Bạn có chắc chắn muốn đăng xuất không?</p>
             <button className="mt-4 p-2 bg-purple-600 text-white rounded-full">Đăng Xuất</button>
+
           </div>
         );
 
@@ -461,10 +470,21 @@ export default function Account() {
 
   return (
     <div className="flex flex-col items-center justify-center p-4 md:p-6">
-      <div className="bg-white rounded-2xl p-4 md:p-6 w-8/10 flex flex-col md:flex-row gap-6">
-        <div className="flex">
-          {/* Sidebar */}
-          <div className="w-1/3">
+      <div className="bg-white rounded-2xl p-4 md:p-6 w-full max-w-7xl mx-auto flex flex-col gap-6">
+        <div className="relative flex w-full flex-col md:flex-row">
+          <button
+            className="md:hidden p-2 text-gray-700 focus:outline-none self-start"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+          >
+            <FaBars className="text-2xl" />
+          </button>
+
+          <div
+            className={`${
+              isMenuOpen ? "block" : "hidden"
+            } md:block w-full md:w-1/3 absolute md:static top-12 left-0 bg-white md:bg-transparent z-10 md:z-auto shadow-md md:shadow-none rounded-lg p-4 md:p-0 transition-all duration-300`}
+            onMouseLeave={() => setIsMenuOpen(false)}
+          >
             <nav className="space-y-2">
               {sidebarItems.map((item) => (
                 <button
@@ -474,6 +494,7 @@ export default function Account() {
                     ? "bg-purple-600 text-white"
                     : "bg-white text-gray-700 border hover:text-purple-500"
                     }`}
+
                 >
                   {item}
                 </button>
@@ -481,8 +502,7 @@ export default function Account() {
             </nav>
           </div>
 
-          {/* Nội dung động */}
-          {renderContent()}
+          <div className="w-full md:w-2/3 mt-4 md:mt-0">{renderContent()}</div>
         </div>
       </div>
     </div>
