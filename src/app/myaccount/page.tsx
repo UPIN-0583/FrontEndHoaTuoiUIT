@@ -172,8 +172,8 @@ export default function Account() {
                   onChange={handleChange}
                   className="w-full p-3 border border-gray-300 rounded-full text-sm text-gray-900"
                 >
-                  <option>Nữ</option>
                   <option>Nam</option>
+                  <option>Nữ</option>
                   <option>Khác</option>
                 </select>
               </div>
@@ -195,11 +195,12 @@ export default function Account() {
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-xl font-bold text-gray-800">Đơn Hàng (2)</h2>
               <div className="relative">
-                <select className="appearance-none border border-gray-300 rounded-lg px-3 py-1 pr-8 text-sm text-gray-700 focus:outline-none">
+                <select
+                  className="appearance-none border border-gray-300 rounded-lg px-3 py-1 pr-8 text-sm text-gray-700 focus:outline-none"
+                >
                   <option>Tất cả</option>
                   <option>Chờ xử lý</option>
                   <option>Đã giao</option>
-
                 </select>
                 <span className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500">▼</span>
               </div>
@@ -217,7 +218,7 @@ export default function Account() {
                 </div>
                 <div>
                   <p className="font-bold">Phương Thức</p>
-                  <p>Paypal</p>
+                  <p>Tiền mặt</p>
                 </div>
                 <div>
                   <p className="font-bold">Dự Kiến Giao</p>
@@ -237,11 +238,10 @@ export default function Account() {
                   <span className="w-4 h-4 bg-orange-400 rounded-full"></span>
                   <p className="text-sm text-gray-600">Đơn hàng của bạn đã được xác nhận</p>
                 </div>
-                <div className="space-x-2">
+                <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2">
                   <button className="bg-purple-600 text-white px-4 py-1 rounded-full text-sm">Theo Dõi Đơn</button>
                   <button className="border border-gray-300 text-gray-700 px-4 py-1 rounded-full text-sm">Hóa Đơn</button>
                   <button className="text-red-500 text-sm">Hủy Đơn</button>
-
                 </div>
               </div>
             </div>
@@ -281,10 +281,9 @@ export default function Account() {
                   <span className="w-4 h-4 bg-green-400 rounded-full"></span>
                   <p className="text-sm text-gray-600">Đơn hàng của bạn đã được giao thành công</p>
                 </div>
-                <div className="space-x-2">
+                <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2">
                   <button className="bg-purple-600 text-white px-4 py-1 rounded-full text-sm">Đánh Giá</button>
                   <button className="border border-gray-300 text-gray-700 px-4 py-1 rounded-full text-sm">Hóa Đơn</button>
-
                 </div>
               </div>
             </div>
@@ -293,10 +292,9 @@ export default function Account() {
 
       case "Quản Lý Địa Chỉ":
         return (
-          <div className="w-2/3 px-6">
+          <div className="w-full md:w-2/3 px-6">
             <h2 className="text-xl font-bold text-gray-800 mb-4">Quản Lý Địa Chỉ</h2>
             <p className="text-gray-600 mb-4">Quản lý địa chỉ nhận hàng của bạn tại đây.</p>
-
             <div className="space-y-4">
               {/* Ô nhập địa chỉ */}
               <div>
@@ -325,10 +323,9 @@ export default function Account() {
 
       case "Phương Thức Thanh Toán":
         return (
-          <div className="w-2/3 px-6">
+          <div className="w-full md:w-2/3 px-6">
             <h2 className="text-xl font-bold text-gray-800 mb-4">Phương Thức Thanh Toán</h2>
             <p className="text-gray-600 mb-4">Quản lý các phương thức thanh toán của bạn.</p>
-
             <div className="space-y-4">
               {/* Card Holder Name */}
               <div>
@@ -395,10 +392,9 @@ export default function Account() {
 
       case "Quản Lý Mật Khẩu":
         return (
-          <div className="w-2/3 px-6">
+          <div className="w-full md:w-2/3 px-6">
             <h2 className="text-xl font-bold text-gray-800 mb-4">Quản Lý Mật Khẩu</h2>
             <p className="text-gray-600">Thay đổi mật khẩu tại đây.</p>
-
             <form className="mt-4 space-y-4">
               {/* New Password */}
               <div className="relative">
@@ -455,11 +451,10 @@ export default function Account() {
 
       case "Đăng Xuất":
         return (
-          <div className="w-2/3 px-6">
+          <div className="w-full md:w-2/3 px-6">
             <h2 className="text-xl font-bold text-gray-800 mb-4">Đăng Xuất</h2>
             <p className="text-gray-600">Bạn có chắc chắn muốn đăng xuất không?</p>
             <button className="mt-4 p-2 bg-purple-600 text-white rounded-full">Đăng Xuất</button>
-
           </div>
         );
 
