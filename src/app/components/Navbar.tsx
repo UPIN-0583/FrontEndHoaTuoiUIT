@@ -106,7 +106,7 @@ export default function Navbar() {
               className="text-gray-700 hover:text-purple-500"
             />
           </Link>
-          <Link href="/account">
+          <Link href="/myaccount">
             <FontAwesomeIcon
               icon={faUser}
               className="text-gray-700 hover:text-purple-500"
