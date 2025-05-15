@@ -7,11 +7,9 @@ import logo from "../../../public/Logo.png";
 import { CiUser, CiLock } from "react-icons/ci";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import axios from "axios";
-import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 
 const Login = () => {
-    const router = useRouter();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
