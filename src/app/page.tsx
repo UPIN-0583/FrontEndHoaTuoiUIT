@@ -1,3 +1,5 @@
+"use client"
+
 import OccasionsItem from "./components/OccasionsItem";
 import ProductCarousel from "./components/ProductCarousel";
 import ProductCard from "./components/ProductCard";
@@ -6,14 +8,16 @@ import Features from "./components/Features";
 import Head from 'next/head';
 
 import Image from "next/image";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
-const occasions = [
-  { title: "Đám cưới", products: 42, img: "/images/themes/camon.png" },
-  { title: "Sinh nhật", products: 56, img: "/images/themes/chiabuon.png" },
-  { title: "Kỷ niệm", products: 11, img: "/images/themes/chucmung.png" },
-  { title: "Cảm ơn", products: 48, img: "/images/themes/tinhyeu.png" },
-  { title: "Tốt nghiệp", products: 13, img: "/images/themes/xinloi.png" },
-];
+// const occasions = [
+//   { title: "Đám cưới", products: 42, img: "/images/themes/camon.png" },
+//   { title: "Sinh nhật", products: 56, img: "/images/themes/chiabuon.png" },
+//   { title: "Kỷ niệm", products: 11, img: "/images/themes/chucmung.png" },
+//   { title: "Cảm ơn", products: 48, img: "/images/themes/tinhyeu.png" },
+//   { title: "Tốt nghiệp", products: 13, img: "/images/themes/xinloi.png" },
+// ];
 
 const products = [
   { id: 1, title: "Hoa Hồng Boutique", category: "Bó hoa", price: 35.00, rating: 4.8, img: "/images/flowers/hoa1.jpg" },
@@ -58,6 +62,24 @@ const blogPosts = [
 ];
 
 export default function Home() {
+
+  type Occasion = {
+    imageUrl: string;
+    name: string;
+    description: string;
+  };
+
+  const [occasions, setOccasions] = useState<Occasion[]>([]);
+  useEffect(() => {
+    axios.get('http://localhost:8080/api/occasions')
+      .then((res) => {
+        setOccasions(res.data)
+        console.log(res.data)
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  }, [])
   return (
     <div>
       <Head>
@@ -124,9 +146,9 @@ export default function Home() {
           {occasions.map((item, index) => (
             <OccasionsItem
               key={index}
-              img={item.img}
-              title={item.title}
-              products={item.products}
+              imageUrl={`http://localhost:8080` + item.imageUrl}
+              name={item.name}
+              description={item.description}
             />
           ))}
         </div>
