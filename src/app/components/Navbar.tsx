@@ -15,8 +15,6 @@ import {
 } from "@fortawesome/free-brands-svg-icons";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import { toast } from "react-toastify";
 
 
 const LogNavbar = () => {
