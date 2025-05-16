@@ -32,7 +32,7 @@ const Login = () => {
             email: email,
             password: password
         }).then((res) => {
-            if (res.data.success === false) {
+            if (!res.data.token) {
                 localStorage.clear();
                 toast.error('Sai email hoặc mật khẩu!');
             } else {
@@ -82,7 +82,7 @@ const Login = () => {
                                             value={email}
                                             onChange={(e) => setEmail(e.target.value)}
                                             type="text"
-                                            placeholder="Nhập tên tài khoản"
+                                            placeholder="Nhập email"
                                             className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-16 pr-10 text-black outline-none focus:border-primary"
                                         />
                                         <span className="absolute left-4 top-3">
