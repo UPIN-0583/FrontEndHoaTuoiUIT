@@ -8,20 +8,21 @@ import ProductCarousel from "./components/ProductCarousel";
 
 // Fetch data server-side
 async function getOccasions() {
-  const res = await fetch("http://localhost:8080/api/occasions", { cache: "no-store" });
+  const res = await fetch("http://backendhoatuoiuit.onrender.com/api/occasions", { cache: "no-store" });
   if (!res.ok) return [];
   return res.json();
 }
 
 async function getProducts() {
-  const res = await fetch("http://localhost:8080/api/products", { cache: "no-store" });
+  const res = await fetch("http://backendhoatuoiuit.onrender.com/api/products", { cache: "no-store" });
   if (!res.ok) return [];
   const data = await res.json();
+  console.log(data);
   return data.map((item: any) => ({
     ...item,
     rating: (Math.random() * 0.3 + 4.7).toFixed(1),
     title: item.name,
-    img: `http://localhost:8080${item.imageUrl}`,
+    img: `https://backendhoatuoiuit.onrender.com${item.imageUrl}`,
     price: item.price,
     category: item.categoryName,
     oldPrice: undefined, // or item.oldPrice if available
@@ -30,7 +31,7 @@ async function getProducts() {
 }
 
 async function getBlogs() {
-  const res = await fetch("http://localhost:8080/api/blog", { cache: "no-store" });
+  const res = await fetch("https://backendhoatuoiuit.onrender.com/api/blog", { cache: "no-store" });
   if (!res.ok) return [];
   return res.json();
 }
@@ -109,7 +110,7 @@ export default async function Home() {
           {occasions.map((item, index) => (
             <OccasionsItem
               key={index}
-              imageUrl={`http://localhost:8080${item.imageUrl}`}
+              imageUrl={`http://backendhoatuoiuit.onrender.com${item.imageUrl}`}
               name={item.name}
               description={item.description}
             />
@@ -185,7 +186,7 @@ export default async function Home() {
             {blogs.slice(0, 3).map((post: any, index: number) => (
               <BlogCard
                 key={index}
-                imageSrc={`http://localhost:8080${post.thumbnailUrl}`}
+                imageSrc={`http://backendhoatuoiuit.onrender.com${post.thumbnailUrl}`}
                 tag={post.author}
                 author={post.author}
                 date={post.createdAt}

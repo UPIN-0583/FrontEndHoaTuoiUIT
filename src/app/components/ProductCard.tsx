@@ -6,8 +6,8 @@ interface ProductCardProps {
   title: string;
   price: number;
   category: string;
-  oldPrice?: number; // Không bắt buộc
-  discount?: string; // Không bắt buộc
+  oldPrice?: number;
+  discount?: string;
   rating: number;
   img: string;
 }
