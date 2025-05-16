@@ -53,7 +53,7 @@ export default function ProductList({ products, sortOption, currentPage, totalPr
             className="px-4 py-2 bg-gray-200 rounded disabled:opacity-50"
             disabled={currentPage === 1}
           >
-            Previous
+            Trước
           </button>
           {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
             <button
@@ -68,7 +68,7 @@ export default function ProductList({ products, sortOption, currentPage, totalPr
             className="px-4 py-2 bg-gray-200 rounded disabled:opacity-50"
             disabled={currentPage === totalPages}
           >
-            Next
+            Sau
           </button>
         </div>
       )}

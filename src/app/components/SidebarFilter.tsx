@@ -76,7 +76,21 @@ export default function SidebarFilter({
           />
         </label>
       </div>
-      <button type="submit" className="mt-4 px-4 py-2 bg-purple-600 text-white rounded mx-auto block">Lọc</button>
+      <div className="flex gap-4 justify-center mt-4">
+        <button
+          type="submit"
+          className="px-4 py-2 bg-purple-600 text-white rounded"
+        >
+          Lọc
+        </button>
+
+        <a
+          href="/products"
+          className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition"
+        >
+          Xóa lọc
+        </a>
+      </div>
     </form>
   );
 }
