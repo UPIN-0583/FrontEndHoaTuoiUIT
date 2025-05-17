@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import WishItem from "../components/WishItem";
+import { toast } from "react-toastify";
 
 const initialWishlist = [
   { id: 1, name: "Blue White Bouquets", price: 45, image: "/images/flowers/hoa1.jpg" },
@@ -11,17 +12,75 @@ const initialWishlist = [
 ];
 
 export default function Wishlist() {
-  const [wishlist, setWishlist] = useState(initialWishlist);
-  // const [cart, setCart] = useState([]); // Simplified cart state for demo
+  const user_id = localStorage.getItem("id");
+  const token = localStorage.getItem("token");
+  const [cartId, setCartId] = useState<number | null>(null);
+  const [wishlist, setWishlist] = useState<{ id: number; customerId: number; items: any[] } | null>(null);
+  useEffect(() => {
+    fetch(`https://backendhoatuoiuit.onrender.com/api/wishlists/${user_id}`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    }).then((res) => {
+      if (!res.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return res.json();
+    }).then((data) => {
+      setWishlist(data);
+      console.log(data);
+    });
+    fetch(`https://backendhoatuoiuit.onrender.com/api/carts/${user_id}`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    }).then((res) => {
+      return res.json();
+    }).then((data) => {
+      setCartId(data.id);
+    });
+  }, [user_id]);
 
-  const removeItem = (id: number) => {
-    setWishlist((prevWishlist) => prevWishlist.filter((item) => item.id !== id));
+  console.log(cartId);
+
+  const removeItem = async (itemId: number) => {
+    try {
+      const res = await fetch(`https://backendhoatuoiuit.onrender.com/api/wishlists/items/${itemId}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      if (!res.ok) throw new Error('Xóa thất bại');
+      setWishlist((prev) => prev ? { ...prev, items: prev.items.filter((item: any) => item.id !== itemId) } : prev);
+      toast.success('Đã xóa sản phẩm khỏi wishlist!');
+    } catch (err) {
+      toast.error('Có lỗi khi xóa sản phẩm khỏi wishlist!');
+    }
   };
 
-  //   const addToCart = (item: WishItemType) => {
-  //     setCart((prevCart) => [...prevCart, { ...item, quantity: 1 }]); // Add item to cart with quantity 1
-  //     removeItem(item.id); // Optionally remove from wishlist after adding to cart
-  //   };
+  const addToCart = async (itemId: number) => {
+    try {
+      const res = await fetch(`https://backendhoatuoiuit.onrender.com/api/carts/items`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          productId: itemId,
+          cartId: cartId,
+          quantity: 1
+        })
+      });
+      if (!res.ok) throw new Error('Thêm vào giỏ hàng thất bại');
+
+      setWishlist((prev) => prev ? { ...prev, items: prev.items.filter((item: any) => item.id !== itemId) } : prev);
+      toast.success('Đã thêm sản phẩm vào giỏ hàng!');
+    } catch (err) {
+      toast.error('Có lỗi khi thêm vào giỏ hàng!');
+    }
+  };
 
   return (
     <div className="bg-white p-6">
@@ -30,7 +89,7 @@ export default function Wishlist() {
 
         <div className="bg-white shadow-md rounded-lg p-6">
           <h3 className="text-3xl font-semibold text-black justify-center mb-6 text-center mt-6">Wishlist</h3>
-          {wishlist.length > 0 ? (
+          {wishlist && wishlist.items.length > 0 ? (
             <>
               {/* Desktop View */}
               <div className="hidden md:flex flex-col gap-4">
@@ -40,12 +99,12 @@ export default function Wishlist() {
                   <p className="text-lg font-bold text-white">Ngày thêm</p>
                   <p className="text-lg font-bold text-white">Trạng thái</p>
                 </div>
-                {wishlist.map((item) => (
+                {wishlist.items.map((item) => (
                   <WishItem
                     key={item.id}
                     item={item}
                     removeItem={removeItem}
-                    //addToCart={addToCart}
+                    addToCart={addToCart}
                     isMobile={false}
                   />
                 ))}
@@ -53,20 +112,21 @@ export default function Wishlist() {
 
               {/* Mobile View */}
               <div className="md:hidden flex flex-col gap-4">
-                {wishlist.map((item) => (
+                {wishlist.items.map((item) => (
                   <WishItem
                     key={item.id}
                     item={item}
                     removeItem={removeItem}
-                    //addToCart={addToCart}
+                    addToCart={addToCart}
                     isMobile={true}
                   />
                 ))}
               </div>
             </>
           ) : (
-            <p className="text-center text-gray-500">Your wishlist is empty.</p>
+            <p className="text-center text-gray-500">Không có sản phẩm yêu thích.</p>
           )}
+
         </div>
       </div>
     </div>
