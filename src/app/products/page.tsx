@@ -1,6 +1,5 @@
 import { Metadata } from "next";
 import SidebarFilter from "../components/SidebarFilter";
-import ProductList from "../components/ProductList";
 import ProductListWrapper from "../components/ProductListWrapper";
 
 
@@ -53,7 +52,6 @@ export default async function ProductsPage({ searchParams }: { searchParams: any
   const currentPage = Number(searchParams?.page) || 1;
 
   const products = await getProducts();
-  console.log(products, selectedFlowers, selectedOccasions, priceMin, priceMax, sortOption, currentPage);
 
   // Lọc sản phẩm phía server
   const filteredProducts = products.filter((product: any) => {
@@ -88,9 +86,7 @@ export default async function ProductsPage({ searchParams }: { searchParams: any
 
   const pageSize = 8;
   const paginatedProducts = sortedProducts.slice((currentPage - 1) * pageSize, currentPage * pageSize);
-  console.log("pagi", paginatedProducts);
-  console.log("filtered", filteredProducts);
-  console.log("sorted", sortedProducts);
+
 
   return (
     <div className="bg-white">

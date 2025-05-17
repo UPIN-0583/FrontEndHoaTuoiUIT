@@ -5,6 +5,7 @@ import Features from "./components/Features";
 import Image from "next/image";
 import Head from "next/head";
 import ProductCarousel from "./components/ProductCarousel";
+import Link from "next/link";
 
 // Fetch data server-side
 async function getOccasions() {
@@ -67,12 +68,12 @@ export default async function Home() {
               Hoa Tươi UIT cung cấp giỏ hoa, bó hoa và hộp hoa tươi thiết kế tinh tế, phù hợp cho mọi dịp như sinh nhật, kỷ niệm, khai trương hay tỏ tình. Mẫu mã đa dạng, màu sắc hài hòa, đặt hoa nhanh chóng, giao hàng đúng hẹn, giá cả hợp lý – giúp bạn gửi gắm yêu thương một cách trọn vẹn.
             </p>
             <div className="mt-8 md:mt-8 space-y-4 md:space-y-0 md:space-x-6 flex flex-col md:flex-row items-center justify-center md:justify-start">
-              <a href="#" className="w-full md:w-auto bg-purple-600 text-white px-6 py-3 rounded-lg shadow-md font-semibold hover:bg-purple-700 text-center">
+              <Link href="/products" className="w-full md:w-auto bg-purple-600 text-white px-6 py-3 rounded-lg shadow-md font-semibold hover:bg-purple-700 text-center">
                 Mua ngay →
-              </a>
-              <a href="#" className="w-full md:w-auto text-gray-800 font-semibold hover:underline text-center">
+              </Link>
+              <Link href="/about" className="w-full md:w-auto text-gray-800 font-semibold hover:underline text-center">
                 Tìm hiểu thêm
-              </a>
+              </Link>
             </div>
             <div className="flex mt-6 items-center space-x-4 justify-center md:justify-start">
               <div className="flex -space-x-2">
@@ -127,7 +128,9 @@ export default async function Home() {
             </h2>
           </div>
           <button className="px-6 py-2 bg-purple-600 text-white rounded-full cursor-pointer">
-            Xem tất cả
+            <Link href="/products">
+              Xem tất cả
+            </Link>
           </button>
         </div>
         <ProductCarousel products={products} />
@@ -177,7 +180,9 @@ export default async function Home() {
             </h2>
           </div>
           <button className="px-6 py-2 bg-purple-600 text-white rounded-full cursor-pointer">
-            Xem tất cả
+            <Link href="/blog">
+              Xem tất cả
+            </Link>
           </button>
         </div>
 

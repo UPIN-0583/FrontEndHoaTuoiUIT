@@ -64,11 +64,7 @@ const LogNavbar = () => {
                 Sản phẩm
               </Link>
             </li>
-            <li>
-              <Link href="/theme" className="hover:text-purple-500">
-                Chủ đề
-              </Link>
-            </li>
+
             <li>
               <Link href="/about" className="hover:text-purple-500">
                 Giới thiệu
@@ -167,11 +163,7 @@ const GuestNavbar = () => {
                 Sản phẩm
               </Link>
             </li>
-            <li>
-              <Link href="/theme" className="hover:text-purple-500">
-                Chủ đề
-              </Link>
-            </li>
+
             <li>
               <Link href="/about" className="hover:text-purple-500">
                 Giới thiệu
