@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link"; // Thêm Link để thay <a>
 import Search from "../components/SearchBlog";
 import Pagination from "../components/Pagination";
 
@@ -17,11 +18,25 @@ interface BlogPostDTO {
   isActive: boolean;
 }
 
+// Base URL cho API và hình ảnh
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "https://backendhoatuoiuit.onrender.com";
+
+// Hàm tạo slug từ tiêu đề
+const createSlug = (title: string) => {
+  return title
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9\s-]/g, "")
+    .trim()
+    .replace(/\s+/g, "-");
+};
+
 // Hàm fetch danh sách blog từ API
 async function getBlogs(page: number = 1, limit: number = 3): Promise<{ blogs: BlogPostDTO[]; totalPages: number }> {
   try {
     const response = await fetch(
-      `http://localhost:8080/api/blog?page=${page}&limit=${limit}`,
+      `${API_BASE_URL}/api/blog?page=${page}&limit=${limit}`,
       {
         cache: "no-store",
       }
@@ -38,16 +53,21 @@ async function getBlogs(page: number = 1, limit: number = 3): Promise<{ blogs: B
       totalPages,
     };
   } catch (error) {
-    console.error("Error fetching blogs:", error);
+    console.error("Lỗi khi lấy danh sách bài viết:", error);
     return { blogs: [], totalPages: 1 };
   }
 }
 
 // Server Component
 export default async function Blog({ searchParams }: { searchParams: Promise<{ page?: string }> }) {
-  const resolvedSearchParams = await searchParams; // Await searchParams
+  const resolvedSearchParams = await searchParams;
   const page = parseInt(resolvedSearchParams.page || "1") || 1;
   const { blogs, totalPages } = await getBlogs(page);
+
+  // Hàm sửa URL hình ảnh
+  const fixImageUrl = (url: string) => {
+    return url.startsWith("http") ? url : `${API_BASE_URL}${url}`;
+  };
 
   return (
     <div className="py-16 bg-white">
@@ -69,11 +89,7 @@ export default async function Blog({ searchParams }: { searchParams: Promise<{ p
                 <div key={blog.id} className="rounded-3xl relative shadow-md">
                   <div className="relative">
                     <Image
-                      src={
-                        blog.thumbnailUrl.startsWith("http")
-                          ? blog.thumbnailUrl
-                          : `http://localhost:8080${blog.thumbnailUrl}`
-                      }
+                      src={fixImageUrl(blog.thumbnailUrl)}
                       alt={blog.title}
                       width={1000}
                       height={600}
@@ -93,12 +109,12 @@ export default async function Blog({ searchParams }: { searchParams: Promise<{ p
                     <p className="text-gray-600 text-sm mb-4">
                       {blog.content.replace(/<[^>]+>/g, "").slice(0, 100) + "..."}
                     </p>
-                    <a
-                      href={`/blog/${blog.id}`}
+                    <Link
+                      href={`/blog/${createSlug(blog.title)}`}
                       className="text-purple-600 font-medium hover:underline text-sm"
                     >
                       Đọc Thêm
-                    </a>
+                    </Link>
                   </div>
                 </div>
               ))
@@ -130,11 +146,7 @@ export default async function Blog({ searchParams }: { searchParams: Promise<{ p
                 {blogs.slice(0, 3).map((post) => (
                   <div key={post.id} className="flex items-center gap-3">
                     <Image
-                      src={
-                        post.thumbnailUrl.startsWith("http")
-                          ? post.thumbnailUrl
-                          : `http://localhost:8080${post.thumbnailUrl}`
-                      }
+                      src={fixImageUrl(post.thumbnailUrl)}
                       alt={post.title}
                       width={60}
                       height={60}
