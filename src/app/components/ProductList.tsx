@@ -1,5 +1,3 @@
-"use client";
-
 import ProductCard from "./ProductCard";
 
 interface ProductListProps {
@@ -8,48 +6,42 @@ interface ProductListProps {
     category: string;
     price: number;
     oldPrice?: number;
+    discount?: string;
     rating: number;
     img: string;
     flowerType: string;
     occasion: string;
   }[];
   sortOption: string;
-  setSortOption: (option: string) => void;
   currentPage: number;
-  setCurrentPage: (page: number) => void;
+  totalProducts: number;
+  pageSize: number;
+  onSortChange: (value: string) => void;
 }
 
-export default function ProductList({ products, sortOption, setSortOption, currentPage, setCurrentPage }: ProductListProps) {
-  const productsPerPage = 8; // Số sản phẩm mỗi trang
-  const totalPages = Math.ceil(products.length / productsPerPage);
-  const startIndex = (currentPage - 1) * productsPerPage;
-  const paginatedProducts = products.slice(startIndex, startIndex + productsPerPage);
-
-  const handlePageChange = (page: number) => {
-    if (page >= 1 && page <= totalPages) {
-      setCurrentPage(page);
-    }
-  };
+export default function ProductList({ products, sortOption, currentPage, totalProducts, pageSize, onSortChange }: ProductListProps) {
+  const totalPages = Math.ceil(totalProducts / pageSize);
+  const startIndex = (currentPage - 1) * pageSize;
 
   return (
     <div className="w-full">
       <div className="flex justify-between mb-4 text-black">
         <p>
-          Showing {startIndex + 1}-{Math.min(startIndex + productsPerPage, products.length)} of {products.length} results
+          Showing {startIndex + 1}-{Math.min(startIndex + pageSize, totalProducts)} of {totalProducts} results
         </p>
         <select
           className="border p-2 md:p-2 max-[480px]:p-1 rounded text-base md:text-base max-[480px]:text-xs "
           value={sortOption}
-          onChange={(e) => setSortOption(e.target.value)}
+          onChange={(e) => onSortChange(e.target.value)}
         >
-          <option value="default">Default Sorting</option>
-          <option value="price-low-high">Price: Low to High</option>
-          <option value="price-high-low">Price: High to Low</option>
-          <option value="rating-high-low">Rating: High to Low</option>
+          <option value="default">Sắp xếp mặc định</option>
+          <option value="price-low-high">Giá: Thấp đến Cao</option>
+          <option value="price-high-low">Giá: Cao đến Thấp</option>
+          <option value="rating-high-low">Đánh giá: Cao đến Thấp</option>
         </select>
       </div>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-8 justify-items-center items-center">
-        {paginatedProducts.map((product, index) => (
+        {products.map((product, index) => (
           <ProductCard key={index} {...product} />
         ))}
       </div>
@@ -58,26 +50,24 @@ export default function ProductList({ products, sortOption, setSortOption, curre
         <div className="flex justify-center mt-6 gap-2">
           <button
             className="px-4 py-2 bg-gray-200 rounded disabled:opacity-50"
-            onClick={() => handlePageChange(currentPage - 1)}
             disabled={currentPage === 1}
           >
-            Previous
+            Trước
           </button>
           {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
             <button
               key={page}
               className={`px-4 py-2 rounded ${currentPage === page ? "bg-purple-600 text-white" : "bg-gray-200"}`}
-              onClick={() => handlePageChange(page)}
+              disabled={currentPage === page}
             >
               {page}
             </button>
           ))}
           <button
             className="px-4 py-2 bg-gray-200 rounded disabled:opacity-50"
-            onClick={() => handlePageChange(currentPage + 1)}
             disabled={currentPage === totalPages}
           >
-            Next
+            Sau
           </button>
         </div>
       )}
