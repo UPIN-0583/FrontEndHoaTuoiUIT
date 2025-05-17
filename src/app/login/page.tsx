@@ -28,7 +28,7 @@ const Login = () => {
             return;
         }
 
-        axios.post(`http://localhost:8080/api/customers/login`, {
+        axios.post(`https://backendhoatuoiuit.onrender.com/api/customers/login`, {
             email: email,
             password: password
         }).then((res) => {

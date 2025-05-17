@@ -34,6 +34,7 @@ async function getProducts() {
 }
 
 export default async function ProductsPage({ searchParams }: { searchParams: any }) {
+  const params = await searchParams;
   // Lấy filter/sort từ query string
   function parseMulti(raw?: string | string[]): string[] {
     if (!raw) return [];
@@ -43,13 +44,13 @@ export default async function ProductsPage({ searchParams }: { searchParams: any
     return raw.split(",").map((s) => decodeURIComponent(s.trim())).filter((s) => s);
   }
 
-  const selectedFlowers = parseMulti(searchParams?.flowerType);
-  const selectedOccasions = parseMulti(searchParams?.occasion);
+  const selectedFlowers = parseMulti(params?.flowerType);
+  const selectedOccasions = parseMulti(params?.occasion);
 
-  const priceMin = searchParams?.priceMin ? Number(searchParams.priceMin) : undefined;
-  const priceMax = searchParams?.priceMax ? Number(searchParams.priceMax) : undefined;
-  const sortOption = searchParams?.sort || "default";
-  const currentPage = Number(searchParams?.page) || 1;
+  const priceMin = params?.priceMin ? Number(params.priceMin) : undefined;
+  const priceMax = params?.priceMax ? Number(params.priceMax) : undefined;
+  const sortOption = params?.sort || "default";
+  const currentPage = Number(params?.page) || 1;
 
   const products = await getProducts();
 
