@@ -47,21 +47,50 @@ export default function ShoppingCart() {
           {cart.length > 0 ? (
             <>
               {/* Desktop View */}
-              <div className="hidden md:flex flex-col gap-4">
-                <div className="rounded-lg bg-purple-600 flex p-4 gap-16 justify-between">
-                  <p className="text-lg font-bold text-white">Sản phẩm</p>
-                  <div className="flex gap-12 mr-12">
-                    <p className="text-lg font-bold text-white">Số lượng</p>
-                    <p className="text-lg font-bold text-white">Giá</p>
-                  </div>
-                </div>
+              <div className="overflow-x-auto">
+                <table className="min-w-full text-md text-left border">
+                  <thead className="bg-purple-100">
+                    <tr>
+                      <th className="px-2 py-1">Sản phẩm</th>
+                      <th className="px-2 py-1">Số lượng</th>
+                      <th className="px-2 py-1">Thành tiền</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {cart.map((item) => (
+                      <tr key={item.id} className="border-t">
+                        <td className="px-2 py-1 flex items-center gap-2">
+                          <img src={item.image} alt={item.name} className="w-16 h-16 object-cover" />
+                          <div>
+                            <p className="text-md font-semibold ml-2">{item.name}</p>
+                            <p className="text-sm text-gray-500 ml-2">Giá: {item.price}</p>
+                          </div>
+                        </td>
+                        <td className="px-2 py-1">
+                          <button className="bg-purple-500 text-white px-3 py-1 mr-2 rounded-md hover:bg-purple-600 cursor-pointer">
+                            -
+                          </button>
+                          {item.quantity}
+                          <button className="bg-purple-500 text-white px-3 py-1 ml-2 rounded-md hover:bg-purple-600 cursor-pointer">
+                            +
+                          </button>
+                        </td>
+                        <td className="px-2 py-1">${item.price}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+
+              {/* Mobile View */}
+              <div className="md:hidden flex flex-col gap-4">
                 {cart.map((item) => (
                   <CartItem
                     key={item.id}
                     item={item}
                     removeItem={removeItem}
                     updateQuantity={updateQuantity}
-                    isMobile={false}
+                    isMobile={true}
                   />
                 ))}
               </div>

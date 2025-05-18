@@ -5,12 +5,12 @@ import ProductListWrapper from "../components/ProductListWrapper";
 
 // SEO metadata
 export const metadata: Metadata = {
-  title: "Sản phẩm hoa tươi | Hoa Tươi UIT",
-  description: "Khám phá các sản phẩm hoa tươi đa dạng, chất lượng cao tại Hoa Tươi UIT. Đặt hoa online giao tận nơi.",
-  keywords: "hoa tươi, shop hoa, đặt hoa online, hoa sinh nhật, hoa cưới",
+  title: "Sản phẩm hoa tươi đẹp, giao nhanh | Hoa Tươi UIT",
+  description: "Khám phá các mẫu hoa tươi đẹp, đa dạng tại Hoa Tươi UIT. Đặt hoa online, giao tận nơi nhanh chóng, giá tốt, dịch vụ chuyên nghiệp.",
+  keywords: "hoa tươi, shop hoa, đặt hoa online, hoa sinh nhật, hoa cưới, hoa bó, hoa đẹp, giao hoa tận nơi",
   openGraph: {
-    title: "Sản phẩm hoa tươi | Hoa Tươi UIT",
-    description: "Khám phá các sản phẩm hoa tươi đa dạng, chất lượng cao tại Hoa Tươi UIT.",
+    title: "Sản phẩm hoa tươi đẹp, giao nhanh | Hoa Tươi UIT",
+    description: "Khám phá các mẫu hoa tươi đẹp, đa dạng tại Hoa Tươi UIT. Đặt hoa online, giao tận nơi nhanh chóng, giá tốt, dịch vụ chuyên nghiệp.",
     url: "https://hoatuoiuit.id.vn/products",
     type: "website",
   },

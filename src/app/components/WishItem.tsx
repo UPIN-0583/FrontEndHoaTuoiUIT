@@ -8,6 +8,7 @@ interface WishItemType {
   productName: string;
   price: number;
   imageUrl: string;
+  addedDate: string;
 }
 
 // Define the props interface for the WishItem component
@@ -39,7 +40,6 @@ const WishItem = ({ item, removeItem, addToCart, isMobile }: WishItemProps) => {
           <div className={isMobile ? "flex-1" : ""}>
             <h3 className="font-semibold text-lg">{item.productName}</h3>
           </div>
-          {/* Remove Button for Mobile */}
           {isMobile && (
             <button
               onClick={() => removeItem(item.id)}
@@ -50,16 +50,15 @@ const WishItem = ({ item, removeItem, addToCart, isMobile }: WishItemProps) => {
           )}
         </div>
 
-        {/* Actions for Desktop */}
         {!isMobile && (
           <div className="flex gap-12">
             <p className="text-lg font-bold">${item.price.toFixed(2)}</p>
-            <p className="text-lg font-bold">16/5/2024</p>
+            <p className="text-lg font-bold">{item.addedDate}</p>
             <p className="text-lg font-bold"> Còn hàng</p>
             <div className="flex items-center gap-5">
               <button
                 onClick={() => addToCart(item.id)}
-                className="bg-purple-600 text-white px-4 py-1 rounded cursor-pointer"
+                className="bg-gradient-to-tr from-purple-600 to-pink-400 hover:from-pink-500 hover:to-purple-500 text-white px-4 py-1 rounded cursor-pointer"
               >
                 <FontAwesomeIcon icon={faCartPlus} className="pr-2" />
                 Thêm vào giỏ
@@ -75,12 +74,11 @@ const WishItem = ({ item, removeItem, addToCart, isMobile }: WishItemProps) => {
         )}
       </div>
 
-      {/* Actions for Mobile */}
       {isMobile && (
         <div className="flex items-center justify-between mt-3">
           <button
             onClick={() => addToCart(item.id)}
-            className="bg-purple-600 text-white px-4 py-1 rounded cursor-pointer"
+            className="bg-gradient-to-tr from-purple-600 to-pink-400 hover:from-pink-500 hover:to-purple-500 transition text-white px-4 py-1 rounded cursor-pointer"
           >
             Thêm vào giỏ
           </button>

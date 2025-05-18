@@ -46,6 +46,8 @@ export default async function Home() {
   const products = await getProducts();
   const blogs = await getBlogs();
 
+
+
   return (
     <div>
       <Head>
