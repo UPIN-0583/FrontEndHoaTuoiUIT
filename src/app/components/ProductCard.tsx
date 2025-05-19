@@ -1,8 +1,13 @@
+"use client";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar, faHeart, faCartShopping } from "@fortawesome/free-solid-svg-icons";
+import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 interface ProductCardProps {
+  id: number;
   title: string;
   price: number;
   category: string;
@@ -12,7 +17,79 @@ interface ProductCardProps {
   img: string;
 }
 
-export default function ProductCard({ title, price, category, oldPrice, discount, rating, img }: ProductCardProps) {
+export default function ProductCard({ id, title, price, category, oldPrice, discount, rating, img }: ProductCardProps) {
+  const router = useRouter();
+  const user_id = typeof window !== 'undefined' ? localStorage.getItem("id") : null;
+  const token = typeof window !== 'undefined' ? localStorage.getItem("token") : null;
+
+  // Thêm vào wishlist
+  const handleAddToWishlist = async () => {
+    if (!user_id) {
+      toast.info("Vui lòng đăng nhập để sử dụng wishlist!");
+      router.push("/login");
+      return;
+    }
+    try {
+      const res = await fetch(`https://backendhoatuoiuit.onrender.com/api/wishlists/items`, {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          customerId: user_id,
+          productId: id,
+        }),
+      });
+      if (!res.ok) {
+        const data = await res.text();
+        if (data === "Internal server error: Item already exists in wishlist") {
+          toast.error("Sản phẩm đã có trong wishlist!");
+        }
+        return;
+      }
+      toast.success("Đã thêm vào wishlist!");
+    } catch (err) {
+      toast.error("Có lỗi xảy ra khi thêm vào wishlist!");
+    }
+  };
+
+  const handleAddToCart = async () => {
+    if (!user_id) {
+      toast.info("Vui lòng đăng nhập để thêm vào giỏ hàng!");
+      router.push("/login");
+      return;
+    }
+    try {
+      const resCart = await fetch(`https://backendhoatuoiuit.onrender.com/api/carts/${user_id}`, {
+        headers: {
+          "Authorization": `Bearer ${token}`,
+        },
+      });
+      const cartData = await resCart.json();
+      const currentCartId = cartData.id;
+
+      const res = await fetch(`https://backendhoatuoiuit.onrender.com/api/carts/items`, {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          cartId: currentCartId,
+          productId: id,
+          quantity: 1,
+        }),
+      });
+
+      if (!res.ok) throw new Error("Thêm vào giỏ hàng thất bại");
+      toast.success("Đã thêm vào giỏ hàng!");
+    } catch (err) {
+      toast.error("Có lỗi xảy ra khi thêm vào giỏ hàng!");
+    }
+  };
+
+
   return (
     <div className="group bg-white p-5 rounded-2xl shadow-md w-45 md:w-60 relative overflow-hidden hover:bg-gray-100 transition-colors duration-300">
       {/* Phần hình ảnh */}
@@ -29,10 +106,12 @@ export default function ProductCard({ title, price, category, oldPrice, discount
 
         <div className="absolute top-2 right-2 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
 
-          <button className="bg-white p-2 rounded-full shadow-md hover:bg-gray-100">
+          <button className="bg-white p-2 rounded-full shadow-md hover:bg-gray-100 cursor-pointer"
+            onClick={handleAddToWishlist}
+          >
             <FontAwesomeIcon icon={faHeart} className="text-black w-4 h-4" />
           </button>
-          <button className="bg-white p-2 rounded-full shadow-md hover:bg-gray-100">
+          <button className="bg-white p-2 rounded-full shadow-md hover:bg-gray-100 cursor-pointer" onClick={handleAddToCart}>
             <FontAwesomeIcon icon={faCartShopping} className="text-black w-4 h-4" />
           </button>
         </div>
@@ -49,8 +128,14 @@ export default function ProductCard({ title, price, category, oldPrice, discount
         </div>
         <h4 className="font-semibold text-black">{title}</h4>
         <div className="flex items-center gap-2">
-          <span className="text-lg font-bold text-black">${price}</span>
-          {oldPrice && <span className="text-gray-400 line-through">${oldPrice}</span>}
+          <span className="text-lg font-bold text-black">
+            {new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(price)}
+          </span>
+          {oldPrice && (
+            <span className="text-gray-400 line-through">
+              {new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(oldPrice)}
+            </span>
+          )}
         </div>
       </div>
     </div>

@@ -20,9 +20,6 @@ interface ProductDTO {
   isFavorited: boolean;
 }
 
-// Interface cho sản phẩm hiển thị
-interface DisplayProduct extends ProductDTO {}
-
 // Base URL cho API và hình ảnh
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "https://backendhoatuoiuit.onrender.com";
 
@@ -40,7 +37,7 @@ export const metadata: Metadata = {
 };
 
 // Hàm fetch danh sách sản phẩm
-async function getProducts(): Promise<DisplayProduct[]> {
+async function getProducts(): Promise<ProductDTO[]> {
   try {
     const res = await fetch(`${API_BASE_URL}/api/products/view-all`, { cache: "no-store" });
     if (!res.ok) return [];
@@ -87,7 +84,7 @@ export default async function ProductsPage({
   const products = await getProducts();
 
   // Lọc sản phẩm phía server
-  const filteredProducts = products.filter((product: DisplayProduct) => {
+  const filteredProducts = products.filter((product: ProductDTO) => {
     const matchesFlower =
       selectedFlowers.length === 0 ||
       selectedFlowers.some((selected: string) => product.flowerNames.includes(selected));

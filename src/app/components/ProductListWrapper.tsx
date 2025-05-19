@@ -1,13 +1,11 @@
 "use client";
-import Image from "next/image";
-import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeart, faCartShopping, faStar } from "@fortawesome/free-solid-svg-icons";
+import ProductCard from "./ProductCard"; // Giả sử ProductCard nằm trong cùng thư mục hoặc điều chỉnh đường dẫn
+import Link from "next/link";
 
 // Interface ánh xạ dữ liệu từ ProductsPage
-interface DisplayProduct {
+interface ProductDTO {
   id: number;
   name: string;
   description: string;
@@ -25,7 +23,7 @@ interface DisplayProduct {
 }
 
 interface ProductListWrapperProps {
-  products: DisplayProduct[];
+  products: ProductDTO[];
   sortOption: string;
   currentPage: number;
   totalProducts: number;
@@ -43,6 +41,18 @@ const createSlug = (name: string) => {
     .replace(/[^a-z0-9\s-]/g, "")
     .trim()
     .replace(/\s+/g, "-");
+};
+
+// Hàm prefetch chi tiết sản phẩm
+const prefetchProduct = async (id: number) => {
+  try {
+    await fetch(`${API_BASE_URL}/api/products/${id}/detail`, {
+      cache: "force-cache",
+      next: { revalidate: 3600 },
+    });
+  } catch (error) {
+    console.error("Lỗi khi prefetch dữ liệu sản phẩm:", error);
+  }
 };
 
 export default function ProductListWrapper({
@@ -73,6 +83,11 @@ export default function ProductListWrapper({
     return url.startsWith("http") ? url : `${API_BASE_URL}${url}`;
   };
 
+  // // Xử lý khi nhấp vào "Xem chi tiết"
+  // const handleProductClick = (slug: string) => {
+  //   router.push(`/products/${slug}`);
+  // };
+
   return (
     <div>
       {/* Hiển thị số lượng sản phẩm */}
@@ -93,66 +108,30 @@ export default function ProductListWrapper({
       </div>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-8 justify-items-center items-center">
         {products.length > 0 ? (
-          products.map((product) => (
-            <div
-              key={product.id}
-              className="group rounded-3xl shadow-md transition-all duration-300 hover:shadow-lg hover:bg-gray-50"
-            >
-              <div className="group bg-white p-5 rounded-2xl shadow-md w-45 md:w-60 relative overflow-hidden hover:bg-gray-100 transition-colors duration-300">
-                <Image
-                  src={fixImageUrl(product.imageUrl)}
-                  alt={product.name}
-                  width={200}
-                  height={200}
-                  className="rounded-xl"
-                />
-                {/* Nút hover */}
-                <div className="absolute top-2 right-2 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <Link href={`/wishlist?add=${product.id}`}>
-                    <button className="bg-white p-2 rounded-full shadow-md hover:bg-gray-100">
-                      <FontAwesomeIcon
-                        icon={faHeart}
-                        className={`w-4 h-4 ${product.isFavorited ? "text-red-500" : "text-black"}`}
-                      />
-                    </button>
-                  </Link>
-                  <Link href={`/cart?add=${product.id}`}>
-                    <button className="bg-white p-2 rounded-full shadow-md hover:bg-gray-100">
-                      <FontAwesomeIcon icon={faCartShopping} className="text-black w-4 h-4" />
-                    </button>
-                  </Link>
+          products.map((product) => {
+            const slug = createSlug(product.name);
+            return (
+              <Link
+                key={product.id}
+                href={`/products/${slug}`}
+                className="group rounded-3xl shadow-md transition-all duration-300 hover:shadow-lg hover:bg-gray-50"
+                onMouseEnter={() => prefetchProduct(product.id)} // Giữ prefetch nếu cần
+              >
+                <div>
+                  <ProductCard
+                    id={product.id}
+                    title={product.name}
+                    price={product.finalPrice}
+                    category={product.occasionNames.join(", ") || product.categoryName}
+                    oldPrice={product.discountValue > 0 ? product.price : undefined}
+                    discount={product.discountValue > 0 ? `-${product.discountValue}%` : undefined}
+                    rating={product.averageRating > 0 ? product.averageRating : 4.9}
+                    img={fixImageUrl(product.imageUrl)}
+                  />
                 </div>
-              </div>
-              <div className="p-4">
-                <div className="flex justify-between">
-                  <p className="text-gray-500 text-sm mt-1">{product.occasionNames.join(", ")}</p>
-                  <div className="flex items-center gap-1 text-yellow-500">
-                    <FontAwesomeIcon icon={faStar} className="w-4 h-4" />
-                    <span className="text-black">
-                      {product.averageRating > 0 ? product.averageRating : 4.9}
-                    </span>
-                  </div>
-                </div>
-                <h3 className="text-lg font-semibold mb-2">{product.name}</h3>
-                <p className="text-purple-600 font-medium mb-4">
-                  {new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(product.finalPrice)}
-                  {product.discountValue > 0 && (
-                    <span className="text-gray-500 line-through ml-2">
-                      {new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(product.price)}
-                    </span>
-                  )}
-                </p>
-                <div className="flex flex-col gap-2">
-                  <Link
-                    href={`/products/${createSlug(product.name)}-${product.id}`}
-                    className="text-purple-600 font-medium hover:underline text-sm"
-                  >
-                    Xem chi tiết
-                  </Link>
-                </div>
-              </div>
-            </div>
-          ))
+              </Link>
+            );
+          })
         ) : (
           <p className="text-gray-500 text-center col-span-3">Không có sản phẩm nào.</p>
         )}
@@ -177,7 +156,9 @@ export default function ProductListWrapper({
           ))}
           <Link
             href={`/products?page=${currentPage + 1}&sort=${sortOption}`}
-            className={`px-4 py-2 bg-gray-200 rounded ${currentPage === totalPages ? "opacity-50 pointer-events-none" : ""}`}
+            className={`px-4 py-2 bg-gray-200 rounded ${
+              currentPage === totalPages ? "opacity-50 pointer-events-none" : ""
+            }`}
           >
             Sau
           </Link>

@@ -1,9 +1,75 @@
 import Image from "next/image";
 import { notFound } from "next/navigation";
+import { Suspense } from "react";
 import { Metadata } from "next";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import ProductActions from "./ProductActions";
+import Link from "next/link";
+import ProductCarousel from "../../components/ProductCarousel";
+
+// Fallback UI cho section chi tiết sản phẩm
+const LoadingFallback = () => (
+  <div className="max-w-5xl mx-auto p-6 bg-white shadow-md rounded-lg text-black">
+    <div className="flex flex-col md:flex-row gap-6">
+      <div className="md:w-1/3">
+        <div className="w-full h-[200px] bg-gray-200 rounded-xl animate-pulse" />
+      </div>
+      <div className="md:w-2/3">
+        <div className="h-6 bg-gray-200 rounded w-1/3 mb-2 animate-pulse" />
+        <div className="h-8 bg-gray-200 rounded w-2/3 mb-2 animate-pulse" />
+        <div className="h-6 bg-gray-200 rounded w-1/2 mb-2 animate-pulse" />
+        <div className="h-6 bg-gray-200 rounded w-1/4 mb-2 animate-pulse" />
+        <div className="h-4 bg-gray-200 rounded w-full mb-2 animate-pulse" />
+      </div>
+    </div>
+  </div>
+);
+
+// Fallback UI cho section sản phẩm liên quan
+const RelatedProductsLoadingFallback = () => (
+  <div className="mt-8 mx-4 md:mx-12 lg:mx-32">
+    <h3 className="text-2xl font-semibold mb-4 text-black">Sản phẩm liên quan</h3>
+    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 justify-items-center items-center">
+      {[...Array(4)].map((_, index) => (
+        <div key={index} className="bg-white p-5 rounded-2xl shadow-md w-45 md:w-60">
+          <div className="w-full h-[200px] bg-gray-200 rounded-xl animate-pulse" />
+          <div className="h-4 bg-gray-200 rounded w-3/4 mt-4 animate-pulse" />
+          <div className="h-6 bg-gray-200 rounded w-1/2 mt-2 animate-pulse" />
+        </div>
+      ))}
+    </div>
+  </div>
+);
+
+// Fallback UI cho section bình luận
+const ReviewsLoadingFallback = () => (
+  <div className="mt-8 mx-4 md:mx-12 lg:mx-32">
+    <h3 className="text-2xl font-semibold mb-4 text-black">Bình luận sản phẩm</h3>
+    <div className="space-y-4">
+      {[...Array(2)].map((_, index) => (
+        <div key={index} className="bg-white p-4 rounded-lg shadow-md">
+          <div className="h-4 bg-gray-200 rounded w-1/4 mb-2 animate-pulse" />
+          <div className="h-4 bg-gray-200 rounded w-1/2 mb-2 animate-pulse" />
+          <div className="h-6 bg-gray-200 rounded w-3/4 animate-pulse" />
+        </div>
+      ))}
+    </div>
+  </div>
+);
+
+// Interface cho Review từ API
+interface ReviewDTO {
+  id: number;
+  customerId: number;
+  productId: number;
+  rating: number;
+  comment: string;
+  isVerified: boolean;
+  customerName: string;
+  productName: string;
+  createdAt: string;
+}
 
 // Interface ánh xạ ProductDTO từ API
 interface ProductDTO {
@@ -23,8 +89,13 @@ interface ProductDTO {
   isFavorited: boolean;
 }
 
-// Base URL cho API và hình ảnh
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "https://backendhoatuoiuit.onrender.com";
+// Base URL cho API
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
+
+// Hàm sửa URL hình ảnh
+const fixImageUrl = (url: string) => {
+  return url.startsWith("http") ? url : `${API_BASE_URL}${url}`;
+};
 
 // Hàm tạo slug từ tên sản phẩm
 const createSlug = (name: string) => {
@@ -37,71 +108,80 @@ const createSlug = (name: string) => {
     .replace(/\s+/g, "-");
 };
 
-// Hàm tìm ID sản phẩm từ slug
-async function findProductIdBySlug(slug: string): Promise<number | null> {
+// Hàm tìm sản phẩm theo slug
+async function findProductBySlug(slug: string): Promise<ProductDTO | null> {
   try {
-    // Tách id từ slug (ví dụ: ngot-ngao-1-2 -> id = 2)
-    const parts = slug.split("-");
-    const id = parseInt(parts[parts.length - 1], 10);
-    if (isNaN(id)) {
-      console.error("Invalid ID in slug:", slug);
-      return null;
-    }
-
-    // Kiểm tra sản phẩm có tồn tại trong danh sách không
-    const res = await fetch(`${API_BASE_URL}/api/products/view-all`, { cache: "no-store" });
+    const res = await fetch(`${API_BASE_URL}/api/products/view-all`, {
+      cache: "force-cache",
+      next: { revalidate: 3600 },
+    });
     if (!res.ok) throw new Error("Failed to fetch products");
     const products: ProductDTO[] = await res.json();
     if (!products || products.length === 0) {
       console.error("No products found in API response");
       return null;
     }
-
-    const product = products.find((p) => p.id === id);
-    if (!product) {
-      console.error(`Product with ID ${id} not found`);
+    const matchingProducts = products.filter((p) => createSlug(p.name) === slug);
+    if (matchingProducts.length === 0) {
+      console.error("Product not found for slug:", slug);
       return null;
     }
-
-    // Kiểm tra slug có khớp với định dạng không
-    const expectedSlug = `${createSlug(product.name)}-${product.id}`;
-    if (expectedSlug !== slug) {
-      console.error(`Slug mismatch: expected ${expectedSlug}, got ${slug}`);
-      return null;
-    }
-
-    return product.id;
+    return matchingProducts[0];
   } catch (error) {
     console.error("Lỗi khi tìm sản phẩm bằng slug:", error);
     return null;
   }
 }
 
-// Hàm lấy chi tiết sản phẩm
-async function getProductById(id: number): Promise<ProductDTO | null> {
+// Hàm lấy sản phẩm liên quan
+async function fetchRelatedProducts(productId: number): Promise<ProductDTO[]> {
   try {
-    const res = await fetch(`${API_BASE_URL}/api/products/${id}/detail`, { cache: "no-store" });
-    if (!res.ok) throw new Error("Product not found");
-    return await res.json();
+    const res = await fetch(`${API_BASE_URL}/api/products/${productId}/related`, {
+      cache: "force-cache",
+      next: { revalidate: 3600 },
+    });
+    if (!res.ok) {
+      console.error("API error:", res.status, res.statusText);
+      throw new Error("Failed to fetch related products");
+    }
+    const relatedProducts: ProductDTO[] = await res.json();
+    console.log("Related products from API:", relatedProducts);
+    return relatedProducts.slice(0, 4) || [];
   } catch (error) {
-    console.error("Lỗi khi lấy dữ liệu sản phẩm:", error);
-    return null;
+    console.error("Lỗi khi lấy sản phẩm liên quan:", error);
+    return [];
+  }
+}
+
+// Hàm lấy bình luận sản phẩm
+async function fetchProductReviews(productId: number): Promise<ReviewDTO[]> {
+  try {
+    const res = await fetch(`${API_BASE_URL}/api/reviews/product/${productId}`, {
+      cache: "force-cache",
+      next: { revalidate: 3600 },
+    });
+    if (!res.ok) {
+      console.error("API error:", res.status, res.statusText);
+      throw new Error("Failed to fetch product reviews");
+    }
+    const reviews: ReviewDTO[] = await res.json();
+    console.log("Product reviews from API:", reviews);
+    return reviews || [];
+  } catch (error) {
+    console.error("Lỗi khi lấy bình luận sản phẩm:", error);
+    return [];
   }
 }
 
 // Hàm tạo metadata động cho SEO
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
   const { slug } = await params;
-  const id = await findProductIdBySlug(slug);
 
-  if (!id) {
-    return {
-      title: "Không tìm thấy sản phẩm | Hoa Tươi UIT",
-      description: "Sản phẩm yêu cầu không tồn tại.",
-    };
-  }
-
-  const product = await getProductById(id);
+  const product = await findProductBySlug(slug);
   if (!product) {
     return {
       title: "Không tìm thấy sản phẩm | Hoa Tươi UIT",
@@ -125,7 +205,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       priceCurrency: "VND",
       availability: product.isActive ? "InStock" : "OutOfStock",
     },
-    image: `${API_BASE_URL}${product.imageUrl}`,
+    image: fixImageUrl(product.imageUrl),
     category: product.categoryName,
   };
 
@@ -141,7 +221,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     openGraph: {
       title: product.name,
       description: getMetaDescription(product.description),
-      images: [`${API_BASE_URL}${product.imageUrl}`],
+      images: [fixImageUrl(product.imageUrl)],
       type: "website",
       url: `https://hoatuoiuit.id.vn/products/${slug}`,
     },
@@ -152,23 +232,37 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 }
 
 // Server Component
-export default async function ProductDetails({ params }: { params: Promise<{ slug: string }> }) {
+export default async function ProductDetails({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ slug: string }>;
+  searchParams: Promise<{ page?: string }>;
+}) {
   const { slug } = await params;
-  const id = await findProductIdBySlug(slug);
+  const product = await findProductBySlug(slug);
 
-  if (!id) {
-    notFound();
-  }
-
-  const product = await getProductById(id);
   if (!product) {
     notFound();
   }
 
-  // Hàm sửa URL hình ảnh
-  const fixImageUrl = (url: string) => {
-    return url.startsWith("http") ? url : `${API_BASE_URL}${url}`;
-  };
+  // Lấy danh sách sản phẩm liên quan
+  const relatedProducts = await fetchRelatedProducts(product.id);
+
+  // Lấy danh sách bình luận sản phẩm
+  const reviews = await fetchProductReviews(product.id);
+
+  // Ánh xạ ProductDTO sang Product cho ProductCarousel
+  const formattedProducts = relatedProducts.map((relatedProduct) => ({
+    id: relatedProduct.id,
+    title: relatedProduct.name,
+    category: relatedProduct.occasionNames.join(", ") || relatedProduct.categoryName,
+    price: relatedProduct.finalPrice,
+    rating: relatedProduct.averageRating > 0 ? relatedProduct.averageRating : 4.9,
+    img: relatedProduct.imageUrl,
+    oldPrice: relatedProduct.discountValue > 0 ? relatedProduct.price : undefined,
+    discount: relatedProduct.discountValue > 0 ? `-${relatedProduct.discountValue}%` : undefined,
+  }));
 
   const structuredData = {
     "@context": "https://schema.org",
@@ -185,9 +279,9 @@ export default async function ProductDetails({ params }: { params: Promise<{ slu
     category: product.categoryName,
   };
 
-  // Giả lập rating và số lượng đánh giá (vì API trả về averageRating = 0)
+  // Giả lập rating và số lượng đánh giá
   const rating = product.averageRating > 0 ? product.averageRating : 4.9;
-  const reviewsCount = 245; // Hardcode, thay bằng dữ liệu thật nếu API cung cấp
+  const reviewsCount = 245;
 
   return (
     <>
@@ -197,52 +291,116 @@ export default async function ProductDetails({ params }: { params: Promise<{ slu
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
         />
       </head>
-      <div className="max-w-5xl mx-auto p-6 bg-white shadow-md rounded-lg text-black mt-6">
-        {/* Product Display */}
-        <div className="flex flex-col md:flex-row gap-6">
-          {/* Left Section */}
-          <div className="md:w-2/3">
-            <Image
-              src={fixImageUrl(product.imageUrl)}
-              alt={product.name}
-              className="w-full rounded-lg"
-              width={200}
-              height={300}
-            />
-          </div>
-
-          {/* Right Section */}
-          <div>
-            <h3 className="text-gray-500">{product.categoryName}</h3>
-            <h2 className="text-2xl font-semibold">{product.name}</h2>
-            <div className="flex items-center mt-2">
-              <div className="flex text-yellow-500">
-                {[...Array(5)].map((_, i) => (
-                  <FontAwesomeIcon key={i} icon={faStar} />
-                ))}
+      <Suspense fallback={<LoadingFallback />}>
+        <div className="max-w-5xl mx-auto p-6 bg-white shadow-md rounded-lg text-black mt-6">
+          {/* Product Display */}
+          <div className="flex flex-col md:flex-row gap-6">
+            {/* Left Section - Hình ảnh chiếm 1/3 */}
+            <div className="md:w-1/3 flex justify-center">
+              <div className="bg-white p-5 rounded-2xl shadow-md w-45 md:w-60 relative overflow-hidden">
+                <Image
+                  src={fixImageUrl(product.imageUrl)}
+                  alt={product.name}
+                  className="rounded-xl"
+                  width={200}
+                  height={200}
+                />
               </div>
-              <span className="text-gray-600 ml-2">
-                {rating} ({reviewsCount} Reviews)
-              </span>
             </div>
 
-            {/* Price */}
-            <div className="text-lg font-bold mt-2">
-              {new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(product.finalPrice)}{" "}
-              {product.discountValue > 0 && (
-                <span className="text-gray-500 line-through ml-2">
-                  {new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(product.price)}
+            {/* Right Section - Chi tiết chiếm 2/3 */}
+            <div className="md:w-2/3">
+              <h3 className="text-gray-500">{product.occasionNames.join(", ")}</h3>
+              <h2 className="text-2xl font-semibold">{product.name}</h2>
+              <div className="flex items-center mt-2">
+                <div className="flex text-yellow-500">
+                        {[...Array(5)].map((_, i) => (
+                          <FontAwesomeIcon
+                            key={i}
+                            icon={faStar}
+                            className={i < rating ? "text-yellow-500" : "text-gray-300"}
+                          />
+                        ))}
+                      </div>
+                <span className="text-gray-600 ml-2">
+                  {rating} ({reviewsCount} Reviews)
                 </span>
-              )}
+              </div>
+
+              {/* Price */}
+              <div className="text-lg font-bold mt-2">
+                {new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(product.finalPrice)}{" "}
+                {product.discountValue > 0 && (
+                  <span className="text-gray-500 line-through ml-2">
+                    {new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(product.price)}
+                  </span>
+                )}
+              </div>
+
+              <div className="mt-4">{product.description.replace(/<[^>]+>/g, "")}</div>
+
+              {/* Tùy chọn kích thước, số lượng, nút hành động */}
+              <ProductActions productId={product.id} isFavorited={product.isFavorited} />
             </div>
-
-            <div className="mt-4">{product.description.replace(/<[^>]+>/g, "").slice(0, 150)}</div>
-
-            {/* Tùy chọn kích thước, số lượng, nút hành động */}
-            <ProductActions productId={product.id} isFavorited={product.isFavorited} />
           </div>
         </div>
-      </div>
+
+        {/* Section sản phẩm liên quan */}
+        <Suspense fallback={<RelatedProductsLoadingFallback />}>
+          <div className="mx-4 md:mx-12 lg:mx-32">
+            <h3 className="text-2xl font-semibold mb-4 text-black mt-8">Sản phẩm liên quan</h3>
+            {formattedProducts.length > 0 ? (
+              <ProductCarousel products={formattedProducts} />
+            ) : (
+              <p className="text-gray-500 text-center">Không có sản phẩm liên quan.</p>
+            )}
+          </div>
+        </Suspense>
+
+        {/* Section bình luận sản phẩm */}
+        <Suspense fallback={<ReviewsLoadingFallback />}>
+          <div className="mx-4 md:mx-12 lg:mx-32 mt-8">
+            <h3 className="text-2xl font-semibold mb-4 text-black">Bình luận sản phẩm</h3>
+            {reviews.length > 0 ? (
+              <div className="space-y-4">
+                {reviews.map((review) => (
+                  <div key={review.id} className="bg-white p-4 rounded-lg shadow-md">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center">
+                        <span className="font-semibold text-gray-800">{review.customerName}</span>
+                        {review.isVerified && (
+                          <span className="ml-2 bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded">
+                            Đã xác minh
+                          </span>
+                        )}
+                      </div>
+                      <div className="flex text-yellow-500">
+                        {[...Array(5)].map((_, i) => (
+                          <FontAwesomeIcon
+                            key={i}
+                            icon={faStar}
+                            className={i < review.rating ? "text-yellow-500" : "text-gray-300"}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                    <p className="text-gray-600 mt-2">{review.comment}</p>
+                    <p className="text-xs text-gray-400 mt-1">
+                      {new Date(review.createdAt).toLocaleDateString("vi-VN", {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                      })}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="text-gray-500 text-center">Chưa có bình luận nào cho sản phẩm này.</p>
+            )}
+          </div>
+        </Suspense>
+      </Suspense>
     </>
   );
 }
