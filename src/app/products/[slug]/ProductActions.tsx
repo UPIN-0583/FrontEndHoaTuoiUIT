@@ -18,7 +18,7 @@ export default function ProductActions({ productId, isFavorited }: ProductAction
   const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
 
   // Base URL cho API
-  const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
+  const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "https://backendhoatuoiuit.onrender.com";
 
   // Thêm vào giỏ hàng
   const handleAddToCart = async () => {

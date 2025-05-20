@@ -124,7 +124,11 @@ export default function ProductListWrapper({
                     price={product.finalPrice}
                     category={product.occasionNames.join(", ") || product.categoryName}
                     oldPrice={product.discountValue > 0 ? product.price : undefined}
-                    discount={product.discountValue > 0 ? `-${product.discountValue}%` : undefined}
+                    discount={
+                      product.discountValue > 0 && product.price > 0
+                        ? `-${((product.discountValue / product.price) * 100).toFixed(0)}%`
+                        : undefined
+                    }
                     rating={product.averageRating > 0 ? product.averageRating : 4.9}
                     img={fixImageUrl(product.imageUrl)}
                   />
