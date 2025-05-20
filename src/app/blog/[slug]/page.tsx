@@ -84,7 +84,7 @@ export async function generateMetadata({ params }): Promise<Metadata> {
         description: getMetaDescription(blog.content),
         images: [`${API_BASE_URL}${blog.thumbnailUrl}`],
         type: "article",
-        url: `https://yourdomain.com/blog/${slug}`,
+        url: `https://hoatuoiuit.id.vn/blog/${slug}`,
       },
       other: {
         "structured-data": JSON.stringify(structuredData),

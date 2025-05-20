@@ -375,11 +375,6 @@ export default async function ProductDetails({
                     <div className="flex items-center justify-between">
                       <div className="flex items-center">
                         <span className="font-semibold text-gray-800">{review.customerName}</span>
-                        {review.isVerified && (
-                          <span className="ml-2 bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded">
-                            Đã xác minh
-                          </span>
-                        )}
                       </div>
                       <div className="flex text-yellow-500">
                         {[...Array(5)].map((_, i) => (
@@ -389,6 +384,7 @@ export default async function ProductDetails({
                             className={i < review.rating ? "text-yellow-500" : "text-gray-300"}
                           />
                         ))}
+                        <span className="text-black ml-2">{review.rating}</span>
                       </div>
                     </div>
                     <p className="text-gray-600 mt-2">{review.comment}</p>

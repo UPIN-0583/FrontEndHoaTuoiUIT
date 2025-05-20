@@ -2,52 +2,33 @@
 import { faEye, faRocket } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import Head from 'next/head'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Image from "next/image"
 import FeedbackCarousel from "../components/FeedbackCarousel"
+import { faStar } from "@fortawesome/free-solid-svg-icons";
 
-const feedbacks = [
-    {
-        rating: 5,
-        title: "Hoa Đẹp Quá!",
-        content:
-            "Tôi thực sự ấn tượng với chất lượng hoa và dịch vụ ở đây. Những bó hoa luôn tươi mới, được sắp xếp tỉ mỉ và đẹp mắt. Nhân viên phục vụ rất nhiệt tình và chu đáo.",
-        name: "Nguyễn Thị Hương",
-        role: "Khách hàng thân thiết",
-        image:
-            "https://randomuser.me/api/portraits/women/4.jpg",
-    },
-    {
-        rating: 5,
-        title: "Dịch Vụ Tuyệt Vời!",
-        content:
-            "Đã là khách hàng thường xuyên của shop được 2 năm. Hoa luôn tươi mới, giao hàng đúng giờ và nhân viên rất thân thiện. Đặc biệt là những bó hoa được thiết kế rất độc đáo và ý nghĩa.",
-        name: "Trần Minh Anh",
-        role: "Khách hàng thân thiết",
-        image:
-            "https://randomuser.me/api/portraits/women/1.jpg",
-    },
-    {
-        rating: 5,
-        title: "Hài Lòng 100%",
-        content:
-            "Shop hoa này thực sự đã làm tôi ngạc nhiên. Từ chất lượng hoa đến cách phục vụ đều rất chuyên nghiệp. Những bó hoa luôn được gói cẩn thận và đẹp mắt.",
-        name: "Lê Thị Mai",
-        role: "Khách hàng thân thiết",
-        image:
-            "https://randomuser.me/api/portraits/women/2.jpg",
-    },
-    {
-        rating: 5,
-        title: "Đáng Để Quay Lại",
-        content:
-            "Lần đầu tiên đặt hoa ở đây và tôi rất hài lòng. Hoa tươi, đẹp và được giao đúng hẹn. Nhân viên tư vấn rất nhiệt tình và am hiểu về các loại hoa.",
-        name: "Phạm Thị Hà",
-        role: "Khách hàng mới",
-        image:
-            "https://randomuser.me/api/portraits/women/3.jpg",
-    },
-];
+// Định nghĩa interface cho dữ liệu từ API
+interface ApiFeedback {
+  id: number;
+  customerId: number;
+  productId: number;
+  rating: number;
+  comment: string;
+  isVerified: boolean;
+  customerName: string;
+  productName: string;
+  createdAt: string;
+}
+
+// Định nghĩa interface cho FeedbackCard
+interface Feedback {
+  rating: number;
+  title: string;
+  content: string;
+  name: string;
+  role: string;
+  image: string;
+}
 
 const flowerImages = [
     {
@@ -125,26 +106,62 @@ const flowerImages = [
 ]
 
 export default function About() {
-    const [selectedImage, setSelectedImage] = useState<FlowerImage | null>(null);
+  const [selectedImage, setSelectedImage] = useState<FlowerImage | null>(null);
+  const [feedbacks, setFeedbacks] = useState<Feedback[]>([]); // State để lưu dữ liệu feedback từ API
+  const [loading, setLoading] = useState(true); // State để xử lý trạng thái loading
+  const [error, setError] = useState<string | null>(null); // State để xử lý lỗi
 
-    interface FlowerImage {
-        id: number;
-        src: string;
-        alt: string;
-        width: number;
-        height: number;
-        className: string;
-    }
+  interface FlowerImage {
+    id: number;
+    src: string;
+    alt: string;
+    width: number;
+    height: number;
+    className: string;
+  }
 
+  // Hàm gọi API
+  useEffect(() => {
+    const fetchFeedbacks = async () => {
+      try {
+        const response = await fetch(
+          "https://backendhoatuoiuit.onrender.com/api/reviews"
+        );
+        if (!response.ok) {
+          throw new Error("Không thể lấy dữ liệu từ API");
+        }
+        const data: ApiFeedback[] = await response.json();
 
+        // Chuyển đổi dữ liệu API sang định dạng của FeedbackCard
+        const mappedFeedbacks: Feedback[] = data.map((item) => ({
+          rating: item.rating,
+          title: `Đánh giá cho ${item.productName}`, // Tạo tiêu đề từ productName
+          content: item.comment,
+          name: item.customerName,
+          role: item.isVerified ? "Khách hàng đã xác minh" : "Khách hàng", // Gán role dựa trên isVerified
+          image: item.customerId % 2 === 0 
+            ? "/avatars/avatar1.jpg" 
+            : "/avatars/avatar2.jpg",
+        }));
+
+        setFeedbacks(mappedFeedbacks);
+        setLoading(false);
+      } catch (err: any) {
+        setError(err.message);
+        setLoading(false);
+      }
+    };
+
+        fetchFeedbacks();
+    }, []);
 
     const handleImageClick = (image: FlowerImage) => {
-        setSelectedImage(image)
-    }
+        setSelectedImage(image);
+    };
 
     const closeModal = () => {
-        setSelectedImage(null)
-    }
+        setSelectedImage(null);
+    };
 
     return (
         <div>
@@ -242,8 +259,8 @@ export default function About() {
 
                         {/* Text */}
                         <div className="text-sm">
-                            <p className="font-semibold leading-4">4.9+ Star</p>
-                            <p className="text-xs">Review</p>
+                            <p className="font-semibold leading-4 ">4.9+ <span className="text-yellow-500"><FontAwesomeIcon icon={faStar} /></span> </p>
+                            <p className="text-xs">Đánh giá</p>
                         </div>
                     </div>
                 </div>
@@ -288,8 +305,7 @@ export default function About() {
                             width={220}
                             height={700}
                             className="rounded-md object-cover " />
-                        <p className="font-semibold">V.T.Thời</p>
-                        <p className="text-gray-400 text-base">Nhóm trưởng</p>
+                        <p className="font-semibold text-center">Võ Tấn Thời</p>
                     </div>
                     <div>
                         <Image
@@ -298,8 +314,7 @@ export default function About() {
                             width={220}
                             height={700}
                             className="rounded-md object-cover " />
-                        <p className="font-semibold">V.T.Thời</p>
-                        <p className="text-gray-400 text-base">Nhóm trưởng</p>
+                        <p className="font-semibold text-center">Trương Quốc Huy</p>
                     </div>
                     <div>
                         <Image
@@ -308,8 +323,7 @@ export default function About() {
                             width={220}
                             height={700}
                             className="rounded-md object-cover " />
-                        <p className="font-semibold">V.T.Thời</p>
-                        <p className="text-gray-400 text-base">Nhóm trưởng</p>
+                        <p className="font-semibold text-center">Mai Hoàng Vinh</p>
                     </div>
                     <div>
                         <Image
@@ -318,8 +332,7 @@ export default function About() {
                             width={220}
                             height={700}
                             className="rounded-md object-cover " />
-                        <p className="font-semibold">V.T.Thời</p>
-                        <p className="text-gray-400 text-base">Nhóm trưởng</p>
+                        <p className="font-semibold text-center">Phạm Minh Tiến</p>
                     </div>
                     <div>
                         <Image
@@ -328,80 +341,29 @@ export default function About() {
                             width={220}
                             height={700}
                             className="rounded-md object-cover " />
-                        <p className="font-semibold">V.T.Thời</p>
-                        <p className="text-gray-400 text-base">Nhóm trưởng</p>
+                        <p className="font-semibold text-center">Chí Nhịt Phú</p>
                     </div>
                 </div>
             </div>
-            <div className="bg-purple-800 py-4 px-2 md:px-20">
-                <ul className="flex justify-between">
-                    <li>
-                        <Image
-                            src="/images/icons/rose4.svg"
-                            alt="rose"
-                            width={30}
-                            height={30}
-                            className="w-4 h-4 md:w-8 md:h-8 " />
-                    </li>
-                    <li className=" text-xs md:text-2xl text-white">Birthday</li>
-                    <li>
-                        <Image
-                            src="/images/icons/rose4.svg"
-                            alt="rose"
-                            width={30}
-                            height={30}
-                            className="w-4 h-4 md:w-8 md:h-8 " />
-
-                    </li>
-                    <li className="text-xs md:text-2xl text-white">Weddings</li>
-                    <li>
-                        <Image
-                            src="/images/icons/rose4.svg"
-                            alt="rose"
-                            width={30}
-                            height={30}
-                            className="w-4 h-4 md:w-8 md:h-8 " />
-
-
-                    </li>
-                    <li className="text-xs md:text-2xl text-white">Anniversary</li>
-                    <li>
-                        <Image
-                            src="/images/icons/rose4.svg"
-                            alt="rose"
-                            width={30}
-                            height={30}
-                            className="w-4 h-4 md:w-8 md:h-8 " />
-
-                    </li>
-                    <li className="text-xs md:text-2xl text-white">ThankYou</li>
-                    <li>
-                        <Image
-                            src="/images/icons/rose4.svg"
-                            alt="rose"
-                            width={30}
-                            height={30}
-                            className="w-4 h-4 md:w-8 md:h-8 " />
-
-                    </li>
-                    <li className="text-xs md:text-2xl text-white">Graduation</li>
-                    <li>
-                        <Image
-                            src="/images/icons/rose4.svg"
-                            alt="rose"
-                            width={30}
-                            height={30}
-                            className="w-4 h-4 md:w-8 md:h-8 " />
-
-                    </li>
-                </ul>
-            </div>
+            
+            {/* Phần Feedback */}
             <div className="bg-[#f7f7f7] py-16 px-4 md:px-20">
                 <div className="px-4 md:px-20">
-                    <p className="text-center text-2xl">Đánh Giá Từ Khách Hàng</p>
-                    <p className="font-semibold text-4xl text-center">Trải Nghiệm <span className="font-semibold text-4xl text-center text-purple-500">Từ Khách Hàng</span> </p>
+                <p className="text-center text-2xl">Đánh Giá Từ Khách Hàng</p>
+                <p className="font-semibold text-4xl text-center">
+                    Trải Nghiệm{" "}
+                    <span className="font-semibold text-4xl text-center text-purple-500">
+                    Từ Khách Hàng
+                    </span>
+                </p>
                 </div>
+                {loading ? (
+                <p className="text-center">Đang tải đánh giá...</p>
+                ) : error ? (
+                <p className="text-center text-red-500">{error}</p>
+                ) : (
                 <FeedbackCarousel feedbacks={feedbacks} />
+                )}
             </div>
             <div>
                 <div className="min-h-screen bg-gray-50">
