@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { FaEye, FaEyeSlash, FaBars, FaUser, FaBoxOpen, FaMapMarkerAlt, FaCreditCard, FaLock, FaSignOutAlt } from "react-icons/fa";
-import OderItem from "../components/OderItems";
 import { toast } from "react-toastify";
 
 // Định nghĩa kiểu dữ liệu cho đơn hàng và sản phẩm trong đơn hàng
@@ -42,11 +41,12 @@ export default function Account() {
   const user_id = localStorage.getItem("id");
   const token = localStorage.getItem("token");
   const [orders, setOrders] = useState<Order[]>([]);
+  const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
   useEffect(() => {
     if (!user_id) return;
 
-    fetch(`https://backendhoatuoiuit.onrender.com/api/customers/${user_id}`)
+    fetch(`${API_BASE_URL}/api/customers/${user_id}`)
       .then((res) => {
         if (!res.ok) {
           throw new Error("Network response was not ok");
@@ -65,7 +65,7 @@ export default function Account() {
         console.error("Fetch error:", error);
       });
 
-    fetch(`https://backendhoatuoiuit.onrender.com/api/orders/customer/${user_id}`, {
+    fetch(`${API_BASE_URL}/api/orders/customer/${user_id}`, {
       headers: {
         'Authorization': `Bearer ${token}`
       }
@@ -82,23 +82,14 @@ export default function Account() {
       .catch((error) => {
         console.error("Fetch error:", error);
       });
-  }, [user_id]);
+  }, [user_id, token, API_BASE_URL]);
 
-
-  const [formData, setFormData] = useState(user);
   const [avatar, setAvatar] = useState("/avatars/avatar1.jpg");
   const [activeSection, setActiveSection] = useState("Thông Tin Cá Nhân");
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
-
   const handleUpdate = async () => {
     try {
-      const res = await fetch(`https://backendhoatuoiuit.onrender.com/api/customers/${user_id}`, {
+      const res = await fetch(`${API_BASE_URL}/api/customers/${user_id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -128,7 +119,7 @@ export default function Account() {
 
   const handleUpdateAddress = async () => {
     try {
-      const res = await fetch(`https://backendhoatuoiuit.onrender.com/api/customers/${user_id}`, {
+      const res = await fetch(`${API_BASE_URL}/api/customers/${user_id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -149,13 +140,10 @@ export default function Account() {
     }
   };
 
-  const initialDeliveredOrder = [
-    { id: 5, name: "Red Rose", occasion: "Bouquet", image: "/images/flowers/hoa3.jpg" },
-  ];
-
-
-
-
+  // Hàm định dạng tiền tệ
+  const formatCurrency = (value: number) => {
+    return new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(value);
+  };
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [newPassword, setNewPassword] = useState("");
@@ -309,11 +297,13 @@ export default function Account() {
                       <div>
                         <p className="font-bold">Tổng Thanh Toán</p>
                         <p>
-                          ${order.items?.reduce((sum, item) => {
-                            const original = item.price * item.quantity;
-                            const discount = item.discountApplied || 0;
-                            return sum + (original - discount);
-                          }, 0).toFixed(2)}
+                          {formatCurrency(
+                            order.items?.reduce((sum, item) => {
+                              const original = item.price * item.quantity;
+                              const discount = (item.discountApplied || 0) * item.quantity;
+                              return sum + (original - discount);
+                            }, 0)
+                          )}
                         </p>
                       </div>
                       <div>
@@ -345,9 +335,9 @@ export default function Account() {
                             <tr key={idx} className="border-t">
                               <td className="px-2 py-1">{item.productName}</td>
                               <td className="px-2 py-1">{item.quantity}</td>
-                              <td className="px-2 py-1">${(item.price * item.quantity).toFixed(2)}</td>
-                              <td className="px-2 py-1">${item.discountApplied?.toFixed(2)}</td>
-                              <td className="px-2 py-1">${(item.price * item.quantity - item.discountApplied).toFixed(2)}</td>
+                              <td className="px-2 py-1">{formatCurrency(item.price * item.quantity)}</td>
+                              <td className="px-2 py-1">{formatCurrency((item.discountApplied || 0) * item.quantity)}</td>
+                              <td className="px-2 py-1">{formatCurrency(item.price * item.quantity - item.discountApplied * item.quantity)}</td>
                             </tr>
                           )) : (
                             <tr><td colSpan={5} className="text-center text-gray-400 py-2">Không có sản phẩm</td></tr>

@@ -368,7 +368,14 @@ export default function CheckoutAddressContent() {
                             <p className="text-sm text-gray-500">Số lượng: {item.quantity}</p>
                           </div>
                         </div>
-                        <p className="font-medium">{formatCurrency(item.priceAfterDiscount * item.quantity)}</p>
+                        <div>
+                          <p className="font-medium">{formatCurrency(item.priceAfterDiscount * item.quantity)}</p>
+                          {item.discountApplied > 0 && (
+                            <span className="text-gray-400 line-through">
+                              {formatCurrency(item.price)}
+                            </span>
+                          )}
+                        </div>
                       </div>
                     );
                   })}
