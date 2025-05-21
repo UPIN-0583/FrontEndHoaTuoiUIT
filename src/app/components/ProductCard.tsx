@@ -45,10 +45,12 @@ export default function ProductCard({ id, title, price, category, oldPrice, disc
         const data = await res.text();
         if (data === "Internal server error: Item already exists in wishlist") {
           toast.error("Sản phẩm đã có trong wishlist!");
+          router.push("/wishlist"); 
         }
         return;
       }
       toast.success("Đã thêm vào wishlist!");
+      router.push("/wishlist"); 
     } catch (err) {
       toast.error("Có lỗi xảy ra khi thêm vào wishlist!");
     }
@@ -84,6 +86,7 @@ export default function ProductCard({ id, title, price, category, oldPrice, disc
 
       if (!res.ok) throw new Error("Thêm vào giỏ hàng thất bại");
       toast.success("Đã thêm vào giỏ hàng!");
+      router.push("/cart");
     } catch (err) {
       toast.error("Có lỗi xảy ra khi thêm vào giỏ hàng!");
     }
@@ -91,7 +94,7 @@ export default function ProductCard({ id, title, price, category, oldPrice, disc
 
 
   return (
-    <div className="group bg-white p-5 rounded-2xl shadow-md w-45 md:w-60 relative overflow-hidden hover:bg-gray-100 transition-colors duration-300">
+    <div className="group bg-white p-4 md:p-5 rounded-2xl shadow-md w-[180px] md:w-[240px] min-h-[280px] md:min-h-[320px] relative overflow-hidden hover:bg-gray-100 transition-colors duration-300">
       {/* Phần hình ảnh */}
       <div className="relative">
         {/* Hiển thị discount nếu có */}
@@ -126,7 +129,7 @@ export default function ProductCard({ id, title, price, category, oldPrice, disc
             <span className="text-black">{rating}</span>
           </div>
         </div>
-        <h4 className="font-semibold text-black">{title}</h4>
+        <h4 className="font-semibold text-black text-sm md:text-lg truncate">{title}</h4>
         <div className="flex items-center gap-2">
           <span className="text-lg font-bold text-black">
             {new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(price)}

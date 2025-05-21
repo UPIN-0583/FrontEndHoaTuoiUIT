@@ -145,7 +145,7 @@ async function fetchRelatedProducts(productId: number): Promise<ProductDTO[]> {
       throw new Error("Failed to fetch related products");
     }
     const relatedProducts: ProductDTO[] = await res.json();
-    console.log("Related products from API:", relatedProducts);
+    // console.log("Related products from API:", relatedProducts);
     return relatedProducts.slice(0, 4) || [];
   } catch (error) {
     console.error("Lỗi khi lấy sản phẩm liên quan:", error);
@@ -165,7 +165,7 @@ async function fetchProductReviews(productId: number): Promise<ReviewDTO[]> {
       throw new Error("Failed to fetch product reviews");
     }
     const reviews: ReviewDTO[] = await res.json();
-    console.log("Product reviews from API:", reviews);
+    // console.log("Product reviews from API:", reviews);
     return reviews || [];
   } catch (error) {
     console.error("Lỗi khi lấy bình luận sản phẩm:", error);
@@ -261,7 +261,7 @@ export default async function ProductDetails({
     rating: relatedProduct.averageRating > 0 ? relatedProduct.averageRating : 4.9,
     img: relatedProduct.imageUrl,
     oldPrice: relatedProduct.discountValue > 0 ? relatedProduct.price : undefined,
-    discount: relatedProduct.discountValue > 0 ? `-${relatedProduct.discountValue}%` : undefined,
+    discount: relatedProduct.discountValue > 0 ? `-${((relatedProduct.discountValue / relatedProduct.price) * 100).toFixed(0)}%` : undefined,
   }));
 
   const structuredData = {
@@ -281,7 +281,7 @@ export default async function ProductDetails({
 
   // Giả lập rating và số lượng đánh giá
   const rating = product.averageRating > 0 ? product.averageRating : 4.9;
-  const reviewsCount = 245;
+  const reviewsCount = reviews.length > 0 ? reviews.length : 245;
 
   return (
     <>
@@ -296,13 +296,18 @@ export default async function ProductDetails({
           {/* Product Display */}
           <div className="flex flex-col md:flex-row gap-6">
             {/* Left Section - Hình ảnh chiếm 1/3 */}
-            <div className="md:w-1/3 flex justify-center">
-              <div className="bg-white p-5 rounded-2xl shadow-md w-45 md:w-60 relative overflow-hidden">
+            <div className="w-full max-w-[280px] mx-auto md:w-1/3 flex justify-center">
+              <div className="bg-white p-5 rounded-2xl shadow-md w-full max-w-[280px] md:w-[240px] relative overflow-hidden">
+                {product.discountValue > 0 && (
+                  <span className="absolute top-2 left-2 bg-purple-500 text-white px-2 py-1 text-xs rounded-full">
+                    -{((product.discountValue / product.price) * 100).toFixed(0)}% off
+                  </span>
+                )}
                 <Image
                   src={fixImageUrl(product.imageUrl)}
                   alt={product.name}
                   className="rounded-xl"
-                  width={200}
+                  width={300}
                   height={200}
                 />
               </div>
@@ -347,8 +352,10 @@ export default async function ProductDetails({
 
         {/* Section sản phẩm liên quan */}
         <Suspense fallback={<RelatedProductsLoadingFallback />}>
-          <div className="mx-4 md:mx-12 lg:mx-32">
-            <h3 className="text-2xl font-semibold mb-4 text-black mt-8">Sản phẩm liên quan</h3>
+          <div className="px-2 md:px-12 lg:px-32 my-4 md:my-6">
+            <h3 className="text-xl md:text-2xl font-semibold mb-4 text-black mt-4 md:mt-8">
+              Sản phẩm liên quan
+            </h3>
             {formattedProducts.length > 0 ? (
               <ProductCarousel products={formattedProducts} />
             ) : (
@@ -368,11 +375,6 @@ export default async function ProductDetails({
                     <div className="flex items-center justify-between">
                       <div className="flex items-center">
                         <span className="font-semibold text-gray-800">{review.customerName}</span>
-                        {review.isVerified && (
-                          <span className="ml-2 bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded">
-                            Đã xác minh
-                          </span>
-                        )}
                       </div>
                       <div className="flex text-yellow-500">
                         {[...Array(5)].map((_, i) => (
@@ -382,6 +384,7 @@ export default async function ProductDetails({
                             className={i < review.rating ? "text-yellow-500" : "text-gray-300"}
                           />
                         ))}
+                        <span className="text-black ml-2">{review.rating}</span>
                       </div>
                     </div>
                     <p className="text-gray-600 mt-2">{review.comment}</p>

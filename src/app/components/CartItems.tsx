@@ -5,10 +5,11 @@ import { faTrash } from "@fortawesome/free-solid-svg-icons";
 export interface CartItemType {
   id: number;
   productName: string;
+  discountApplied: number;
+  priceAfterDiscount: number; // Đổi từ price thành finalPrice
   price: number;
   quantity: number;
   imageUrl: string;
-
 }
 
 interface CartItemProps {
@@ -18,6 +19,15 @@ interface CartItemProps {
   isMobile: boolean;
 }
 
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "https://backendhoatuoiuit.onrender.com";
+
+const formatCurrency = (amount: number) => {
+  return new Intl.NumberFormat("vi-VN", {
+    style: "currency",
+    currency: "VND",
+  }).format(amount);
+};
+
 const CartItem = ({ item, removeItem, updateQuantity, isMobile }: CartItemProps) => {
   return (
     <div className="p-4 rounded-lg shadow-md">
@@ -25,15 +35,18 @@ const CartItem = ({ item, removeItem, updateQuantity, isMobile }: CartItemProps)
         {/* Product Info */}
         <div className="flex items-center gap-4 flex-1">
           <Image
-            src={item.imageUrl}
+            src={`${API_BASE_URL}${item.imageUrl}`}
             alt={item.productName}
             width={64}
             height={64}
             className="w-16 h-16 object-cover"
+            onError={(e) => {
+              e.currentTarget.src = "https://via.placeholder.com/64x64.png?text=No+Image";
+            }}
           />
           <div className={isMobile ? "flex-1" : ""}>
             <h3 className="font-semibold text-lg">{item.productName}</h3>
-            <p className="text-gray-600">${item.price.toFixed(2)}</p>
+            <p className="text-gray-600">{formatCurrency(item.priceAfterDiscount)}</p> {/* Sử dụng finalPrice */}
           </div>
           {/* Remove Button for Mobile */}
           {isMobile && (
@@ -65,7 +78,7 @@ const CartItem = ({ item, removeItem, updateQuantity, isMobile }: CartItemProps)
               </button>
             </div>
             <p className="text-lg font-bold">
-              ${(item.price * item.quantity).toFixed(2)}
+              {formatCurrency(item.priceAfterDiscount * item.quantity)} {/* Sử dụng finalPrice */}
             </p>
             <button
               onClick={() => removeItem(item.id)}
@@ -96,7 +109,7 @@ const CartItem = ({ item, removeItem, updateQuantity, isMobile }: CartItemProps)
             </button>
           </div>
           <p className="text-lg font-bold">
-            ${(item.price * item.quantity).toFixed(2)}
+            {formatCurrency(item.priceAfterDiscount * item.quantity)} {/* Sử dụng finalPrice */}
           </p>
         </div>
       )}

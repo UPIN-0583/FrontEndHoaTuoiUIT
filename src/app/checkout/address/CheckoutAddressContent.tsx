@@ -1,4 +1,5 @@
 "use client";
+
 import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
@@ -10,19 +11,30 @@ export default function CheckoutAddressContent() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [orderDetails, setOrderDetails] = useState<any>(null);
-  const [product, setProduct] = useState<any>(null);
+  const [productDetails, setProductDetails] = useState<Map<number, { imageUrl: string; name: string }>>(new Map());
 
   const router = useRouter();
   const searchParams = useSearchParams();
   const orderId = searchParams.get("orderId");
   const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
 
-  const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
+  const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "https://backendhoatuoiuit.onrender.com";
+
+  // Hàm chuẩn hóa URL hình ảnh
+  const getImageUrl = (imageUrl) => {
+    if (!imageUrl) return "https://via.placeholder.com/40x40.png?text=No+Image";
+    if (imageUrl.startsWith("http")) return imageUrl;
+    return `${API_BASE_URL}${imageUrl.startsWith("/") ? "" : "/"}${imageUrl}`;
+  };
 
   // Lấy thông tin đơn hàng
   useEffect(() => {
     const fetchOrderDetails = async () => {
-      if (!orderId || !token || !API_BASE_URL) return;
+      if (!orderId || !token || !API_BASE_URL) {
+        setError("Thông tin không hợp lệ!");
+        router.push("/");
+        return;
+      }
 
       setIsLoading(true);
       try {
@@ -45,47 +57,58 @@ export default function CheckoutAddressContent() {
         console.error("Lỗi khi lấy thông tin đơn hàng:", error);
         setError("Không thể lấy thông tin đơn hàng!");
         toast.error("Không thể lấy thông tin đơn hàng!");
+        router.push("/");
       } finally {
         setIsLoading(false);
       }
     };
 
     fetchOrderDetails();
-  }, [orderId, token, API_BASE_URL]);
+  }, [orderId, token, API_BASE_URL, router]);
 
-  // Lấy thông tin sản phẩm duy nhất
+  // Lấy thông tin sản phẩm nếu thiếu imageUrl
   useEffect(() => {
     const fetchProductDetails = async () => {
       if (!orderDetails || !orderDetails.items || orderDetails.items.length === 0 || !token || !API_BASE_URL) return;
 
-      const item = orderDetails.items[0];
-      const productId = item.productId;
+      const missingItems = orderDetails.items.filter((item) => !item.imageUrl && !productDetails.has(item.productId));
+      if (missingItems.length === 0) return;
 
       try {
-        const response = await fetch(`${API_BASE_URL}/api/products/${productId}/detail`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
+        const productPromises = missingItems.map(async (item) => {
+          const response = await fetch(`${API_BASE_URL}/api/products/${item.productId}/detail`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          });
+
+          if (!response.ok) {
+            console.warn(`Không thể lấy thông tin sản phẩm ${item.productId}`);
+            return null;
+          }
+
+          const productData = await response.json();
+          return { productId: item.productId, imageUrl: productData.imageUrl, name: productData.name };
         });
 
-        if (!response.ok) {
-          const errorData = await response.text();
-          throw new Error(`Lấy thông tin sản phẩm ${productId} thất bại: ${errorData}`);
-        }
-
-        const productData = await response.json();
-        setProduct(productData);
-        console.log(`Product details fetched for productId ${productId}:`, productData);
+        const results = await Promise.all(productPromises);
+        const newProductDetails = new Map(productDetails);
+        results.forEach((result) => {
+          if (result) {
+            newProductDetails.set(result.productId, { imageUrl: result.imageUrl, name: result.name });
+          }
+        });
+        setProductDetails(newProductDetails);
       } catch (error) {
-        console.error(`Lỗi khi lấy thông tin sản phẩm ${productId}:`, error);
+        console.error("Lỗi khi lấy thông tin sản phẩm:", error);
         setError("Không thể lấy thông tin sản phẩm!");
         toast.error("Không thể lấy thông tin sản phẩm!");
       }
     };
 
     fetchProductDetails();
-  }, [orderDetails, token, API_BASE_URL]);
+  }, [orderDetails, token, API_BASE_URL, productDetails]);
 
   // Kiểm tra đăng nhập và orderId
   useEffect(() => {
@@ -128,16 +151,16 @@ export default function CheckoutAddressContent() {
 
       if (!response.ok) {
         const errorData = await response.text();
-        throw new Error(`Cập nhật địa chỉ thất bại: ${errorData}`);
+        throw new Error(`Xác nhận địa chỉ thất bại: ${errorData}`);
       }
 
       console.log("Address updated for order:", orderId);
-      toast.success("Đã cập nhật địa chỉ giao hàng!");
+      toast.success("Đã xác nhận địa chỉ giao hàng!");
       setError(null);
     } catch (error) {
-      console.error("Lỗi khi cập nhật địa chỉ:", error);
+      console.error("Lỗi khi xác nhận địa chỉ:", error);
       setError("Đã có lỗi xảy ra. Vui lòng thử lại!");
-      toast.error("Đã có lỗi xảy ra khi cập nhật địa chỉ!");
+      toast.error("Đã có lỗi xảy ra khi xác nhận địa chỉ!");
     } finally {
       setIsLoading(false);
     }
@@ -165,16 +188,16 @@ export default function CheckoutAddressContent() {
 
       if (!response.ok) {
         const errorData = await response.text();
-        throw new Error(`Cập nhật phương thức thanh toán thất bại: ${errorData}`);
+        throw new Error(`Xác nhận phương thức thanh toán thất bại: ${errorData}`);
       }
 
       console.log("Payment method updated for order:", orderId);
-      toast.success("Đã cập nhật phương thức thanh toán!");
+      toast.success("Đã xác nhận phương thức thanh toán!");
       setError(null);
     } catch (error) {
-      console.error("Lỗi khi cập nhật phương thức thanh toán:", error);
+      console.error("Lỗi khi xác nhận phương thức thanh toán:", error);
       setError("Đã có lỗi xảy ra. Vui lòng thử lại!");
-      toast.error("Đã có lỗi xảy ra khi cập nhật phương thức thanh toán!");
+      toast.error("Đã có lỗi xảy ra khi xác nhận phương thức thanh toán!");
     } finally {
       setIsLoading(false);
     }
@@ -225,8 +248,18 @@ export default function CheckoutAddressContent() {
     if (!orderDetails || !orderDetails.items || orderDetails.items.length === 0) {
       return 0;
     }
-    const item = orderDetails.items[0];
-    return item.quantity * item.price;
+    return orderDetails.items.reduce(
+      (total: number, item: any) => total + item.quantity * item.priceAfterDiscount,
+      0
+    );
+  };
+
+  const getItemDisplay = (item) => {
+    const productInfo = productDetails.get(item.productId);
+    return {
+      imageUrl: item.imageUrl || (productInfo?.imageUrl ?? null),
+      name: item.productName || productInfo?.name || "Không xác định",
+    };
   };
 
   if (!orderId || !API_BASE_URL) {
@@ -260,7 +293,7 @@ export default function CheckoutAddressContent() {
                 isLoading ? "opacity-50 cursor-not-allowed" : ""
               }`}
             >
-              {isLoading ? "Đang xử lý..." : "Cập nhật địa chỉ"}
+              {isLoading ? "Đang xử lý..." : "Xác nhận địa chỉ"}
             </button>
           </div>
 
@@ -284,7 +317,7 @@ export default function CheckoutAddressContent() {
                 isLoading ? "opacity-50 cursor-not-allowed" : ""
               }`}
             >
-              {isLoading ? "Đang xử lý..." : "Cập nhật phương thức"}
+              {isLoading ? "Đang xử lý..." : "Xác nhận phương thức"}
             </button>
           </div>
 
@@ -301,47 +334,48 @@ export default function CheckoutAddressContent() {
           </div>
         </div>
 
-        {/* Bên phải: Thông tin đơn hàng */}
         <div className="lg:w-1/2 w-full">
           <h3 className="text-lg font-semibold mb-4">Thông tin đơn hàng</h3>
           {orderDetails ? (
             <div className="border rounded-lg p-4">
               {orderDetails.items && orderDetails.items.length > 0 ? (
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center gap-3">
-                    {/* Hình ảnh sản phẩm */}
-                    {product && product.imageUrl ? (
-                      <Image
-                        src={`${API_BASE_URL}${product.imageUrl}`} // Thêm domain backend vào imageUrl
-                        alt={product.name}
-                        width={40}
-                        height={40}
-                        className="object-cover rounded-md"
-                        placeholder="blur"
-                        blurDataURL="https://via.placeholder.com/40x40.png?text=No+Image"
-                        onError={(e) => {
-                        e.currentTarget.src = "https://via.placeholder.com/40x40.png?text=No+Image";
-                        }}
-                      />
-                    ) : (
-                      <div className="w-10 h-10 bg-gray-200 rounded-md flex items-center justify-center">
-                        <span className="text-gray-500 text-sm">No Image</span>
+                <>
+                  {orderDetails.items.map((item: any) => {
+                    const { imageUrl, name } = getItemDisplay(item);
+                    return (
+                      <div key={item.productId} className="flex items-center justify-between mb-4">
+                        <div className="flex items-center gap-3">
+                          {imageUrl ? (
+                            <Image
+                              src={getImageUrl(imageUrl)}
+                              alt={name}
+                              width={40}
+                              height={40}
+                              className="object-cover rounded-md"
+                              placeholder="blur"
+                              blurDataURL="https://via.placeholder.com/40x40.png?text=No+Image"
+                              onError={(e) => {
+                                e.currentTarget.src = "https://via.placeholder.com/40x40.png?text=No+Image";
+                              }}
+                            />
+                          ) : (
+                            <div className="w-10 h-10 bg-gray-200 rounded-md flex items-center justify-center">
+                              <span className="text-gray-500 text-sm">No Image</span>
+                            </div>
+                          )}
+                          <div>
+                            <p className="font-medium">{name}</p>
+                            <p className="text-sm text-gray-500">Số lượng: {item.quantity}</p>
+                          </div>
+                        </div>
+                        <p className="font-medium">{formatCurrency(item.priceAfterDiscount * item.quantity)}</p>
                       </div>
-                    )}
-                    {/* Tên và số lượng */}
-                    <div>
-                      <p className="font-medium">{product ? product.name : orderDetails.items[0].name || "Không xác định"}</p>
-                      <p className="text-sm text-gray-500">Số lượng: {orderDetails.items[0].quantity}</p>
-                    </div>
-                  </div>
-                  {/* Giá */}
-                  <p className="font-medium">{formatCurrency(orderDetails.items[0].price * orderDetails.items[0].quantity)}</p>
-                </div>
+                    );
+                  })}
+                </>
               ) : (
                 <p className="text-gray-500">Không có sản phẩm trong đơn hàng.</p>
               )}
-
-              {/* Tổng giá */}
               <div className="border-t pt-2 mt-2">
                 <div className="flex justify-between">
                   <p className="font-semibold">Tổng cộng:</p>
