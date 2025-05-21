@@ -16,7 +16,6 @@ const SignUp = () => {
     const [password2, setPassword2] = useState("");
     const [showPassword2, setShowPassword2] = useState(false);
     const [email, setEmail] = useState("");
-    const [userName, setUserName] = useState("");
 
     const togglePasswordVisibility = () => {
         setShowPassword((prev) => !prev);
@@ -27,7 +26,7 @@ const SignUp = () => {
     };
 
     const handleClick = async () => {
-        if (!userName || !password || !password2 || !email) {
+        if (!password || !password2 || !email) {
             toast.warning("Vui lòng điền đầy đủ thông tin");
             return;
         }
@@ -46,22 +45,26 @@ const SignUp = () => {
             return;
         }
 
-        if (password.length < 6) {
-            toast.warning("Yêu cầu mật khẩu hơn 6 kí tự");
+        if (password.length < 8) {
+            toast.warning("Yêu cầu mật khẩu hơn 8 kí tự");
             return;
         }
 
         try {
-            const res = await axios.post(
-                `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/users/register`,
+            const res = await fetch(
+                `https://backendhoatuoiuit.onrender.com/api/customers/signup`,
                 {
-                    user_login_name: userName,
-                    user_password: password,
-                    user_email: email,
-                }
-            );
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        password: password,
+                        email: email,
+                    }),
+                });
 
-            if (res.data.success === false) {
+            if (res.status === 400) {
                 toast.error("Email đã được đăng ký");
             } else {
                 toast.success("Đăng kí thành công, mời đăng nhập");
@@ -93,24 +96,6 @@ const SignUp = () => {
                         <h2 className="mb-9 text-2xl font-bold text-black sm:text-3xl">
                             Đăng ký ngay
                         </h2>
-
-                        <div className="mb-4">
-                            <label className="mb-2.5 block font-medium text-black">
-                                Tên đăng nhập
-                            </label>
-                            <div className="relative">
-                                <input
-                                    value={userName}
-                                    onChange={(e) => setUserName(e.target.value)}
-                                    type="text"
-                                    placeholder="Nhập tên tài khoản"
-                                    className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-16 pr-10 text-black outline-none focus:border-primary"
-                                />
-                                <span className="absolute left-4 top-3">
-                                    <CiUser size={32} />
-                                </span>
-                            </div>
-                        </div>
 
                         <div className="mb-4">
                             <label className="mb-2.5 block font-medium text-black">Email</label>

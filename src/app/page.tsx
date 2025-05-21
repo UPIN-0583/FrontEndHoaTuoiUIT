@@ -1,85 +1,53 @@
-"use client"
-
 import OccasionsItem from "./components/OccasionsItem";
-import ProductCarousel from "./components/ProductCarousel";
 import ProductCard from "./components/ProductCard";
 import BlogCard from "./components/BlogCard";
 import Features from "./components/Features";
-import Head from 'next/head';
-
 import Image from "next/image";
-import { useState, useEffect } from "react";
-import axios from "axios";
+import Head from "next/head";
+import ProductCarousel from "./components/ProductCarousel";
+import Link from "next/link";
 
-// const occasions = [
-//   { title: "Đám cưới", products: 42, img: "/images/themes/camon.png" },
-//   { title: "Sinh nhật", products: 56, img: "/images/themes/chiabuon.png" },
-//   { title: "Kỷ niệm", products: 11, img: "/images/themes/chucmung.png" },
-//   { title: "Cảm ơn", products: 48, img: "/images/themes/tinhyeu.png" },
-//   { title: "Tốt nghiệp", products: 13, img: "/images/themes/xinloi.png" },
-// ];
+// Fetch data server-side
+async function getOccasions() {
+  const res = await fetch("http://backendhoatuoiuit.onrender.com/api/occasions", { cache: "no-store" });
+  if (!res.ok) return [];
+  return res.json();
+}
 
-const products = [
-  { id: 1, title: "Hoa Hồng Boutique", category: "Bó hoa", price: 35.00, rating: 4.8, img: "/images/flowers/hoa1.jpg" },
-  { id: 2, title: "Bó Hoa Hồng", category: "Bó hoa", price: 35.00, rating: 4.9, img: "/images/flowers/hoa2.jpg" },
-  { id: 3, title: "Giỏ Hoa Nghệ Thuật", category: "Giỏ hoa", price: 80.00, rating: 5.0, img: "/images/flowers/hoa3.jpg" },
-  { id: 4, title: "Hoa Hồng Sặc Sỡ", category: "Bó hoa", price: 45.00, rating: 4.8, img: "/images/flowers/hoa4.jpg" },
-  { id: 5, title: "Hoa Hồng Trắng", category: "Hoa", price: 20.00, oldPrice: 40.00, discount: "50%", rating: 4.9, img: "/images/flowers/hoa2.jpg" },
-  { id: 6, title: "Bó Hoa Hồng Đỏ", category: "Bó hoa", price: 90.00, oldPrice: 100.00, discount: "10%", rating: 4.8, img: "/images/flowers/hoa3.jpg" }
-];
+async function getProducts() {
+  const res = await fetch("http://backendhoatuoiuit.onrender.com/api/products", { cache: "no-store" });
+  if (!res.ok) return [];
+  const data = await res.json();
+  console.log(data);
+  return data.map((item: any) => ({
+    ...item,
+    rating: (Math.random() * 0.3 + 4.7).toFixed(1),
+    title: item.name,
+    img: `https://backendhoatuoiuit.onrender.com${item.imageUrl}`,
+    price: item.price,
+    category: item.categoryName,
+    oldPrice: undefined, // or item.oldPrice if available
+    discount: undefined, // or item.discount if available
+  }));
+}
 
-const blogPosts = [
-  {
-    image: "/images/blogs/b3.jpg",
-    category: "Hoa cưới",
-    author: "Jenny Alexander",
-    date: "13 Thg 12, 2024",
-    title: "Chọn bó hoa cưới hoàn hảo cho ngày trọng đại của bạn",
-    excerpt:
-      "Khám phá cách chọn hoa cưới phù hợp, từ màu sắc đến phong cách, giúp ngày vui thêm trọn vẹn...",
-    link: "#",
-  },
-  {
-    image: "/images/blogs/b8.jpg",
-    category: "Hoa kỷ niệm",
-    author: "Jenny Alexander",
-    date: "12 Thg 12, 2024",
-    title: "Kỷ niệm tình yêu: Hoa đẹp cho từng cột mốc đáng nhớ",
-    excerpt:
-      "Gợi ý những loài hoa ý nghĩa cho dịp kỷ niệm, giúp bạn thể hiện tình cảm một cách trọn vẹn...",
-    link: "#",
-  },
-  {
-    image: "/images/blogs/b9.jpg",
-    category: "Mẹo cắm hoa",
-    author: "Jenny Alexander",
-    date: "11 Thg 12, 2024",
-    title: "Mẹo thiết kế bó hoa ấn tượng cho mọi dịp lễ",
-    excerpt:
-      "Những bí quyết để bạn tự tay tạo ra những bó hoa nghệ thuật thu hút mọi ánh nhìn...",
-    link: "#",
-  },
-];
+async function getBlogs() {
+  const res = await fetch("https://backendhoatuoiuit.onrender.com/api/blog", { cache: "no-store" });
+  if (!res.ok) return [];
+  return res.json();
+}
 
-export default function Home() {
+function stripHtml(html: string) {
+  return html.replace(/<[^>]+>/g, '');
+}
 
-  type Occasion = {
-    imageUrl: string;
-    name: string;
-    description: string;
-  };
+export default async function Home() {
+  const occasions: { imageUrl: string; name: string; description: string }[] = await getOccasions();
+  const products = await getProducts();
+  const blogs = await getBlogs();
 
-  const [occasions, setOccasions] = useState<Occasion[]>([]);
-  useEffect(() => {
-    axios.get('http://localhost:8080/api/occasions')
-      .then((res) => {
-        setOccasions(res.data)
-        console.log(res.data)
-      })
-      .catch(err => {
-        console.log(err)
-      })
-  }, [])
+
+
   return (
     <div>
       <Head>
@@ -102,12 +70,12 @@ export default function Home() {
               Hoa Tươi UIT cung cấp giỏ hoa, bó hoa và hộp hoa tươi thiết kế tinh tế, phù hợp cho mọi dịp như sinh nhật, kỷ niệm, khai trương hay tỏ tình. Mẫu mã đa dạng, màu sắc hài hòa, đặt hoa nhanh chóng, giao hàng đúng hẹn, giá cả hợp lý – giúp bạn gửi gắm yêu thương một cách trọn vẹn.
             </p>
             <div className="mt-8 md:mt-8 space-y-4 md:space-y-0 md:space-x-6 flex flex-col md:flex-row items-center justify-center md:justify-start">
-              <a href="#" className="w-full md:w-auto bg-purple-600 text-white px-6 py-3 rounded-lg shadow-md font-semibold hover:bg-purple-700 text-center">
+              <Link href="/products" className="w-full md:w-auto bg-gradient-to-tr from-purple-600 to-pink-400 hover:from-pink-500 hover:to-purple-500 transition text-white px-6 py-3 rounded-lg shadow-md font-semibold text-center">
                 Mua ngay →
-              </a>
-              <a href="#" className="w-full md:w-auto text-gray-800 font-semibold hover:underline text-center">
+              </Link>
+              <Link href="/about" className="w-full md:w-auto text-gray-800 font-semibold hover:underline text-center">
                 Tìm hiểu thêm
-              </a>
+              </Link>
             </div>
             <div className="flex mt-6 items-center space-x-4 justify-center md:justify-start">
               <div className="flex -space-x-2">
@@ -141,12 +109,11 @@ export default function Home() {
         <h2 className="text-4xl font-bold text-black">
           Mua hoa theo <span className="text-purple-600">dịp lễ</span>
         </h2>
-
         <div className="mt-8 flex justify-center gap-6 flex-wrap">
           {occasions.map((item, index) => (
             <OccasionsItem
               key={index}
-              imageUrl={`http://localhost:8080` + item.imageUrl}
+              imageUrl={`http://backendhoatuoiuit.onrender.com${item.imageUrl}`}
               name={item.name}
               description={item.description}
             />
@@ -162,8 +129,10 @@ export default function Home() {
               Các sản phẩm <span className="text-purple-600">bán chạy</span>
             </h2>
           </div>
-          <button className="px-6 py-2 bg-purple-600 text-white rounded-full cursor-pointer">
-            Xem tất cả
+          <button className="px-6 py-2 bg-gradient-to-tr from-purple-600 to-pink-400 hover:from-pink-500 hover:to-purple-500 transition text-white rounded-full cursor-pointer">
+            <Link href="/products">
+              Xem tất cả
+            </Link>
           </button>
         </div>
         <ProductCarousel products={products} />
@@ -182,7 +151,7 @@ export default function Home() {
             <div className="absolute top-0 left-0 w-full h-full bg-black/40 flex flex-col justify-end p-6 text-white text-center">
               <h3 className="text-3xl sm:text-4xl font-bold">Giảm 50%</h3>
               <p className="text-sm">06/12 - 16/12</p>
-              <button className="mt-4 bg-purple-600 px-4 py-2 rounded-full font-bold hover:bg-purple-700 transition-colors">
+              <button className="mt-4 bg-gradient-to-tr from-purple-600 to-pink-400 hover:from-pink-500 hover:to-purple-500 transition px-4 py-2 rounded-full font-bold ">
                 Mua ngay
               </button>
             </div>
@@ -196,7 +165,7 @@ export default function Home() {
               Nhanh tay lựa chọn sản phẩm với mức giá cực hấp dẫn.
             </p>
             <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 justify-items-center items-center">
-              {products.map((product, index) => (
+              {products.slice(0, 6).map((product: any, index: number) => (
                 <ProductCard key={index} {...product} />
               ))}
             </div>
@@ -212,23 +181,25 @@ export default function Home() {
               Bài viết & <span className="text-purple-600">Tin tức mới</span>
             </h2>
           </div>
-          <button className="px-6 py-2 bg-purple-600 text-white rounded-full cursor-pointer">
-            Xem tất cả
+          <button className="px-6 py-2 bg-gradient-to-tr from-purple-600 to-pink-400 hover:from-pink-500 hover:to-purple-500 transition text-white rounded-full cursor-pointer">
+            <Link href="/blog">
+              Xem tất cả
+            </Link>
           </button>
         </div>
 
         <div className="mt-8 flex flex-wrap justify-center gap-6 mx-4 md:mx-12 lg:mx-32">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 p-5">
-            {blogPosts.slice(0, 3).map((post, index) => (
+            {blogs.slice(0, 3).map((post: any, index: number) => (
               <BlogCard
                 key={index}
-                imageSrc={post.image}
-                tag={post.category}
+                imageSrc={`http://backendhoatuoiuit.onrender.com${post.thumbnailUrl}`}
+                tag={post.author}
                 author={post.author}
-                date={post.date}
+                date={post.createdAt}
                 title={post.title}
-                excerpt={post.excerpt}
-                href={post.link}
+                excerpt={stripHtml(post.content).slice(0, 100) + '...'}
+                href={`/blog/${post.id}`}
               />
             ))}
           </div>

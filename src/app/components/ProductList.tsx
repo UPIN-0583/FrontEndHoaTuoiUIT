@@ -26,22 +26,9 @@ interface ProductListProps {
   onSortChange: (value: string) => void;
 }
 
-export default function ProductList({
-  products,
-  sortOption,
-  currentPage,
-  totalProducts,
-  pageSize,
-  onSortChange,
-}: ProductListProps) {
+export default function ProductList({ products, sortOption, currentPage, totalProducts, pageSize, onSortChange }: ProductListProps) {
   const totalPages = Math.ceil(totalProducts / pageSize);
   const startIndex = (currentPage - 1) * pageSize;
-
-  // Ánh xạ products để đảm bảo img đúng định dạng
-  const formattedProducts = products.map((product) => ({
-    ...product,
-    img: fixImageUrl(product.img),
-  }));
 
   return (
     <div className="w-full">
@@ -61,8 +48,8 @@ export default function ProductList({
         </select>
       </div>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-8 justify-items-center items-center">
-        {formattedProducts.map((product) => (
-          <ProductCard key={product.id} {...product} />
+        {products.map((product, index) => (
+          <ProductCard key={index} {...product} />
         ))}
       </div>
       {/* Phân trang */}
@@ -77,9 +64,7 @@ export default function ProductList({
           {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
             <button
               key={page}
-              className={`px-4 py-2 rounded ${
-                currentPage === page ? "bg-purple-600 text-white" : "bg-gray-200"
-              }`}
+              className={`px-4 py-2 rounded ${currentPage === page ? "bg-purple-600 text-white" : "bg-gray-200"}`}
               disabled={currentPage === page}
             >
               {page}

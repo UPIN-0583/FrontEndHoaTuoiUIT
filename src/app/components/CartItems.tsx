@@ -2,12 +2,13 @@ import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
-interface CartItemType {
+export interface CartItemType {
   id: number;
-  name: string;
+  productName: string;
   price: number;
   quantity: number;
-  image: string;
+  imageUrl: string;
+
 }
 
 interface CartItemProps {
@@ -24,14 +25,14 @@ const CartItem = ({ item, removeItem, updateQuantity, isMobile }: CartItemProps)
         {/* Product Info */}
         <div className="flex items-center gap-4 flex-1">
           <Image
-            src={item.image}
-            alt={item.name}
+            src={item.imageUrl}
+            alt={item.productName}
             width={64}
             height={64}
             className="w-16 h-16 object-cover"
           />
           <div className={isMobile ? "flex-1" : ""}>
-            <h3 className="font-semibold text-lg">{item.name}</h3>
+            <h3 className="font-semibold text-lg">{item.productName}</h3>
             <p className="text-gray-600">${item.price.toFixed(2)}</p>
           </div>
           {/* Remove Button for Mobile */}

@@ -1,30 +1,46 @@
 "use client";
 
-import { useState } from "react";
-import CartItem from "../components/CartItems";
+import { useEffect, useState } from "react";
+import CartItem, { CartItemType } from "../components/CartItems";
 
-const initialCart = [
-  { id: 1, name: "Blue White Bouquets", price: 45, quantity: 4, image: "/images/flowers/hoa1.jpg" },
-  { id: 2, name: "Royal Pink Bouquets", price: 48, quantity: 2, image: "/images/flowers/hoa2.jpg" },
-  { id: 3, name: "Lavenders Bouquets", price: 24, quantity: 1, image: "/images/flowers/hoa3.jpg" },
-  { id: 4, name: "Fresh Flower Basket", price: 42, quantity: 2, image: "/images/flowers/hoa4.jpg" },
-];
+type CartResponse = {
+  id: number;
+  customerId: number;
+  items: CartItemType[];
+};
 
 export default function ShoppingCart() {
-  const [cart, setCart] = useState(initialCart);
+  const user_id = localStorage.getItem("id");
+  const token = localStorage.getItem("token");
+  const [cartItems, setCartItems] = useState<CartItemType[]>([]);
   const [coupon, setCoupon] = useState("");
   const [appliedDiscount, setAppliedDiscount] = useState(0);
 
+  useEffect(() => {
+    const fetchCart = async () => {
+      const res = await fetch(`https://backendhoatuoiuit.onrender.com/api/carts/${user_id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const data: CartResponse = await res.json();
+      setCartItems(data.items);
+    };
+    fetchCart();
+  }, []);
+
   const updateQuantity = (id: number, amount: number) => {
-    setCart((prevCart) =>
+    setCartItems((prevCart) =>
       prevCart.map((item) =>
-        item.id === id ? { ...item, quantity: Math.max(1, item.quantity + amount) } : item
+        item.id === id
+          ? { ...item, quantity: Math.max(1, item.quantity + amount) }
+          : item
       )
     );
   };
 
   const removeItem = (id: number) => {
-    setCart((prevCart) => prevCart.filter((item) => item.id !== id));
+    setCartItems((prevCart) => prevCart.filter((item) => item.id !== id));
   };
 
   const applyCoupon = () => {
@@ -35,7 +51,10 @@ export default function ShoppingCart() {
     }
   };
 
-  const subtotal = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
+  const subtotal = cartItems.reduce(
+    (acc, item) => acc + item.price * item.quantity,
+    0
+  );
   const total = subtotal - appliedDiscount;
 
   return (
@@ -43,32 +62,65 @@ export default function ShoppingCart() {
       <div className="max-w-6xl mx-auto flex flex-col md:flex-row gap-6">
         {/* Cart Items */}
         <div className="md:w-2/3 bg-white shadow-md rounded-lg p-6">
-          <h3 className="text-2xl font-semibold text-black text-center mb-6">Giỏ hàng</h3>
-          {cart.length > 0 ? (
+          <h3 className="text-2xl font-semibold text-black text-center mb-6">
+            Giỏ hàng
+          </h3>
+
+          {cartItems.length > 0 ? (
             <>
               {/* Desktop View */}
-              <div className="hidden md:flex flex-col gap-4">
-                <div className="rounded-lg bg-purple-600 flex p-4 gap-16 justify-between">
-                  <p className="text-lg font-bold text-white">Sản phẩm</p>
-                  <div className="flex gap-12 mr-12">
-                    <p className="text-lg font-bold text-white">Số lượng</p>
-                    <p className="text-lg font-bold text-white">Giá</p>
-                  </div>
-                </div>
-                {cart.map((item) => (
-                  <CartItem
-                    key={item.id}
-                    item={item}
-                    removeItem={removeItem}
-                    updateQuantity={updateQuantity}
-                    isMobile={false}
-                  />
-                ))}
+              <div className="hidden md:block overflow-x-auto">
+                <table className="min-w-full text-md text-left border">
+                  <thead className="bg-purple-100">
+                    <tr>
+                      <th className="px-2 py-1">Sản phẩm</th>
+                      <th className="px-2 py-1">Số lượng</th>
+                      <th className="px-2 py-1">Thành tiền</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {cartItems.map((item) => (
+                      <tr key={item.id} className="border-t">
+                        <td className="px-2 py-1 flex items-center gap-2">
+                          <img
+                            src={`https://backendhoatuoiuit.onrender.com${item.imageUrl}`}
+                            alt={item.productName}
+                            className="w-16 h-16 object-cover"
+                          />
+                          <div>
+                            <p className="text-md font-semibold ml-2">{item.productName}</p>
+                            <p className="text-sm text-gray-500 ml-2">
+                              Giá: {item.price.toLocaleString()}$
+                            </p>
+                          </div>
+                        </td>
+                        <td className="px-2 py-1">
+                          <button
+                            onClick={() => updateQuantity(item.id, -1)}
+                            className="bg-purple-500 text-white px-3 py-1 mr-2 rounded-md hover:bg-purple-600"
+                          >
+                            -
+                          </button>
+                          {item.quantity}
+                          <button
+                            onClick={() => updateQuantity(item.id, 1)}
+                            className="bg-purple-500 text-white px-3 py-1 ml-2 rounded-md hover:bg-purple-600"
+                          >
+                            +
+                          </button>
+                        </td>
+                        <td className="px-2 py-1">
+                          {(item.price * item.quantity).toLocaleString()}$
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
 
               {/* Mobile View */}
               <div className="md:hidden flex flex-col gap-4">
-                {cart.map((item) => (
+                {cartItems.map((item) => (
                   <CartItem
                     key={item.id}
                     item={item}
@@ -83,6 +135,7 @@ export default function ShoppingCart() {
             <p className="text-center text-gray-500">Giỏ hàng trống.</p>
           )}
 
+          {/* Coupon */}
           <div className="flex flex-row justify-between mt-6 gap-4">
             <input
               type="text"
@@ -102,22 +155,24 @@ export default function ShoppingCart() {
 
         {/* Order Summary */}
         <div className="md:w-1/3 bg-white shadow-md p-8 rounded-lg h-80">
-          <h3 className="text-2xl font-semibold text-black text-center">Đặt hàng</h3>
+          <h3 className="text-2xl font-semibold text-black text-center">
+            Đặt hàng
+          </h3>
           <div className="flex justify-between mt-6 text-black">
             <span>Sản phẩm</span>
-            <span>{cart.reduce((acc, item) => acc + item.quantity, 0)}</span>
+            <span>{cartItems.reduce((acc, item) => acc + item.quantity, 0)}</span>
           </div>
           <div className="flex justify-between mt-2 text-black">
             <span>Tạm tính</span>
-            <span>${subtotal.toFixed(2)}</span>
+            <span>{subtotal.toLocaleString()}$</span>
           </div>
           <div className="flex justify-between mt-2 text-black">
             <span>Voucher giảm giá</span>
-            <span>-${appliedDiscount.toFixed(2)}</span>
+            <span>-{appliedDiscount.toLocaleString()}$</span>
           </div>
           <div className="flex justify-between mt-6 font-bold text-lg text-black">
             <span>Tổng cộng</span>
-            <span>${total.toFixed(2)}</span>
+            <span>{total.toLocaleString()}$</span>
           </div>
           <button className="w-full bg-purple-600 text-white py-2 rounded-2xl mt-6">
             Thanh toán

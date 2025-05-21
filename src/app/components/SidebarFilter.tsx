@@ -1,4 +1,4 @@
-import Link from "next/link"; // Thêm import Link
+// import { Range } from "react-range";
 
 const categories = ["Hoa hồng", "Cẩm tú cầu", "Hoa hướng dương", "Hoa sen", "Hoa đồng tiền", "Hoa lan", "Cẩm chướng", "Hoa cúc"];
 const occasions = ["Hoa tình yêu", "Hoa sinh nhật", "Hoa chúc mừng", "Hoa cảm ơn", "Hoa khai trương", "Hoa chia buồn"];
@@ -84,12 +84,12 @@ export default function SidebarFilter({
           Lọc
         </button>
 
-        <Link
+        <a
           href="/products"
           className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition"
         >
           Xóa lọc
-        </Link>
+        </a>
       </div>
     </form>
   );

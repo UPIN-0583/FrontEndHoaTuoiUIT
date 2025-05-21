@@ -100,6 +100,7 @@ export default async function ProductsPage({
     return matchesFlower && matchesOccasion && priceMatch;
   });
 
+
   // Sắp xếp sản phẩm
   const sortedProducts = [...filteredProducts].sort((a, b) => {
     if (sortOption === "price-low-high") return a.finalPrice - b.finalPrice;
