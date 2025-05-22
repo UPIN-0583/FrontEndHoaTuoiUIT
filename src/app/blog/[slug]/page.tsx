@@ -99,6 +99,8 @@ export async function generateMetadata({ params }): Promise<Metadata> {
   }
 }
 
+
+
 export default async function BlogDetails({ params }) {
   const { slug } = await params;
   const id = await findBlogIdBySlug(slug);
@@ -121,10 +123,8 @@ export default async function BlogDetails({ params }) {
     notFound();
   }
 
-  // Hàm sửa URL hình ảnh trong content
-  const fixImageUrls = (content: string) => {
-    return content.replace(/src="\/Uploads\//g, `src="${API_BASE_URL}/uploads/`);
-  };
+  const sanitizedContent = blog.content
+    .replaceAll("http://localhost:8080",`${API_BASE_URL}`);
 
   const structuredData = {
     "@context": "https://schema.org",
@@ -168,7 +168,7 @@ export default async function BlogDetails({ params }) {
         )}
         <div
           className="prose prose-lg max-w-none text-gray-700"
-          dangerouslySetInnerHTML={{ __html: fixImageUrls(blog.content) }}
+          dangerouslySetInnerHTML={{ __html: sanitizedContent }}
         />
       </div>
     </>

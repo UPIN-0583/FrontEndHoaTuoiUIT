@@ -119,7 +119,7 @@ export default async function ProductsPage({
           <SidebarFilter
             selectedFlowers={selectedFlowers}
             selectedOccasions={selectedOccasions}
-            priceRange={[priceMin ?? 0, priceMax ?? 10000000]}
+            priceRange={[priceMin ?? 0, priceMax ?? 1000000]}
           />
         </div>
         <div className="flex-4">

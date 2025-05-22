@@ -5,8 +5,9 @@ import { Metadata } from "next";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import ProductActions from "./ProductActions";
-import Link from "next/link";
+import { createSlug } from "../../utils/slug";
 import ProductCarousel from "../../components/ProductCarousel";
+import ProductDetail from "../../components/ProductDetail";
 
 // Fallback UI cho section chi tiết sản phẩm
 const LoadingFallback = () => (
@@ -97,16 +98,6 @@ const fixImageUrl = (url: string) => {
   return url.startsWith("http") ? url : `${API_BASE_URL}${url}`;
 };
 
-// Hàm tạo slug từ tên sản phẩm
-const createSlug = (name: string) => {
-  return name
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .replace(/[^a-z0-9\s-]/g, "")
-    .trim()
-    .replace(/\s+/g, "-");
-};
 
 // Hàm tìm sản phẩm theo slug
 async function findProductBySlug(slug: string): Promise<ProductDTO | null> {
@@ -253,16 +244,20 @@ export default async function ProductDetails({
   const reviews = await fetchProductReviews(product.id);
 
   // Ánh xạ ProductDTO sang Product cho ProductCarousel
-  const formattedProducts = relatedProducts.map((relatedProduct) => ({
-    id: relatedProduct.id,
-    title: relatedProduct.name,
-    category: relatedProduct.occasionNames.join(", ") || relatedProduct.categoryName,
-    price: relatedProduct.finalPrice,
-    rating: relatedProduct.averageRating > 0 ? relatedProduct.averageRating : 4.9,
-    img: relatedProduct.imageUrl,
-    oldPrice: relatedProduct.discountValue > 0 ? relatedProduct.price : undefined,
-    discount: relatedProduct.discountValue > 0 ? `-${((relatedProduct.discountValue / relatedProduct.price) * 100).toFixed(0)}%` : undefined,
+  const formattedProducts = relatedProducts.map((item) => ({
+  id: item.id,
+  title: item.name,
+  category: item.occasionNames.join(", ") || item.categoryName,
+  price: item.finalPrice,
+  rating: item.averageRating || 4.9,
+  img: fixImageUrl(item.imageUrl),
+  oldPrice: item.discountValue > 0 ? item.price : undefined,
+  discount:
+    item.discountValue > 0
+      ? `-${((item.discountValue / item.price) * 100).toFixed(0)}%`
+      : undefined,
   }));
+
 
   const structuredData = {
     "@context": "https://schema.org",
@@ -291,7 +286,7 @@ export default async function ProductDetails({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
         />
       </head>
-      <Suspense fallback={<LoadingFallback />}>
+
         <div className="max-w-5xl mx-auto p-6 bg-white shadow-md rounded-lg text-black mt-6">
           {/* Product Display */}
           <div className="flex flex-col md:flex-row gap-6">
@@ -349,20 +344,16 @@ export default async function ProductDetails({
             </div>
           </div>
         </div>
-
+               
         {/* Section sản phẩm liên quan */}
-        <Suspense fallback={<RelatedProductsLoadingFallback />}>
-          <div className="px-2 md:px-12 lg:px-32 my-4 md:my-6">
-            <h3 className="text-xl md:text-2xl font-semibold mb-4 text-black mt-4 md:mt-8">
-              Sản phẩm liên quan
-            </h3>
-            {formattedProducts.length > 0 ? (
-              <ProductCarousel products={formattedProducts} />
-            ) : (
-              <p className="text-gray-500 text-center">Không có sản phẩm liên quan.</p>
-            )}
-          </div>
-        </Suspense>
+
+        {formattedProducts.length > 0 ? (
+          <ProductCarousel products={formattedProducts} />
+        ) : (
+          <p className="text-gray-500 text-center">Không có sản phẩm liên quan.</p>
+        )}
+
+
 
         {/* Section bình luận sản phẩm */}
         <Suspense fallback={<ReviewsLoadingFallback />}>
@@ -403,7 +394,7 @@ export default async function ProductDetails({
             )}
           </div>
         </Suspense>
-      </Suspense>
+
     </>
   );
 }

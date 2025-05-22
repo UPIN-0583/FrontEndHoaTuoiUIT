@@ -1,7 +1,26 @@
 // import { Range } from "react-range";
 
-const categories = ["Hoa hồng", "Cẩm tú cầu", "Hoa hướng dương", "Hoa sen", "Hoa đồng tiền", "Hoa lan", "Cẩm chướng", "Hoa cúc"];
-const occasions = ["Hoa tình yêu", "Hoa sinh nhật", "Hoa chúc mừng", "Hoa cảm ơn", "Hoa khai trương", "Hoa chia buồn"];
+import Link from "next/link";
+
+
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "https://backendhoatuoiuit.onrender.com";
+
+
+async function getOccasions() {
+  const res = await fetch(`${API_BASE_URL}/api/occasions`, { cache: "no-store" });
+  if (!res.ok) return [];
+  return res.json();
+}
+
+async function getFlowers() {
+  const res = await fetch(`${API_BASE_URL}/api/flowers`, { cache: "no-store" });
+  if (!res.ok) return [];
+  return res.json();
+}
+
+const flowers = await getFlowers();
+const occasions = await getOccasions();
+
 
 interface SidebarFilterProps {
   selectedFlowers: string[];
@@ -22,32 +41,32 @@ export default function SidebarFilter({
       <h2 className="font-semibold text-2xl md:text-2xl max-[480px]:text-xl my-4">Bộ lọc</h2>
 
       <h3 className="font-semibold mt-6 mb-2">Theo loại hoa</h3>
-      {categories.map((c) => (
-        <label key={c} className="block">
+      {flowers.map((c) => (
+        <label key={c.id} className="block">
           <input
             type="checkbox"
             className="mr-2 w-4 h-4 max-[480px]:w-3 max-[480px]:h-3"
             name="flowerType"
-            value={c}
-            defaultChecked={selectedFlowers.includes(c)}
-            aria-label={`Filter by ${c}`}
+            value={c.name}
+            defaultChecked={selectedFlowers.includes(c.name)}
+            aria-label={`Filter by ${c.name}`}
           />
-          {c}
+          {c.name}
         </label>
       ))}
 
       <h3 className="font-semibold mt-6 mb-2">Theo sự kiện</h3>
       {occasions.map((o) => (
-        <label key={o} className="block">
+        <label key={o.id} className="block">
           <input
             type="checkbox"
             className="mr-2 w-4 h-4 max-[480px]:w-3 max-[480px]:h-3"
             name="occasion"
-            value={o}
-            defaultChecked={selectedOccasions.includes(o)}
-            aria-label={`Filter by ${o}`}
+            value={o.name}
+            defaultChecked={selectedOccasions.includes(o.name)}
+            aria-label={`Filter by ${o.name}`}
           />
-          {o}
+          {o.name}
         </label>
       ))}
 
@@ -84,12 +103,12 @@ export default function SidebarFilter({
           Lọc
         </button>
 
-        <a
+        <Link
           href="/products"
           className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition"
         >
           Xóa lọc
-        </a>
+        </Link>
       </div>
     </form>
   );

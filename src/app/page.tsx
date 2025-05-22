@@ -3,36 +3,59 @@ import ProductCard from "./components/ProductCard";
 import BlogCard from "./components/BlogCard";
 import Features from "./components/Features";
 import Image from "next/image";
-import Head from "next/head";
+import { Metadata } from "next";
 import ProductCarousel from "./components/ProductCarousel";
 import Link from "next/link";
+import { createSlug } from "./utils/slug";
+
+
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "https://backendhoatuoiuit.onrender.com";
+
+export const metadata: Metadata = {
+  title: "Sản phẩm hoa tươi | Hoa Tươi UIT",
+  description: "Khám phá các sản phẩm hoa tươi đa dạng, chất lượng cao tại Hoa Tươi UIT. Đặt hoa online giao tận nơi.",
+  keywords: "hoa tươi, shop hoa, đặt hoa online, hoa sinh nhật, hoa cưới",
+  openGraph: {
+    title: "Sản phẩm hoa tươi | Hoa Tươi UIT",
+    description: "Khám phá các sản phẩm hoa tươi đa dạng, chất lượng cao tại Hoa Tươi UIT.",
+    url: "https://hoatuoiuit.id.vn",
+    type: "website",
+  },
+};
+
+
 
 // Fetch data server-side
 async function getOccasions() {
-  const res = await fetch("http://backendhoatuoiuit.onrender.com/api/occasions", { cache: "no-store" });
+  const res = await fetch(`${API_BASE_URL}/api/occasions`, { cache: "no-store" });
   if (!res.ok) return [];
   return res.json();
 }
 
 async function getProducts() {
-  const res = await fetch("http://backendhoatuoiuit.onrender.com/api/products", { cache: "no-store" });
+  const res = await fetch(`${API_BASE_URL}/api/products/view-all`, { cache: "no-store" });
   if (!res.ok) return [];
+
   const data = await res.json();
-  console.log(data);
+  //console.log(data);
+
   return data.map((item: any) => ({
     ...item,
-    rating: (Math.random() * 0.3 + 4.7).toFixed(1),
+    rating: item.averageRating != 0 ? item.averageRating : 4.9,
     title: item.name,
-    img: `https://backendhoatuoiuit.onrender.com${item.imageUrl}`,
-    price: item.price,
+    img: `${API_BASE_URL}${item.imageUrl}`,
+    price: item.finalPrice, 
+    oldPrice: item.price, 
+    discount:  item.discountValue && item.price
+        ? '-' + Math.round((item.discountValue / item.price) * 100) + '%'
+        : undefined, 
     category: item.categoryName,
-    oldPrice: undefined, // or item.oldPrice if available
-    discount: undefined, // or item.discount if available
   }));
 }
 
+
 async function getBlogs() {
-  const res = await fetch("https://backendhoatuoiuit.onrender.com/api/blog", { cache: "no-store" });
+  const res = await fetch(`${API_BASE_URL}/api/blog`, { cache: "no-store" });
   if (!res.ok) return [];
   return res.json();
 }
@@ -50,16 +73,6 @@ export default async function Home() {
 
   return (
     <div>
-      <Head>
-        <title>Trang chủ | Hoa Tươi UIT</title>
-        <meta name="description" content="Hoa Tươi UIT cung cấp giỏ hoa tươi, hộp hoa đẹp, giao nhanh tận nơi nội ô làng đại học. Đặt hoa online dễ dàng, đa dạng mẫu mã, giá hợp lý." />
-        <meta name="keywords" content="hoa tươi UIT, hoa của sự tinh túy, hoa tươi sinh viên UIT, giỏ hoa tươi, hộp hoa tươi, bình hoa tươi, cách bảo quản hoa tươi lâu, cách chọn hoa tươi theo dịp lễ, hoa tặng vợ, hoa tặng Valentine, hoa Giáng Sinh, hoa khai trương, hoa tặng tốt nghiệp,mua hoa hồng, mua hoa cúc, mua hoa tulip, mua hoa hướng dương, mua hoa lan, mua hoa mẫu đơn" />
-        <meta property="og:title" content="Hoa Tươi UIT - Hoa của sự tinh túy" />
-        <meta property="og:description" content="Cửa hàng hoa tươi online, đa dạng mẫu mã, giao nhanh chóng tận nơi. Phù hợp mọi dịp lễ!" />
-        <meta property="og:image" content="URL ảnh thumbnail" />
-        <meta name="google-site-verification" content="8osYK3jlo0lQlpudXAb1b68GCFIdl7dOh2xnM5HNI8E" />
-      </Head>
-
       <div className="bg-gray-100 shadow-md px-4 sm:px-12">
         <section className="container mx-auto flex flex-col-reverse md:flex-row items-center justify-center py-8 px-4 sm:px-12 gap-8">
           <div className="text-center md:text-left">
@@ -113,7 +126,7 @@ export default async function Home() {
           {occasions.map((item, index) => (
             <OccasionsItem
               key={index}
-              imageUrl={`http://backendhoatuoiuit.onrender.com${item.imageUrl}`}
+              imageUrl={`${API_BASE_URL}${item.imageUrl}`}
               name={item.name}
               description={item.description}
             />
@@ -157,7 +170,7 @@ export default async function Home() {
             </div>
           </div>
 
-          <div className="col-span-1 md:col-span-3">
+          <div className="col-span-1 md:col-span-3 ">
             <h2 className="text-3xl sm:text-4xl font-bold mb-4 text-black text-center md:text-left">
               <span className="text-purple-600">Ưu đãi</span> trong ngày
             </h2>
@@ -193,13 +206,13 @@ export default async function Home() {
             {blogs.slice(0, 3).map((post: any, index: number) => (
               <BlogCard
                 key={index}
-                imageSrc={`http://backendhoatuoiuit.onrender.com${post.thumbnailUrl}`}
+                imageSrc={`${API_BASE_URL}${post.thumbnailUrl}`}
                 tag={post.author}
                 author={post.author}
                 date={post.createdAt}
                 title={post.title}
                 excerpt={stripHtml(post.content).slice(0, 100) + '...'}
-                href={`/blog/${post.id}`}
+                href={`/blog/${createSlug(post.title)}`}
               />
             ))}
           </div>
