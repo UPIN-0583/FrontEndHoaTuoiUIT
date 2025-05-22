@@ -64,11 +64,7 @@ const LogNavbar = () => {
                 Sản phẩm
               </Link>
             </li>
-            <li>
-              <Link href="/theme" className="hover:text-purple-500">
-                Chủ đề
-              </Link>
-            </li>
+
             <li>
               <Link href="/about" className="hover:text-purple-500">
                 Giới thiệu
@@ -99,19 +95,19 @@ const LogNavbar = () => {
           <Link href="/wishlist">
             <FontAwesomeIcon
               icon={faHeart}
-              className="text-gray-700 hover:text-purple-500"
+              className="text-gray-700 hover:text-purple-500 text-xl"
             />
           </Link>
           <Link href="/cart">
             <FontAwesomeIcon
               icon={faShoppingBag}
-              className="text-gray-700 hover:text-purple-500"
+              className="text-gray-700 hover:text-purple-500 text-xl"
             />
           </Link>
           <Link href="/myaccount">
             <FontAwesomeIcon
               icon={faUser}
-              className="text-gray-700 hover:text-purple-500"
+              className="text-gray-700 hover:text-purple-500 text-xl"
             />
           </Link>
         </div>
@@ -167,23 +163,19 @@ const GuestNavbar = () => {
                 Sản phẩm
               </Link>
             </li>
+
             <li>
-              <Link href="/theme" className="hover:text-purple-500">
-                Chủ đề
-              </Link>
-            </li>
-            <li>
-              <Link href="/about" className="hover:text-purple-500">
+              <Link href="/about" className="hover:text-purple-500 text-xl">
                 Giới thiệu
               </Link>
             </li>
             <li>
-              <Link href="/contact" className="hover:text-purple-500">
+              <Link href="/contact" className="hover:text-purple-500 text-xl">
                 Liên hệ
               </Link>
             </li>
             <li>
-              <Link href="/blog" className="hover:text-purple-500">
+              <Link href="/blog" className="hover:text-purple-500 text-xl">
                 Blogs
               </Link>
             </li>

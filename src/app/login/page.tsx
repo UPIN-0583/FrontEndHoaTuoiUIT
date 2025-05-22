@@ -28,11 +28,11 @@ const Login = () => {
             return;
         }
 
-        axios.post(`http://localhost:8080/api/customers/login`, {
+        axios.post(`https://backendhoatuoiuit.onrender.com/api/customers/login`, {
             email: email,
             password: password
         }).then((res) => {
-            if (res.data.success === false) {
+            if (!res.data.token) {
                 localStorage.clear();
                 toast.error('Sai email hoặc mật khẩu!');
             } else {
@@ -82,7 +82,7 @@ const Login = () => {
                                             value={email}
                                             onChange={(e) => setEmail(e.target.value)}
                                             type="text"
-                                            placeholder="Nhập tên tài khoản"
+                                            placeholder="Nhập email"
                                             className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-16 pr-10 text-black outline-none focus:border-primary"
                                         />
                                         <span className="absolute left-4 top-3">
@@ -115,7 +115,7 @@ const Login = () => {
                                         <div className="mt-4 text-right mr-4">
                                             <p>
                                                 Quên mật khẩu?{" "}
-                                                <Link href="/forget-password" className="text-cyan-800 hover:text-blue-900">
+                                                <Link href="/forgetpassword" className="text-purple-600 hover:text-purple-800">
                                                     Lấy lại mật khẩu
                                                 </Link>
                                             </p>
@@ -126,7 +126,7 @@ const Login = () => {
                                 <div className="mb-5">
                                     <button
                                         onClick={handleClick}
-                                        className="w-full cursor-pointer rounded-lg border border-primary bg-purple-500 p-4 text-white transition hover:bg-opacity-90"
+                                        className="w-full cursor-pointer rounded-lg border border-primary bg-purple-500 p-4 text-white transition hover:bg-purple-600"
                                     >
                                         Đăng nhập
                                     </button>
@@ -135,7 +135,7 @@ const Login = () => {
                                 <div className="mt-6 text-center">
                                     <p>
                                         Chưa có tài khoản?{" "}
-                                        <Link href="/signup" className="text-cyan-800 hover:text-blue-900">
+                                        <Link href="/signup" className="text-purple-600 hover:text-purple-800">
                                             Đăng ký ngay
                                         </Link>
                                     </p>

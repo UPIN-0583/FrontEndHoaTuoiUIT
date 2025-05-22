@@ -37,7 +37,12 @@ export default function BlogCard({
       </div>
       <div className="p-4 sm:p-6">
           <p className="text-xl md:text-sm text-gray-500">
-              {author} &nbsp;<span className="text-purple-400 text-xl">●</span>&nbsp; {date}
+            {author} &nbsp;<span className="text-purple-400 text-xl">●</span>&nbsp; 
+            {new Date(date).toLocaleDateString("vi-VN", {
+              day: "2-digit",
+              month: "2-digit",
+              year: "numeric",
+            })}
           </p>
           <h3 className="text-lg sm:text-xl font-semibold mt-2 mb-3">
               {title}
@@ -46,7 +51,7 @@ export default function BlogCard({
               {excerpt}
           </p>
           <a href={href} className="text-purple-600 font-medium hover:underline text-sm">
-              Read More
+              Xem thêm
           </a>
       </div>
     </div>

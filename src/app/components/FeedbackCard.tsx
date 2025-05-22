@@ -1,5 +1,7 @@
 import Image from "next/image";
 import React from "react";
+import { faStar } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface FeedbackCardProps {
     rating: number;
@@ -14,8 +16,12 @@ const FeedbackCard: React.FC<FeedbackCardProps> = ({ rating, title, content, nam
     return (
         <div className="bg-white p-6 rounded-xl shadow-md max-w-md w-full">
             <div className="flex items-center mb-2 text-yellow-500">
-                {Array.from({ length: rating }).map((_, i) => (
-                    <span key={i}>★</span>
+                {[...Array(5)].map((_, i) => (
+                    <FontAwesomeIcon
+                        key={i}
+                        icon={faStar}
+                        className={i < rating ? "text-yellow-500" : "text-gray-300"}
+                    />
                 ))}
                 <span className="text-black ml-2">{rating.toFixed(1)}</span>
             </div>
