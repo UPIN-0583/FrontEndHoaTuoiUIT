@@ -297,7 +297,7 @@ export default function About() {
                     <p className="font-semibold text-4xl text-center">Gặp Gỡ Những Con Người</p>
                     <p className="font-semibold text-4xl text-center text-purple-500">Đầy Đam Mê Đằng Sau Thành Công</p>
                 </div>
-                <div className="flex flex-wrap gap-5 py-16 px-4 md:px-20 justify-center">
+                <div className="flex flex-wrap gap-5 py-16 px-4 md:px-18 justify-center">
                     <div>
                         <Image
                             src="/avatars/avatar1.jpg"
