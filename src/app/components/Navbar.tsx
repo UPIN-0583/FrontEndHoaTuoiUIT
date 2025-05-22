@@ -165,17 +165,17 @@ const GuestNavbar = () => {
             </li>
 
             <li>
-              <Link href="/about" className="hover:text-purple-500 text-xl">
+              <Link href="/about" className="hover:text-purple-500 ">
                 Giới thiệu
               </Link>
             </li>
             <li>
-              <Link href="/contact" className="hover:text-purple-500 text-xl">
+              <Link href="/contact" className="hover:text-purple-500 ">
                 Liên hệ
               </Link>
             </li>
             <li>
-              <Link href="/blog" className="hover:text-purple-500 text-xl">
+              <Link href="/blog" className="hover:text-purple-500 ">
                 Blogs
               </Link>
             </li>
