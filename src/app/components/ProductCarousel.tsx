@@ -56,8 +56,8 @@ const ProductCarousel: React.FC<ProductCarouselProps> = ({ products }) => {
             },
           }}
           navigation={{
-            nextEl: ".swiper-button-next .btn-next",
-            prevEl: ".swiper-button-prev .btn-prev",
+            nextEl: ".swiper-button-next ",
+            prevEl: ".swiper-button-prev ",
           }}
           loop={true}
           className="!px-4"

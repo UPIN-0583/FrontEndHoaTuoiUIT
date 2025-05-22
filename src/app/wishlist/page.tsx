@@ -8,38 +8,43 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faCartPlus } from "@fortawesome/free-solid-svg-icons";
 
 export default function Wishlist() {
-  const user_id = localStorage.getItem("id");
-  const token = localStorage.getItem("token");
+  const [userId, setUserId] = useState<string | null>(null);
+  const [token, setToken] = useState<string | null>(null);
   const [cartId, setCartId] = useState<number | null>(null);
   const [wishlist, setWishlist] = useState<{ id: number; customerId: number; items: any[] } | null>(null);
   const [isUpdating, setIsUpdating] = useState(false);
   const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-  // Hàm định dạng tiền tệ
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(value);
   };
 
+  // Lấy userId và token từ localStorage sau khi component đã mount (client-side)
   useEffect(() => {
-    if (!user_id || !token) {
-      toast.error("Vui lòng đăng nhập để xem wishlist!");
+    if (typeof window !== "undefined") {
+      const id = localStorage.getItem("id");
+      const tk = localStorage.getItem("token");
+      setUserId(id);
+      setToken(tk);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!userId || !token) {
       return;
     }
 
-    // Lấy dữ liệu wishlist
-    fetch(`${API_BASE_URL}/api/wishlists/${user_id}`, {
+    // Lấy wishlist
+    fetch(`${API_BASE_URL}/api/wishlists/${userId}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     })
       .then((res) => {
-        if (!res.ok) {
-          throw new Error("Lỗi mạng");
-        }
+        if (!res.ok) throw new Error("Lỗi mạng");
         return res.json();
       })
       .then(async (data) => {
-        // Lấy finalPrice cho từng sản phẩm
         const updatedItems = await Promise.all(
           data.items.map(async (item: any) => {
             try {
@@ -48,9 +53,7 @@ export default function Wishlist() {
                   Authorization: `Bearer ${token}`,
                 },
               });
-              if (!productRes.ok) {
-                throw new Error("Lỗi khi lấy chi tiết sản phẩm");
-              }
+              if (!productRes.ok) throw new Error("Lỗi chi tiết sản phẩm");
               const productData = await productRes.json();
               return {
                 ...item,
@@ -58,36 +61,30 @@ export default function Wishlist() {
                 discountValue: productData.discountValue,
               };
             } catch (err) {
-              console.error(`Lỗi khi lấy chi tiết sản phẩm ${item.productId}:`, err);
-              return item; // Giữ nguyên item nếu lỗi
+              console.error(`Lỗi lấy sản phẩm ${item.productId}:`, err);
+              return item;
             }
           })
         );
         setWishlist({ ...data, items: updatedItems });
-        console.log(data);
       })
-      .catch((err) => {
+      .catch(() => {
         toast.error("Có lỗi khi tải wishlist!");
       });
 
     // Lấy cartId
-    fetch(`${API_BASE_URL}/api/carts/${user_id}`, {
+    fetch(`${API_BASE_URL}/api/carts/${userId}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     })
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
-        setCartId(data.id);
-      })
-      .catch((err) => {
-        toast.error("Có lỗi khi tải thông tin giỏ hàng!");
-      });
-  }, [user_id, token, API_BASE_URL]);
+      .then((res) => res.json())
+      .then((data) => setCartId(data.id))
+      .catch(() => toast.error("Có lỗi khi tải thông tin giỏ hàng!"));
+  }, [userId, token, API_BASE_URL]);
 
   const removeItem = async (itemId: number) => {
+    if (!token) return;
     setIsUpdating(true);
     try {
       const res = await fetch(`${API_BASE_URL}/api/wishlists/items/${itemId}`, {
@@ -99,14 +96,15 @@ export default function Wishlist() {
       if (!res.ok) throw new Error("Xóa thất bại");
       setWishlist((prev) => (prev ? { ...prev, items: prev.items.filter((item: any) => item.id !== itemId) } : prev));
       toast.success("Đã xóa sản phẩm khỏi wishlist!");
-    } catch (err) {
-      toast.error("Có lỗi khi xóa sản phẩm khỏi wishlist!");
+    } catch {
+      toast.error("Có lỗi khi xóa sản phẩm!");
     } finally {
       setIsUpdating(false);
     }
   };
 
   const addToCart = async (itemId: number, quantity: number = 1) => {
+    if (!token || !cartId) return;
     setIsUpdating(true);
     try {
       const res = await fetch(`${API_BASE_URL}/api/carts/items`, {
@@ -115,16 +113,12 @@ export default function Wishlist() {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          productId: itemId,
-          cartId: cartId,
-          quantity,
-        }),
+        body: JSON.stringify({ productId: itemId, cartId: cartId, quantity }),
       });
       if (!res.ok) throw new Error("Thêm vào giỏ hàng thất bại");
       setWishlist((prev) => (prev ? { ...prev, items: prev.items.filter((item: any) => item.id !== itemId) } : prev));
       toast.success("Đã thêm sản phẩm vào giỏ hàng!");
-    } catch (err) {
+    } catch {
       toast.error("Có lỗi khi thêm vào giỏ hàng!");
     } finally {
       setIsUpdating(false);
@@ -180,7 +174,7 @@ export default function Wishlist() {
                         <td className="px-2 py-1">Còn hàng</td>
                         <td className="px-2 py-1 text-center">
                           <button
-                            onClick={() => addToCart(item.productId, 1)}
+                            onClick={() => addToCart(item.productId)}
                             className={`bg-purple-500 text-white px-3 py-1 mr-2 rounded-md hover:bg-purple-600 ${
                               isUpdating ? "opacity-50 cursor-not-allowed" : ""
                             }`}

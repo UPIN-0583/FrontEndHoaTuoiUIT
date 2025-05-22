@@ -32,16 +32,24 @@ interface Order {
 
 export default function Account() {
 
+
   const [user, setUser] = useState({});
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [gender, setGender] = useState("");
   const [address, setAddress] = useState("");
-  const user_id = localStorage.getItem("id");
-  const token = localStorage.getItem("token");
+  const [user_id, setUserId] = useState<string | null>(null);
+  const [token, setToken] = useState<string | null>(null);
   const [orders, setOrders] = useState<Order[]>([]);
   const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
+
+  useEffect(() => {
+  if (typeof window !== "undefined") {
+    setUserId(localStorage.getItem("id"));
+    setToken(localStorage.getItem("token"));
+  }
+  }, []);
 
   useEffect(() => {
     if (!user_id) return;
