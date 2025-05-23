@@ -45,7 +45,7 @@ async function getProducts() {
     title: item.name,
     img: `${API_BASE_URL}${item.imageUrl}`,
     price: item.finalPrice, 
-    oldPrice: item.price, 
+    oldPrice: item.discountValue > 0 ? item.price : undefined, 
     discount:  item.discountValue && item.price
         ? '-' + Math.round((item.discountValue / item.price) * 100) + '%'
         : undefined, 

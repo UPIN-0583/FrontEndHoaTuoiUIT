@@ -1,6 +1,7 @@
 "use client";
 import Image from 'next/image';
 import TagLabel from './TagLabel';
+import Link from 'next/link';
 
 interface BlogCardProps {
   imageSrc: string;
@@ -22,6 +23,7 @@ export default function BlogCard({
   href,
 }: BlogCardProps) {
   return (
+    <Link href={href} className="block">
     <div className="rounded-3xl relative shadow-md ">
       <div className="relative">
           <Image
@@ -50,10 +52,11 @@ export default function BlogCard({
           <p className="text-gray-600 text-sm mb-4">
               {excerpt}
           </p>
-          <a href={href} className="text-purple-600 font-medium hover:underline text-sm">
+          <p className="text-purple-600 font-medium hover:underline text-sm">
               Xem thêm
-          </a>
+          </p>
       </div>
     </div>
+   </Link>
   );
 }
