@@ -64,6 +64,9 @@ export async function generateMetadata({ params }): Promise<Metadata> {
       return plainText.length > 160 ? plainText.substring(0, 160) + "..." : plainText;
     };
 
+    const imageUrl = blog.thumbnailUrl ? `${API_BASE_URL}${blog.thumbnailUrl}` : "https://hoatuoiuit.id.vn/default-image.jpg";
+    const keywords = ["hoa tươi", "mua hoa tươi uit", "blog hoa đẹp", blog.title.toLowerCase()];
+
     const structuredData = {
       "@context": "https://schema.org",
       "@type": "BlogPosting",
@@ -71,20 +74,29 @@ export async function generateMetadata({ params }): Promise<Metadata> {
       description: getMetaDescription(blog.content),
       author: { "@type": "Person", name: blog.author },
       datePublished: blog.createdAt,
-      image: `${API_BASE_URL}${blog.thumbnailUrl}`,
+      image: imageUrl,
+      keywords: keywords.join("Hoa Tươi UIT, Hoa Tươi Làng Đại Học, Hoa Tươi Giao Nhanh Tận Nơi"),
     };
 
     return {
       title: `${blog.title} | Hoa Tươi UIT`,
       description: getMetaDescription(blog.content),
-      keywords: ["hoa tươi", "blog hoa", "cảm xúc", "yêu thương"],
+      keywords: keywords,
       authors: [{ name: blog.author }],
       openGraph: {
-        title: blog.title,
-        description: getMetaDescription(blog.content),
-        images: [`${API_BASE_URL}${blog.thumbnailUrl}`],
+        title: `Hoa Tươi UIT - ${blog.title}`,
+        description: `Khám phá ${blog.title} tại Hoa Tươi UIT - ${getMetaDescription(blog.content)}`,
+        images: [
+          {
+            url: imageUrl,
+            width: 1200,
+            height: 630,
+            alt: `Hoa Tươi Đẹp - ${blog.title}`,
+          },
+        ],
         type: "article",
         url: `https://hoatuoiuit.id.vn/blog/${slug}`,
+        siteName: "Hoa Tươi UIT", // Sửa từ site_name thành siteName
       },
       other: {
         "structured-data": JSON.stringify(structuredData),
