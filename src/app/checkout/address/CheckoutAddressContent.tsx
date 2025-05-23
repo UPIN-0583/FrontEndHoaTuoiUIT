@@ -212,6 +212,64 @@ export default function CheckoutAddressContent() {
 
     setIsLoading(true);
     try {
+      // Nếu chọn thanh toán MoMo
+      if (paymentMethod === "3") {
+        const response = await fetch(`${API_BASE_URL}/api/payment-momo`, {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            order_id: orderId,
+            order_total: calculateTotalPrice(),
+            order_details: orderDetails.items.map(item => ({
+              product_id: item.productId,
+              order_detail_quantity: item.quantity
+            })),
+            customer_id: orderDetails.customerId,
+            order_name: orderDetails.customerName,
+            order_phone: "0945936724",
+            order_delivery_address: address
+          })
+        });
+
+        if (!response.ok) {
+          const errorData = await response.text();
+          console.log("MoMo payment request data:", {
+            order_id: orderId,
+            order_total: calculateTotalPrice(),
+            order_details: orderDetails.items,
+            customer_id: orderDetails.customerId,
+            order_name: orderDetails.customerName,
+            order_phone: "0945936724",
+            order_delivery_address: address
+          });
+          throw new Error(`Tạo thanh toán MoMo thất bại: ${errorData}`);
+        }
+
+        const data = await response.json();
+        if (!data.payUrl) {
+          throw new Error("Không nhận được URL thanh toán từ MoMo");
+        }
+
+        // Lưu thông tin đơn hàng vào localStorage
+        localStorage.setItem('originalOrderId', orderId);
+        localStorage.setItem('orderDetails', JSON.stringify({
+          total: calculateTotalPrice(),
+          items: orderDetails.items,
+          customerId: orderDetails.customerId,
+          customerName: orderDetails.customerName,
+          phone: "0945936724",
+          address: address
+        }));
+
+        // Chuyển hướng đến trang thanh toán MoMo
+        window.location.href = data.payUrl;
+        return;
+      }
+
+      // Nếu không phải MoMo thì xác nhận đơn hàng như bình thường
       const response = await fetch(`${API_BASE_URL}/api/orders/${orderId}/confirm`, {
         method: "PUT",
         headers: {
@@ -289,9 +347,8 @@ export default function CheckoutAddressContent() {
             <button
               onClick={handleUpdateAddress}
               disabled={isLoading}
-              className={`mt-2 px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700 transition ${
-                isLoading ? "opacity-50 cursor-not-allowed" : ""
-              }`}
+              className={`mt-2 px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700 transition ${isLoading ? "opacity-50 cursor-not-allowed" : ""
+                }`}
             >
               {isLoading ? "Đang xử lý..." : "Xác nhận địa chỉ"}
             </button>
@@ -313,9 +370,8 @@ export default function CheckoutAddressContent() {
             <button
               onClick={handleUpdatePaymentMethod}
               disabled={isLoading}
-              className={`mt-2 px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700 transition ${
-                isLoading ? "opacity-50 cursor-not-allowed" : ""
-              }`}
+              className={`mt-2 px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700 transition ${isLoading ? "opacity-50 cursor-not-allowed" : ""
+                }`}
             >
               {isLoading ? "Đang xử lý..." : "Xác nhận phương thức"}
             </button>
@@ -325,9 +381,8 @@ export default function CheckoutAddressContent() {
             <button
               onClick={handleConfirmOrder}
               disabled={isLoading || !address || !paymentMethod}
-              className={`w-full px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition ${
-                isLoading || !address || !paymentMethod ? "opacity-50 cursor-not-allowed" : ""
-              }`}
+              className={`w-full px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition ${isLoading || !address || !paymentMethod ? "opacity-50 cursor-not-allowed" : ""
+                }`}
             >
               {isLoading ? "Đang xử lý..." : "Xác nhận đơn hàng"}
             </button>
