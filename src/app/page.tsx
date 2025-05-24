@@ -207,7 +207,7 @@ export default async function Home() {
               <BlogCard
                 key={index}
                 imageSrc={`${API_BASE_URL}${post.thumbnailUrl}`}
-                tag={post.author}
+                tag={post.tags}
                 author={post.author}
                 date={post.createdAt}
                 title={post.title}

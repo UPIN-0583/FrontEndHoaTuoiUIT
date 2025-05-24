@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link"; // Thêm Link để thay <a>
 import Search from "../components/SearchBlog";
 import Pagination from "../components/Pagination";
+import TagLabel from "../components/TagLabel";
 
 // Đánh dấu route là dynamic
 export const dynamic = "force-dynamic";
@@ -16,6 +17,7 @@ interface BlogPostDTO {
   createdAt: string;
   updatedAt: string | null;
   isActive: boolean;
+  tags: string;
 }
 
 // Base URL cho API và hình ảnh
@@ -95,6 +97,9 @@ export default async function Blog({ searchParams }: { searchParams: Promise<{ p
                       height={600}
                       className="object-cover w-full h-[200px] sm:h-[250px] md:h-[300px] rounded-3xl"
                     />
+                    <div className="absolute bottom-3 -left-4 z-10">
+                        <TagLabel text={blog.tags} />
+                    </div>
                   </div>
                   <div className="p-4 sm:p-6">
                     <p className="text-xl md:text-sm text-gray-500">
