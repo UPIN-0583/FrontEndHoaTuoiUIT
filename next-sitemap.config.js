@@ -14,6 +14,10 @@ module.exports = {
     "/order-confirmation",
     "/wishlist",
     "/apple-icon.png",
+    "/about", // Thêm để tránh trùng lặp
+    "/contact", // Thêm để tránh trùng lặp
+    "/products", // Thêm để tránh Next.js tự động thêm
+    "/blog", // Thêm để tránh Next.js tự động thêm
   ],
   additionalPaths: async (config) => {
     const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "https://backendhoatuoiuit.onrender.com";
@@ -72,6 +76,18 @@ module.exports = {
         changefreq: "weekly",
         priority: 0.7,
       },
+      {
+        loc: "https://hoatuoiuit.id.vn/products",
+        lastmod: new Date().toISOString(),
+        changefreq: "daily", // Cập nhật thường xuyên vì danh sách sản phẩm có thể thay đổi
+        priority: 0.9, // Ưu tiên cao vì là trang danh sách quan trọng
+      },
+      {
+        loc: "https://hoatuoiuit.id.vn/blog",
+        lastmod: new Date().toISOString(),
+        changefreq: "daily", // Cập nhật thường xuyên nếu blog được thêm mới thường xuyên
+        priority: 0.8, // Ưu tiên cao nhưng thấp hơn /products
+      },
     ];
 
     const blogUrls = blogs.map((blog) => ({
@@ -107,6 +123,9 @@ module.exports = {
           "/wishlist",
         ],
       },
+    ],
+    additionalSitemaps: [
+      "https://hoatuoiuit.id.vn/sitemap.xml", // Thêm để đảm bảo Googlebot nhận diện
     ],
   },
 };

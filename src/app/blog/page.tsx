@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link"; // Thêm Link để thay <a>
 import Search from "../components/SearchBlog";
 import Pagination from "../components/Pagination";
+import { Metadata } from "next";
 import TagLabel from "../components/TagLabel";
 
 // Đánh dấu route là dynamic
@@ -32,6 +33,56 @@ const createSlug = (title: string) => {
     .replace(/[^a-z0-9\s-]/g, "")
     .trim()
     .replace(/\s+/g, "-");
+};
+// SEO metadata
+export const metadata: Metadata = {
+  title: "Blog hoa tươi | Hoa Tươi UIT - Làng Đại Học",
+  description:
+    "Khám phá bài viết, mẹo chăm sóc hoa và ý tưởng tặng hoa tại Hoa Tươi UIT. Đọc ngay để chọn hoa đẹp tại Làng Đại Học!",
+  keywords: [
+    "blog hoa tươi",
+    "mẹo chăm sóc hoa",
+    "ý tưởng tặng hoa",
+    "hoa sinh nhật",
+    "hoa chúc mừng",
+    "hoa khai trương",
+    "hoa chia buồn",
+    "hoa tốt nghiệp",
+    "hoa cảm ơn",
+    "Hoa Tươi UIT",
+    "Hoa Tươi Làng Đại Học",
+    "Hoa Tươi Giao Nhanh Tận Nơi",
+    "Mua Hoa Tươi UIT",
+  ],
+  alternates: {
+    canonical: "https://hoatuoiuit.id.vn/blog",
+  },
+  openGraph: {
+    title: "Blog hoa tươi | Hoa Tươi UIT - Làng Đại Học",
+    description:
+      "Khám phá bài viết, mẹo chăm sóc hoa và ý tưởng tặng hoa tại Hoa Tươi UIT. Đọc ngay để chọn hoa đẹp!",
+    url: "https://hoatuoiuit.id.vn/blog",
+    type: "website",
+    images: [
+      {
+        url: "https://hoatuoiuit.id.vn/hero-image.jpg", // Thay bằng URL hình ảnh thực tế
+        width: 1200,
+        height: 630,
+        alt: "Hoa Tươi UIT - Blog về hoa tươi",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    site: "@HoaTuoiUIT",
+    creator: "@HoaTuoiUIT",
+    title: "Blog hoa tươi - Hoa Tươi UIT Làng Đại Học",
+    description:
+      "Đọc bài viết về hoa tươi, mẹo chăm sóc tại Hoa Tươi UIT! Giao nhanh Làng Đại Học. #HoaTuoiUIT", // 93 ký tự, dưới 200
+    images: [
+      "https://hoatuoiuit.id.vn/hero-image.jpg", // Thay bằng URL hình ảnh thực tế
+    ],
+  },
 };
 
 // Hàm fetch danh sách blog từ API
