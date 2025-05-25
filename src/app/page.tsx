@@ -7,6 +7,7 @@ import { Metadata } from "next";
 import ProductCarousel from "./components/ProductCarousel";
 import Link from "next/link";
 import { createSlug } from "./utils/slug";
+import Chatbox from "./components/ChatBox";
 
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "https://backendhoatuoiuit.onrender.com";
@@ -259,8 +260,8 @@ export default async function Home() {
           </div>
         </div>
       </section>
-
       <Features />
+      <Chatbox />
     </div>
   );
 }
