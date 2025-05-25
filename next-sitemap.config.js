@@ -14,6 +14,10 @@ module.exports = {
     "/order-confirmation",
     "/wishlist",
     "/apple-icon.png",
+    "/about",
+    "/contact",
+    "/products",
+    "/blog",
   ],
   additionalPaths: async (config) => {
     const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "https://backendhoatuoiuit.onrender.com";
@@ -72,6 +76,18 @@ module.exports = {
         changefreq: "weekly",
         priority: 0.7,
       },
+      {
+        loc: "https://hoatuoiuit.id.vn/products",
+        lastmod: new Date().toISOString(),
+        changefreq: "daily",
+        priority: 0.9,
+      },
+      {
+        loc: "https://hoatuoiuit.id.vn/blog",
+        lastmod: new Date().toISOString(),
+        changefreq: "daily",
+        priority: 0.8,
+      },
     ];
 
     const blogUrls = blogs.map((blog) => ({
@@ -109,4 +125,8 @@ module.exports = {
       },
     ],
   },
+  // Thêm cấu hình để tránh vòng lặp sitemap index
+  generateIndexSitemap: true,
+  sitemapBaseFileName: "sitemap",
+  outDir: "public",
 };
