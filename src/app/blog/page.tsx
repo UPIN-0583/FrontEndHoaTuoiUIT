@@ -2,6 +2,8 @@ import Image from "next/image";
 import Link from "next/link"; // Thêm Link để thay <a>
 import Search from "../components/SearchBlog";
 import Pagination from "../components/Pagination";
+import { Metadata } from "next";
+import TagLabel from "../components/TagLabel";
 
 // Đánh dấu route là dynamic
 export const dynamic = "force-dynamic";
@@ -16,6 +18,7 @@ interface BlogPostDTO {
   createdAt: string;
   updatedAt: string | null;
   isActive: boolean;
+  tags: string;
 }
 
 // Base URL cho API và hình ảnh
@@ -30,6 +33,56 @@ const createSlug = (title: string) => {
     .replace(/[^a-z0-9\s-]/g, "")
     .trim()
     .replace(/\s+/g, "-");
+};
+// SEO metadata
+export const metadata: Metadata = {
+  title: "Blog hoa tươi | Hoa Tươi UIT - Làng Đại Học",
+  description:
+    "Khám phá bài viết, mẹo chăm sóc hoa và ý tưởng tặng hoa tại Hoa Tươi UIT. Đọc ngay để chọn hoa đẹp tại Làng Đại Học!",
+  keywords: [
+    "blog hoa tươi",
+    "mẹo chăm sóc hoa",
+    "ý tưởng tặng hoa",
+    "hoa sinh nhật",
+    "hoa chúc mừng",
+    "hoa khai trương",
+    "hoa chia buồn",
+    "hoa tốt nghiệp",
+    "hoa cảm ơn",
+    "Hoa Tươi UIT",
+    "Hoa Tươi Làng Đại Học",
+    "Hoa Tươi Giao Nhanh Tận Nơi",
+    "Mua Hoa Tươi UIT",
+  ],
+  alternates: {
+    canonical: "https://hoatuoiuit.id.vn/blog",
+  },
+  openGraph: {
+    title: "Blog hoa tươi | Hoa Tươi UIT - Làng Đại Học",
+    description:
+      "Khám phá bài viết, mẹo chăm sóc hoa và ý tưởng tặng hoa tại Hoa Tươi UIT. Đọc ngay để chọn hoa đẹp!",
+    url: "https://hoatuoiuit.id.vn/blog",
+    type: "website",
+    images: [
+      {
+        url: "https://hoatuoiuit.id.vn/hero-image.jpg", // Thay bằng URL hình ảnh thực tế
+        width: 1200,
+        height: 630,
+        alt: "Hoa Tươi UIT - Blog về hoa tươi",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    site: "@HoaTuoiUIT",
+    creator: "@HoaTuoiUIT",
+    title: "Blog hoa tươi - Hoa Tươi UIT Làng Đại Học",
+    description:
+      "Đọc bài viết về hoa tươi, mẹo chăm sóc tại Hoa Tươi UIT! Giao nhanh Làng Đại Học. #HoaTuoiUIT", // 93 ký tự, dưới 200
+    images: [
+      "https://hoatuoiuit.id.vn/hero-image.jpg", // Thay bằng URL hình ảnh thực tế
+    ],
+  },
 };
 
 // Hàm fetch danh sách blog từ API
@@ -95,6 +148,9 @@ export default async function Blog({ searchParams }: { searchParams: Promise<{ p
                       height={600}
                       className="object-cover w-full h-[200px] sm:h-[250px] md:h-[300px] rounded-3xl"
                     />
+                    <div className="absolute bottom-3 -left-4 z-10">
+                        <TagLabel text={blog.tags} />
+                    </div>
                   </div>
                   <div className="p-4 sm:p-6">
                     <p className="text-xl md:text-sm text-gray-500">

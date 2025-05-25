@@ -7,19 +7,61 @@ import { Metadata } from "next";
 import ProductCarousel from "./components/ProductCarousel";
 import Link from "next/link";
 import { createSlug } from "./utils/slug";
+import Chatbox from "./components/ChatBox";
 
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "https://backendhoatuoiuit.onrender.com";
 
 export const metadata: Metadata = {
-  title: "Sản phẩm hoa tươi | Hoa Tươi UIT",
-  description: "Khám phá các sản phẩm hoa tươi đa dạng, chất lượng cao tại Hoa Tươi UIT. Đặt hoa online giao tận nơi.",
-  keywords: "hoa tươi, shop hoa, đặt hoa online, hoa sinh nhật, hoa cưới",
+  title: "Hoa Tươi UIT - Mua Hoa Tươi Đẹp, Giá Tốt",
+  description: "Hoa Tươi UIT cung cấp giỏ hoa tươi, hộp hoa đẹp, giao nhanh tận nơi. Đặt hoa online dễ dàng, đa dạng mẫu mã, giá hợp lý.",
+  keywords: [
+    "Hoa Tươi UIT",
+    "mua hoa tươi uit",
+    "hoa của sự tinh túy",
+    "hoa tươi sinh viên UIT",
+    "giỏ hoa tươi",
+    "bó hoa tươi",
+    "lẵng hoa tươi",
+    "bình hoa tươi",
+    "hộp hoa tươi",
+    "cách bảo quản hoa tươi lâu",
+    "cách chọn hoa tươi theo dịp lễ",
+    "hoa tặng vợ",
+    "hoa tặng người yêu",
+    "hoa tặng Valentine",
+    "hoa Giáng Sinh",
+    "hoa khai trương",
+    "hoa tặng tốt nghiệp",
+    "mua hoa hồng",
+    "mua hoa cúc",
+    "mua hoa tulip",
+    "mua hoa hướng dương",
+    "mua hoa lan",
+    "mua hoa mẫu đơn",
+  ],
   openGraph: {
-    title: "Sản phẩm hoa tươi | Hoa Tươi UIT",
-    description: "Khám phá các sản phẩm hoa tươi đa dạng, chất lượng cao tại Hoa Tươi UIT.",
-    url: "https://hoatuoiuit.id.vn",
+    title: "Hoa Tươi UIT - Mua Hoa Tươi Đẹp, Giá Tốt",
+    description: "Khám phá các loại hoa tươi đẹp tại Hoa Tươi UIT. Mua hoa cho mọi dịp!",
+    images: [
+      {
+        url: "https://hoatuoiuit.id.vn/hero-image.jpg", // Sử dụng URL tuyệt đối
+        width: 1200,
+        height: 630,
+        alt: "Hoa Tươi Đẹp - Hoa Tươi UIT",
+      },
+    ],
     type: "website",
+    url: "https://hoatuoiuit.id.vn", // Sửa URL của trang, không phải hình ảnh
+    siteName: "Hoa Tươi UIT",
+  },
+  twitter: {
+    card: "summary_large_image",
+    site: "@HoaTuoiUIT",
+    creator: "@HoaTuoiUIT",
+    title: "Hoa Tươi UIT - Mua Hoa Tươi Đẹp, Giá Tốt",
+    description: "Khám phá các loại hoa tươi đẹp tại Hoa Tươi UIT. Mua hoa cho mọi dịp!",
+    images: ["https://hoatuoiuit.id.vn/hero-image.jpg"], // Sử dụng URL tuyệt đối
   },
 };
 
@@ -207,7 +249,7 @@ export default async function Home() {
               <BlogCard
                 key={index}
                 imageSrc={`${API_BASE_URL}${post.thumbnailUrl}`}
-                tag={post.author}
+                tag={post.tags}
                 author={post.author}
                 date={post.createdAt}
                 title={post.title}
@@ -218,8 +260,8 @@ export default async function Home() {
           </div>
         </div>
       </section>
-
       <Features />
+      <Chatbox />
     </div>
   );
 }

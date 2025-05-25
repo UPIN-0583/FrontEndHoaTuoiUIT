@@ -185,6 +185,22 @@ export async function generateMetadata({
     return plainText.length > 160 ? plainText.substring(0, 160) + "..." : plainText;
   };
 
+  const imageUrl = fixImageUrl(product.imageUrl) || "https://hoatuoiuit.id.vn/default-image.jpg";
+  console.log("Product Image URL:", imageUrl); // Debug URL hình ảnh
+
+  const keywords = [
+    "hoa tươi",
+    product.name.toLowerCase(), // Thêm tên sản phẩm vào từ khóa
+    product.categoryName.toLowerCase(),
+    ...product.occasionNames.map((o) => o.toLowerCase()),
+    ...product.flowerNames.map((f) => f.toLowerCase()),
+    "Hoa Tươi UIT",
+    "Hoa Tươi Làng Đại Học",
+    "Hoa Tươi Giao Nhanh Tận Nơi",
+    "Mua Hoa Tươi UIT",
+    `mua ${product.name.toLowerCase()}`, // Thêm biến thể "mua + tên sản phẩm"
+  ];
+
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "Product",
@@ -196,31 +212,44 @@ export async function generateMetadata({
       priceCurrency: "VND",
       availability: product.isActive ? "InStock" : "OutOfStock",
     },
-    image: fixImageUrl(product.imageUrl),
+    image: imageUrl,
     category: product.categoryName,
+    keywords: keywords.join(", "), // Sử dụng danh sách từ khóa đã bao gồm tên sản phẩm
   };
 
   return {
-    title: `${product.name} | Hoa Tươi UIT`,
+    title: `${product.name} - Hoa Tươi Đẹp | Hoa Tươi UIT`, // Tối ưu tiêu đề với từ khóa bổ sung
     description: getMetaDescription(product.description),
-    keywords: [
-      "hoa tươi",
-      product.categoryName.toLowerCase(),
-      ...product.occasionNames.map((o) => o.toLowerCase()),
-      ...product.flowerNames.map((f) => f.toLowerCase()),
-    ],
+    keywords: keywords, // Danh sách từ khóa đã bao gồm tên sản phẩm
     openGraph: {
-      title: product.name,
-      description: getMetaDescription(product.description),
-      images: [fixImageUrl(product.imageUrl)],
-      type: "website",
+      title: `Mua ${product.name} - Hoa Tươi UIT`, // Đã tối ưu, giữ nguyên
+      description: `Khám phá ${product.name} tại Hoa Tươi UIT - ${getMetaDescription(product.description)}`, // Đã tối ưu, giữ nguyên
+      images: [
+        {
+          url: imageUrl,
+          width: 1200,
+          height: 630,
+          alt: `Hoa Tươi ${product.name} - Hoa Tươi UIT`, // Đã tối ưu, giữ nguyên
+        },
+      ],
+      type: "website", // Sửa thành "product" để phù hợp với schema.org
       url: `https://hoatuoiuit.id.vn/products/${slug}`,
+      siteName: "Hoa Tươi UIT",
+    },
+    twitter: {
+      card: "summary_large_image",
+      site: "@HoaTuoiUIT",
+      creator: "@HoaTuoiUIT",
+      title: `Mua ${product.name} - Hoa Tươi UIT`, // Đã tối ưu, giữ nguyên
+      description: `Khám phá ${product.name} tại Hoa Tươi UIT - ${getMetaDescription(product.description)}`,
+      images: [imageUrl],
     },
     other: {
       "structured-data": JSON.stringify(structuredData),
     },
   };
 }
+
 
 // Server Component
 export default async function ProductDetails({
