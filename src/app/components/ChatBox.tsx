@@ -1,5 +1,4 @@
 'use client';
-
 import { useState } from 'react';
 import Image from 'next/image';
 
@@ -32,7 +31,7 @@ export default function Chatbox() {
         body: JSON.stringify({ question: input }),
       });
       const data = await res.json();
-      // Trả về answer dạng JSON array hoặc chuỗi (tùy trường hợp)
+      console.log('Chatbot response:', data);
       const botMsg = { role: 'bot', content: data.answer };
       setMessages(prev => [...prev, botMsg]);
     } catch (err) {
@@ -50,50 +49,37 @@ export default function Chatbox() {
         {isOpen ? 'Đóng' : '💬 Chat'}
       </button>
 
-      <div
-        className={`transition-all duration-500 ease-in-out ${
-          isOpen ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-90 translate-y-5 pointer-events-none'
-        } w-80 h-96 bg-white rounded-lg shadow-2xl flex flex-col border border-pink-300 absolute bottom-16 right-0`}
-      >
-        <div className="bg-pink-500 text-white text-center py-2 rounded-t-lg font-bold">
-          🌸 Chat Hoa Tươi UIT 🌸
-        </div>
+      <div className={`transition-all duration-500 ease-in-out ${isOpen ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-90 translate-y-5 pointer-events-none'} w-80 h-96 bg-white rounded-lg shadow-2xl flex flex-col border border-pink-300 absolute bottom-16 right-0`}>
+        <div className="bg-pink-500 text-white text-center py-2 rounded-t-lg font-bold">🌸 Chat Hoa Tươi UIT 🌸</div>
 
         <div className="flex-1 p-3 overflow-y-auto space-y-3 bg-pink-50">
           {messages.map((msg, idx) => (
             <div key={idx} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-              <div
-                className={`p-2 rounded-lg max-w-[75%] ${
-                  msg.role === 'user' ? 'bg-yellow-100 text-right' : 'bg-white text-left'
-                }`}
-              >
+              <div className={`p-2 rounded-lg max-w-[75%] ${msg.role === 'user' ? 'bg-yellow-100 text-right' : 'bg-white text-left'}`}>
                 {msg.role === 'bot' && Array.isArray(msg.content) ? (
                   <div className="space-y-2">
                     {msg.content.map((card, index) => (
                       <div key={index} className="bg-white border rounded-lg p-2 shadow-md flex flex-row">
                         <div>
                           {card.image && (
-                            <Image
-                              src={card.image.startsWith('/uploads') ? `${API_BASE_URL}${card.image}` : card.image}
-                              alt={card.flower}
-                              className="w-full h-20 object-cover rounded my-2"
-                            />
+                            <div className="relative w-[80px] h-[100px]">
+                              <Image
+                                src={card.image.startsWith('/uploads') ? `${API_BASE_URL}${card.image}` : card.image}
+                                alt={card.flower || 'Hình ảnh sản phẩm'}
+                                fill
+                                className="object-cover rounded"
+                                sizes="(max-width: 768px) 100vw, 200px"
+                              />
+                            </div>
                           )}
                         </div>
-                        <div className='ml-2 '>
+                        <div className='ml-2'>
                           <h4 className="font-bold text-pink-600">{card.flower}</h4>
-                            {card.links.length > 0 ? (
+                          {Array.isArray(card.links) && card.links.length > 0 ? (
                             <ul className="list-disc pl-4">
                               {card.links.map((link, i) => (
                                 <li key={i}>
-                                  <a
-                                    href={link}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="text-blue-600 underline text-sm hover:text-blue-800"
-                                  >
-                                    Xem thêm
-                                  </a>
+                                  <a href={link} target="_blank" rel="noopener noreferrer" className="text-blue-600 underline text-sm hover:text-blue-800">Xem thêm</a>
                                 </li>
                               ))}
                             </ul>
@@ -105,7 +91,7 @@ export default function Chatbox() {
                     ))}
                   </div>
                 ) : (
-                  <p>{msg.content}</p>  // Hiển thị câu chào hoặc thông báo lỗi
+                  <p>{msg.content}</p>
                 )}
               </div>
             </div>
@@ -121,9 +107,7 @@ export default function Chatbox() {
             placeholder="Nhập câu hỏi..."
             className="flex-1 p-2 border-none outline-none"
           />
-          <button onClick={sendMessage} className="bg-pink-500 text-white px-3 rounded-r-lg">
-            Gửi
-          </button>
+          <button onClick={sendMessage} className="bg-pink-500 text-white px-3 rounded-r-lg">Gửi</button>
         </div>
       </div>
     </div>

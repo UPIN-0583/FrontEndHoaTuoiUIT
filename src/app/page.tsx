@@ -86,11 +86,11 @@ async function getProducts() {
     rating: item.averageRating != 0 ? item.averageRating : 4.9,
     title: item.name,
     img: `${API_BASE_URL}${item.imageUrl}`,
-    price: item.finalPrice, 
-    oldPrice: item.discountValue > 0 ? item.price : undefined, 
-    discount:  item.discountValue && item.price
-        ? '-' + Math.round((item.discountValue / item.price) * 100) + '%'
-        : undefined, 
+    price: item.finalPrice,
+    oldPrice: item.discountValue > 0 ? item.price : undefined,
+    discount: item.discountValue && item.price
+      ? '-' + Math.round((item.discountValue / item.price) * 100) + '%'
+      : undefined,
     category: item.categoryName,
   }));
 }
