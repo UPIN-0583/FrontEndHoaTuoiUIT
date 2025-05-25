@@ -3,6 +3,8 @@
 import { useState } from 'react';
 import Image from 'next/image';
 
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "https://backendhoatuoiuit.onrender.com";
+
 export default function Chatbox() {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([]);
@@ -24,7 +26,7 @@ export default function Chatbox() {
     setLoading(true);
 
     try {
-      const res = await fetch('http://localhost:8080/chatbot/suggest', {
+      const res = await fetch(`${API_BASE_URL}/chatbot/suggest`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ question: input }),
@@ -72,7 +74,7 @@ export default function Chatbox() {
                         <div>
                           {card.image && (
                             <Image
-                              src={card.image.startsWith('/uploads') ? `https://backendhoatuoiuit.onrender.com${card.image}` : card.image}
+                              src={card.image.startsWith('/uploads') ? `${API_BASE_URL}${card.image}` : card.image}
                               alt={card.flower}
                               className="w-full h-20 object-cover rounded my-2"
                             />
