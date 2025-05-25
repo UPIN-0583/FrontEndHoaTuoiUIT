@@ -365,7 +365,7 @@ export default function CheckoutAddressContent() {
               <option value="">Chọn phương thức thanh toán</option>
               <option value="1">Thanh toán khi nhận hàng (COD)</option>
               <option value="2">Thẻ tín dụng</option>
-              <option value="3">Chuyển khoản ngân hàng</option>
+              <option value="3">Thanh toán qua MoMo</option>
             </select>
             <button
               onClick={handleUpdatePaymentMethod}
