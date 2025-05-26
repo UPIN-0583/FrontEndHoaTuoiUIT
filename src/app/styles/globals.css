@@ -35,3 +35,19 @@ body .swiper-button-disabled {
   pointer-events: auto !important;
   cursor: pointer !important;
 }
+
+.prose h1 { font-size: 1.875rem; }
+.prose h2 { font-size: 1.5rem; }
+.prose p { line-height: 1.75; margin-bottom: 1rem; }
+.prose img { display: block; margin: 0 auto; border-radius: 0.5rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+.prose a { color: #2563EB; text-decoration: underline; }
+
+.prose ul {
+  list-style-type: disc; /* Dấu chấm */
+  padding-left: 1.5rem; /* Khoảng cách từ lề trái */
+  margin-bottom: 1rem; /* Khoảng cách dưới */
+}
+
+.prose ul li {
+  margin-bottom: 0.5rem; /* Khoảng cách giữa các item */
+}
