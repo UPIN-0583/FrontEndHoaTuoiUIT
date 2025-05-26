@@ -182,7 +182,7 @@ export default async function BlogDetails({ params }) {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
         />
       </head>
-      <div className="max-w-4xl mx-auto px-4 py-8">
+      <div className="max-w-5xl mx-auto px-4 py-8">
         <h1 className="text-3xl md:text-4xl font-bold text-gray-800 mb-6">
           {blog.title}
         </h1>
@@ -198,16 +198,15 @@ export default async function BlogDetails({ params }) {
             <Image
               src={`${API_BASE_URL}${blog.thumbnailUrl}`}
               alt={blog.title}
-              width={800}
-              height={400}
+              width={600}
+              height={300}
               className="w-full object-cover"
             />
           </div>
         )}
-        <div
-          className="prose prose-lg max-w-none text-gray-700"
-          dangerouslySetInnerHTML={{ __html: sanitizedContent }}
-        />
+        <article className="prose max-w-none prose-img:rounded prose-img:shadow prose-img:mx-auto prose-h1:text-3xl prose-h2:text-2xl prose-p:leading-relaxed prose-a:text-blue-600">
+            <div dangerouslySetInnerHTML={{ __html: sanitizedContent }} />
+        </article>
       </div>
     </>
   );
