@@ -33,11 +33,11 @@ export default function Footer() {
     const Services = [
         {
             title: "Tài khoản",
-            link: "/account",
+            link: "/myaccount",
         },
         {
             title: "Theo dõi đơn hàng",
-            link: "/tracking",
+            link: "/myaccount",
         },
         {
             title: "Trả hàng",
@@ -77,16 +77,16 @@ export default function Footer() {
                         Từ trái tim UIT – gửi đến bạn những cánh hoa rạng rỡ và chân thành.
                     </p>
                     <div className="flex justify-center md:justify-start gap-6 md:gap-10 mt-6 text-xl md:text-2xl">
-                        <a href="#" className="hover:text-purple-200 transition-colors">
+                        <a href="https://www.facebook.com/profile.php?id=61576797658604" className="hover:text-purple-200 transition-colors">
                             <FontAwesomeIcon icon={faFacebook} className="text-white" />
                         </a>
-                        <a href="#" className="hover:text-purple-200 transition-colors">
+                        <a href="https://x.com/HoaTuoiUIT" className="hover:text-purple-200 transition-colors">
                             <FontAwesomeIcon icon={faXTwitter} className="text-white" />
                         </a>
                         <a href="#" className="hover:text-purple-200 transition-colors">
                             <FontAwesomeIcon icon={faPinterest} className="text-white" />
                         </a>
-                        <a href="#" className="hover:text-purple-200 transition-colors">
+                        <a href="https://www.instagram.com/hoatuoiuit/" className="hover:text-purple-200 transition-colors">
                             <FontAwesomeIcon icon={faInstagram} className="text-white" />
                         </a>
                     </div>

@@ -55,6 +55,23 @@ export default function RootLayout({
             })(window,document,'script','dataLayer','GTM-WN5753FX');
           `}
         </Script>
+        {/* Bổ sung Schema */}
+         <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "LocalBusiness",
+              "name": "Hoa Tươi UIT",
+              "url": "https://hoatuoiuit.id.vn",
+              "sameAs": [
+                "https://www.facebook.com/profile.php?id=61576797658604",
+                "https://www.instagram.com/hoatuoiuit/",
+                "https://x.com/HoaTuoiUIT"
+              ]
+            })
+          }}
+        />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         {/* Google Tag Manager (noscript) */}
