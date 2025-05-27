@@ -30,17 +30,17 @@ const LogNavbar = () => {
           &nbsp;và nhận <strong>giảm giá 20%</strong> cho đơn hàng đầu tiên.
         </span>
         <div className="flex space-x-3 mt-2 md:mt-0 text-center justify-center">
-          <a href="#" target="_blank" rel="noopener noreferrer">
+          <a href="https://www.facebook.com/profile.php?id=61576797658604" target="_blank" rel="noopener noreferrer">
             <FontAwesomeIcon icon={faFacebook} className="text-white" />
           </a>
-          <a href="#" target="_blank" rel="noopener noreferrer">
+          <a href="https://x.com/HoaTuoiUIT" target="_blank" rel="noopener noreferrer">
             <FontAwesomeIcon icon={faXTwitter} className="text-white" />
           </a>
           <a href="#" target="_blank" rel="noopener noreferrer">
             <FontAwesomeIcon icon={faPinterest} className="text-white" />
           </a>
           <a
-            href="https://instagram.com"
+            href="https://www.instagram.com/hoatuoiuit/"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -129,17 +129,17 @@ const GuestNavbar = () => {
           &nbsp;và nhận <strong>giảm giá 20%</strong> cho đơn hàng đầu tiên.
         </span>
         <div className="flex space-x-3 mt-2 md:mt-0 text-center justify-center">
-          <a href="#" target="_blank" rel="noopener noreferrer">
+          <a href="https://www.facebook.com/profile.php?id=61576797658604" target="_blank" rel="noopener noreferrer">
             <FontAwesomeIcon icon={faFacebook} className="text-white" />
           </a>
-          <a href="#" target="_blank" rel="noopener noreferrer">
+          <a href="https://x.com/HoaTuoiUIT" target="_blank" rel="noopener noreferrer">
             <FontAwesomeIcon icon={faXTwitter} className="text-white" />
           </a>
           <a href="#" target="_blank" rel="noopener noreferrer">
             <FontAwesomeIcon icon={faPinterest} className="text-white" />
           </a>
           <a
-            href="https://instagram.com"
+            href="https://www.instagram.com/hoatuoiuit/"
             target="_blank"
             rel="noopener noreferrer"
           >
