@@ -7,6 +7,7 @@ import { Metadata } from "next";
 import ProductCarousel from "./components/ProductCarousel";
 import Link from "next/link";
 import { createSlug } from "./utils/slug";
+import Chatbox from "./components/ChatBox";
 
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "https://backendhoatuoiuit.onrender.com";
@@ -85,11 +86,11 @@ async function getProducts() {
     rating: item.averageRating != 0 ? item.averageRating : 4.9,
     title: item.name,
     img: `${API_BASE_URL}${item.imageUrl}`,
-    price: item.finalPrice, 
-    oldPrice: item.discountValue > 0 ? item.price : undefined, 
-    discount:  item.discountValue && item.price
-        ? '-' + Math.round((item.discountValue / item.price) * 100) + '%'
-        : undefined, 
+    price: item.finalPrice,
+    oldPrice: item.discountValue > 0 ? item.price : undefined,
+    discount: item.discountValue && item.price
+      ? '-' + Math.round((item.discountValue / item.price) * 100) + '%'
+      : undefined,
     category: item.categoryName,
   }));
 }
@@ -259,8 +260,8 @@ export default async function Home() {
           </div>
         </div>
       </section>
-
       <Features />
+      <Chatbox />
     </div>
   );
 }

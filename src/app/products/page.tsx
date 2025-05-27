@@ -102,13 +102,16 @@ export default async function ProductsPage({
   function parseMulti(raw?: string | string[]): string[] {
     if (!raw) return [];
     if (Array.isArray(raw)) {
-      return raw.map(decodeURIComponent);
+      return raw
+        .map(s => decodeURIComponent(s.trim()))
+        .filter(s => s !== "");
     }
     return raw
       .split(",")
-      .map((s) => decodeURIComponent(s.trim()))
-      .filter((s) => s);
+      .map(s => decodeURIComponent(s.trim()))
+      .filter(s => s !== "");
   }
+
 
   const selectedFlowers = parseMulti(resolvedSearchParams?.flowerType);
   const selectedOccasions = parseMulti(resolvedSearchParams?.occasion);
@@ -157,7 +160,7 @@ export default async function ProductsPage({
           <SidebarFilter
             selectedFlowers={selectedFlowers}
             selectedOccasions={selectedOccasions}
-            priceRange={[priceMin ?? 0, priceMax ?? 1000000]}
+            priceRange={[priceMin ?? 0, priceMax ?? 10000000]}
           />
         </div>
         <div className="flex-4">

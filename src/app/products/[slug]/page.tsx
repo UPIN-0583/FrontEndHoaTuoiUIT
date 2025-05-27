@@ -91,7 +91,7 @@ interface ProductDTO {
 }
 
 // Base URL cho API
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "https://backendhoatuoiuit.onrender.com";
 
 // Hàm sửa URL hình ảnh
 const fixImageUrl = (url: string) => {
@@ -274,17 +274,17 @@ export default async function ProductDetails({
 
   // Ánh xạ ProductDTO sang Product cho ProductCarousel
   const formattedProducts = relatedProducts.map((item) => ({
-  id: item.id,
-  title: item.name,
-  category: item.occasionNames.join(", ") || item.categoryName,
-  price: item.finalPrice,
-  rating: item.averageRating || 4.9,
-  img: fixImageUrl(item.imageUrl),
-  oldPrice: item.discountValue > 0 ? item.price : undefined,
-  discount:
-    item.discountValue > 0
-      ? `-${((item.discountValue / item.price) * 100).toFixed(0)}%`
-      : undefined,
+    id: item.id,
+    title: item.name,
+    category: item.occasionNames.join(", ") || item.categoryName,
+    price: item.finalPrice,
+    rating: item.averageRating || 4.9,
+    img: fixImageUrl(item.imageUrl),
+    oldPrice: item.discountValue > 0 ? item.price : undefined,
+    discount:
+      item.discountValue > 0
+        ? `-${((item.discountValue / item.price) * 100).toFixed(0)}%`
+        : undefined,
   }));
 
 
@@ -316,113 +316,113 @@ export default async function ProductDetails({
         />
       </head>
 
-        <div className="max-w-5xl mx-auto p-6 bg-white shadow-md rounded-lg text-black mt-6">
-          {/* Product Display */}
-          <div className="flex flex-col md:flex-row gap-6">
-            {/* Left Section - Hình ảnh chiếm 1/3 */}
-            <div className="w-full max-w-[280px] mx-auto md:w-1/3 flex justify-center">
-              <div className="bg-white p-5 rounded-2xl shadow-md w-full max-w-[280px] md:w-[240px] relative overflow-hidden">
-                {product.discountValue > 0 && (
-                  <span className="absolute top-2 left-2 bg-purple-500 text-white px-2 py-1 text-xs rounded-full">
-                    -{((product.discountValue / product.price) * 100).toFixed(0)}% off
-                  </span>
-                )}
-                <Image
-                  src={fixImageUrl(product.imageUrl)}
-                  alt={product.name}
-                  className="rounded-xl"
-                  width={300}
-                  height={200}
-                />
-              </div>
-            </div>
-
-            {/* Right Section - Chi tiết chiếm 2/3 */}
-            <div className="md:w-2/3">
-              <h3 className="text-gray-500">{product.occasionNames.join(", ")}</h3>
-              <h2 className="text-2xl font-semibold">{product.name}</h2>
-              <div className="flex items-center mt-2">
-                <div className="flex text-yellow-500">
-                        {[...Array(5)].map((_, i) => (
-                          <FontAwesomeIcon
-                            key={i}
-                            icon={faStar}
-                            className={i < rating ? "text-yellow-500" : "text-gray-300"}
-                          />
-                        ))}
-                      </div>
-                <span className="text-gray-600 ml-2">
-                  {rating} ({reviewsCount} Reviews)
+      <div className="max-w-5xl mx-auto p-6 bg-white shadow-md rounded-lg text-black mt-6">
+        {/* Product Display */}
+        <div className="flex flex-col md:flex-row gap-6">
+          {/* Left Section - Hình ảnh chiếm 1/3 */}
+          <div className="w-full max-w-[280px] mx-auto md:w-1/3 flex justify-center">
+            <div className="bg-white p-5 rounded-2xl shadow-md w-full max-w-[280px] md:w-[240px] relative overflow-hidden">
+              {product.discountValue > 0 && (
+                <span className="absolute top-2 left-2 bg-purple-500 text-white px-2 py-1 text-xs rounded-full">
+                  -{((product.discountValue / product.price) * 100).toFixed(0)}% off
                 </span>
-              </div>
-
-              {/* Price */}
-              <div className="text-lg font-bold mt-2">
-                {new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(product.finalPrice)}{" "}
-                {product.discountValue > 0 && (
-                  <span className="text-gray-500 line-through ml-2">
-                    {new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(product.price)}
-                  </span>
-                )}
-              </div>
-
-              <div className="mt-4">{product.description.replace(/<[^>]+>/g, "")}</div>
-
-              {/* Tùy chọn kích thước, số lượng, nút hành động */}
-              <ProductActions productId={product.id} isFavorited={product.isFavorited} />
+              )}
+              <Image
+                src={fixImageUrl(product.imageUrl)}
+                alt={product.name}
+                className="rounded-xl"
+                width={300}
+                height={200}
+              />
             </div>
           </div>
-        </div>
-               
-        {/* Section sản phẩm liên quan */}
 
-        {formattedProducts.length > 0 ? (
-          <ProductCarousel products={formattedProducts} />
-        ) : (
-          <p className="text-gray-500 text-center">Không có sản phẩm liên quan.</p>
-        )}
-
-
-
-        {/* Section bình luận sản phẩm */}
-        <Suspense fallback={<ReviewsLoadingFallback />}>
-          <div className="mx-4 md:mx-12 lg:mx-32 mt-8">
-            <h3 className="text-2xl font-semibold mb-4 text-black">Bình luận sản phẩm</h3>
-            {reviews.length > 0 ? (
-              <div className="space-y-4">
-                {reviews.map((review) => (
-                  <div key={review.id} className="bg-white p-4 rounded-lg shadow-md">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center">
-                        <span className="font-semibold text-gray-800">{review.customerName}</span>
-                      </div>
-                      <div className="flex text-yellow-500">
-                        {[...Array(5)].map((_, i) => (
-                          <FontAwesomeIcon
-                            key={i}
-                            icon={faStar}
-                            className={i < review.rating ? "text-yellow-500" : "text-gray-300"}
-                          />
-                        ))}
-                        <span className="text-black ml-2">{review.rating}</span>
-                      </div>
-                    </div>
-                    <p className="text-gray-600 mt-2">{review.comment}</p>
-                    <p className="text-xs text-gray-400 mt-1">
-                      {new Date(review.createdAt).toLocaleDateString("vi-VN", {
-                        day: "2-digit",
-                        month: "2-digit",
-                        year: "numeric",
-                      })}
-                    </p>
-                  </div>
+          {/* Right Section - Chi tiết chiếm 2/3 */}
+          <div className="md:w-2/3">
+            <h3 className="text-gray-500">{product.occasionNames.join(", ")}</h3>
+            <h2 className="text-2xl font-semibold">{product.name}</h2>
+            <div className="flex items-center mt-2">
+              <div className="flex text-yellow-500">
+                {[...Array(5)].map((_, i) => (
+                  <FontAwesomeIcon
+                    key={i}
+                    icon={faStar}
+                    className={i < rating ? "text-yellow-500" : "text-gray-300"}
+                  />
                 ))}
               </div>
-            ) : (
-              <p className="text-gray-500 text-center">Chưa có bình luận nào cho sản phẩm này.</p>
-            )}
+              <span className="text-gray-600 ml-2">
+                {rating} ({reviewsCount} Reviews)
+              </span>
+            </div>
+
+            {/* Price */}
+            <div className="text-lg font-bold mt-2">
+              {new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(product.finalPrice)}{" "}
+              {product.discountValue > 0 && (
+                <span className="text-gray-500 line-through ml-2">
+                  {new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(product.price)}
+                </span>
+              )}
+            </div>
+
+            <div className="mt-4">{product.description.replace(/<[^>]+>/g, "")}</div>
+
+            {/* Tùy chọn kích thước, số lượng, nút hành động */}
+            <ProductActions productId={product.id} isFavorited={product.isFavorited} />
           </div>
-        </Suspense>
+        </div>
+      </div>
+
+      {/* Section sản phẩm liên quan */}
+
+      {formattedProducts.length > 0 ? (
+        <ProductCarousel products={formattedProducts} />
+      ) : (
+        <p className="text-gray-500 text-center">Không có sản phẩm liên quan.</p>
+      )}
+
+
+
+      {/* Section bình luận sản phẩm */}
+      <Suspense fallback={<ReviewsLoadingFallback />}>
+        <div className="mx-4 md:mx-12 lg:mx-32 mt-8">
+          <h3 className="text-2xl font-semibold mb-4 text-black">Bình luận sản phẩm</h3>
+          {reviews.length > 0 ? (
+            <div className="space-y-4">
+              {reviews.map((review) => (
+                <div key={review.id} className="bg-white p-4 rounded-lg shadow-md">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center">
+                      <span className="font-semibold text-gray-800">{review.customerName}</span>
+                    </div>
+                    <div className="flex text-yellow-500">
+                      {[...Array(5)].map((_, i) => (
+                        <FontAwesomeIcon
+                          key={i}
+                          icon={faStar}
+                          className={i < review.rating ? "text-yellow-500" : "text-gray-300"}
+                        />
+                      ))}
+                      <span className="text-black ml-2">{review.rating}</span>
+                    </div>
+                  </div>
+                  <p className="text-gray-600 mt-2">{review.comment}</p>
+                  <p className="text-xs text-gray-400 mt-1">
+                    {new Date(review.createdAt).toLocaleDateString("vi-VN", {
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "numeric",
+                    })}
+                  </p>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className="text-gray-500 text-center">Chưa có bình luận nào cho sản phẩm này.</p>
+          )}
+        </div>
+      </Suspense>
 
     </>
   );
