@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { FaEye, FaEyeSlash, FaBars, FaUser, FaBoxOpen, FaMapMarkerAlt, FaCreditCard, FaLock, FaSignOutAlt } from "react-icons/fa";
 import { toast } from "react-toastify";
+import MyOrders from "./MyOrders";
 
 // Định nghĩa kiểu dữ liệu cho đơn hàng và sản phẩm trong đơn hàng
 interface OrderItem {
@@ -258,107 +259,7 @@ export default function Account() {
         );
 
       case "Đơn Hàng Của Tôi":
-        const statusMap = {
-          all: "Tất cả",
-          pending: "Đang chờ xử lý",
-          processing: "Đang xử lý",
-          shipped: "Đang giao",
-          delivered: "Đã giao",
-          cancelled: "Đã hủy"
-        };
-        // Lọc đơn hàng theo trạng thái
-        const filteredOrders: Order[] = orderFilter === "all"
-          ? orders
-          : orders.filter((order) => order.status && order.status.toLowerCase() === orderFilter);
-        return (
-          <div className="w-full px-6">
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl font-bold text-gray-800">Đơn Hàng ({filteredOrders.length})</h2>
-              <div className="relative">
-                <select
-                  className="appearance-none border border-gray-300 rounded-xl px-4 py-2 pr-8 text-sm text-gray-700 focus:outline-none shadow-sm"
-                  value={orderFilter}
-                  onChange={e => setOrderFilter(e.target.value)}
-                >
-                  <option value="all">Tất cả</option>
-                  <option value="pending">Đang chờ xử lý</option>
-                  <option value="processing">Đang xử lý</option>
-                  <option value="shipped">Đang giao</option>
-                  <option value="delivered">Đã giao</option>
-                  <option value="cancelled">Đã hủy</option>
-                </select>
-                <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500">▼</span>
-              </div>
-            </div>
-            {/* Danh sách đơn hàng với thanh cuộn nếu dài */}
-            <div className="bg-white rounded-2xl shadow-lg p-6 mb-6 max-h-[500px] overflow-y-auto">
-              {filteredOrders.length === 0 ? (
-                <div className="text-center text-gray-500 py-8">Không có đơn hàng nào.</div>
-              ) : (
-                filteredOrders.map((order) => (
-                  <div key={order.id} className="mb-8 border-b last:border-b-0 pb-6">
-                    <div className="grid grid-cols-1 md:grid-cols-4 gap-4 text-sm text-gray-700 bg-gradient-to-tr from-pink-200 to-purple-100 rounded-t-2xl p-3 mb-2">
-                      <div>
-                        <p className="font-bold">Mã Đơn Hàng</p>
-                        <p>#{order.id}</p>
-                      </div>
-                      <div>
-                        <p className="font-bold">Tổng Thanh Toán</p>
-                        <p>
-                          {formatCurrency(
-                            order.items?.reduce((sum, item) => {
-                              const original = item.price * item.quantity;
-                              const discount = (item.discountApplied || 0) * item.quantity;
-                              return sum + (original - discount);
-                            }, 0)
-                          )}
-                        </p>
-                      </div>
-                      <div>
-                        <p className="font-bold">Phương Thức</p>
-                        <p>{order.paymentMethodName}</p>
-                      </div>
-                      <div>
-                        <p className="font-bold">Trạng Thái</p>
-                        <p>{statusMap[order.status?.toLowerCase() as keyof typeof statusMap] || order.status}</p>
-                      </div>
-                    </div>
-                    <div className="mb-2 text-gray-600 text-sm">Ngày đặt: {order.orderDate?.slice(0, 10)} | Dự kiến giao: {order.deliveryDate?.slice(0, 10)}</div>
-                    <div className="mb-2 text-gray-600 text-sm">Địa chỉ: {order.deliveryAddress}</div>
-                    <div className="mb-2 text-gray-600 text-sm">Ghi chú: {order.note}</div>
-                    {/* Danh sách sản phẩm */}
-                    <div className="overflow-x-auto">
-                      <table className="min-w-full text-xs text-left border">
-                        <thead className="bg-purple-100">
-                          <tr>
-                            <th className="px-2 py-1">Tên sản phẩm</th>
-                            <th className="px-2 py-1">Số lượng</th>
-                            <th className="px-2 py-1">Giá</th>
-                            <th className="px-2 py-1">Giảm giá</th>
-                            <th className="px-2 py-1">Giá sau giảm</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {order.items && order.items.length > 0 ? order.items.map((item, idx) => (
-                            <tr key={idx} className="border-t">
-                              <td className="px-2 py-1">{item.productName}</td>
-                              <td className="px-2 py-1">{item.quantity}</td>
-                              <td className="px-2 py-1">{formatCurrency(item.price * item.quantity)}</td>
-                              <td className="px-2 py-1">{formatCurrency((item.discountApplied || 0) * item.quantity)}</td>
-                              <td className="px-2 py-1">{formatCurrency(item.price * item.quantity - item.discountApplied * item.quantity)}</td>
-                            </tr>
-                          )) : (
-                            <tr><td colSpan={5} className="text-center text-gray-400 py-2">Không có sản phẩm</td></tr>
-                          )}
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                ))
-              )}
-            </div>
-          </div>
-        );
+        return <MyOrders orders={orders} orderFilter={orderFilter} setOrderFilter={setOrderFilter} />;
 
       case "Quản Lý Địa Chỉ":
         return (
