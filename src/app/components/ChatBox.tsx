@@ -32,8 +32,30 @@ export default function Chatbox() {
       });
       const data = await res.json();
       console.log('Chatbot response:', data);
-      const botMsg = { role: 'bot', content: data.answer };
-      setMessages(prev => [...prev, botMsg]);
+
+      // Hiển thị suggestion trước
+      const botMessages = [
+        { role: 'bot', content: data.suggestion }
+      ];
+
+      // Hiển thị từng card sản phẩm
+      data.cards.forEach(card => {
+        if (card.message) {
+          botMessages.push({ role: 'bot', content: `${card.flower} – ${card.message}` });
+        } else {
+          botMessages.push({
+            role: 'bot',
+            content: {
+              flower: card.flower,
+              productName: card.productName,
+              image: card.image,
+              link: card.link
+            }
+          });
+        }
+      });
+
+      setMessages(prev => [...prev, ...botMessages]);
     } catch (err) {
       setMessages(prev => [...prev, { role: 'bot', content: 'Có lỗi xảy ra. Vui lòng thử lại.' }]);
     }
@@ -56,42 +78,30 @@ export default function Chatbox() {
           {messages.map((msg, idx) => (
             <div key={idx} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
               <div className={`p-2 rounded-lg max-w-[75%] ${msg.role === 'user' ? 'bg-yellow-100 text-right' : 'bg-white text-left'}`}>
-                {msg.role === 'bot' && Array.isArray(msg.content) ? (
-                  <div className="space-y-2">
-                    {msg.content.map((card, index) => (
-                      <div key={index} className="bg-white border rounded-lg p-2 shadow-md flex flex-row">
-                        <div>
-                          {card.image && (
-                            <div className="relative w-[80px] h-[100px]">
-                              <Image
-                                src={card.image.startsWith('/uploads') ? `${API_BASE_URL}${card.image}` : card.image}
-                                alt={card.flower || 'Hình ảnh sản phẩm'}
-                                fill
-                                className="object-cover rounded"
-                                sizes="(max-width: 768px) 100vw, 200px"
-                              />
-                            </div>
-                          )}
-                        </div>
-                        <div className='ml-2'>
-                          <h4 className="font-bold text-pink-600">{card.flower}</h4>
-                          {Array.isArray(card.links) && card.links.length > 0 ? (
-                            <ul className="list-disc pl-4">
-                              {card.links.map((link, i) => (
-                                <li key={i}>
-                                  <a href={link} target="_blank" rel="noopener noreferrer" className="text-blue-600 underline text-sm hover:text-blue-800">Xem thêm</a>
-                                </li>
-                              ))}
-                            </ul>
-                          ) : (
-                            <p className="text-sm text-gray-500">Hiện chưa có sản phẩm.</p>
-                          )}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
+                {typeof msg.content === 'string' ? (
                   <p>{msg.content}</p>
+                ) : (
+                  // Hiển thị card sản phẩm
+                  <div className="bg-white border rounded-lg p-2 shadow-md">
+                    {msg.content.image && (
+                      <div className="relative w-[120px] h-[120px] mx-auto mb-2">
+                        <Image
+                          src={msg.content.image.startsWith('/uploads') ? `${API_BASE_URL}${msg.content.image}` : msg.content.image}
+                          alt={msg.content.productName || 'Sản phẩm'}
+                          fill
+                          className="object-cover rounded"
+                          sizes="(max-width: 768px) 100vw, 200px"
+                        />
+                      </div>
+                    )}
+                    <h4 className="font-bold text-pink-600 text-center">{msg.content.productName}</h4>
+                    <p className="text-sm text-gray-500 text-center">{msg.content.flower}</p>
+                    {msg.content.link && (
+                      <div className="text-center mt-2">
+                        <a href={msg.content.link} target="_blank" rel="noopener noreferrer" className="text-blue-600 underline text-sm hover:text-blue-800">Xem sản phẩm</a>
+                      </div>
+                    )}
+                  </div>
                 )}
               </div>
             </div>
