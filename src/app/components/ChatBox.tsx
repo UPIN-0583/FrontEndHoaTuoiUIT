@@ -43,13 +43,19 @@ export default function Chatbox() {
         if (card.message) {
           botMessages.push({ role: 'bot', content: `${card.flower} – ${card.message}` });
         } else {
+          let productLink;
+          if (API_BASE_URL.includes("localhost")) {
+            productLink = `http://localhost:3000${card.link}`;  // Local dev
+          } else {
+            productLink = `https://hoatuoiuit.id.vn${card.link}`;  // Production
+          }
           botMessages.push({
             role: 'bot',
             content: {
               flower: card.flower,
               productName: card.productName,
               image: card.image,
-              link: card.link
+              link: productLink
             }
           });
         }
