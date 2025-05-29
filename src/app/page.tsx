@@ -14,7 +14,7 @@ const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "https://backendhoa
 
 export const metadata: Metadata = {
   title: "Hoa Tươi UIT - Mua Hoa Tươi Đẹp, Giá Tốt",
-  description: "Hoa Tươi UIT cung cấp giỏ hoa tươi, hộp hoa đẹp, giao nhanh tận nơi. Đặt hoa online dễ dàng, đa dạng mẫu mã, giá hợp lý.",
+  description: "Hoa Tươi UIT cung cấp giỏ hoa tươi, hộp hoa đẹp, giao nhanh tận nơi. Đặt hoa online dễ dàng, đa dạng mẫu mã, giá hợp lý tại làng đại học Thủ Đức.",
   keywords: [
     "Hoa Tươi UIT",
     "mua hoa tươi uit",
