@@ -22,6 +22,8 @@ export const metadata: Metadata = {
     "hoa tươi sinh viên UIT",
     "hoa tươi làng đại học",
     "mua hoa tươi tại làng đại học",
+    "mua hoa tươi giá rẻ",
+    "mua hoa tươi giá sinh viên",
     "giỏ hoa tươi",
     "bó hoa tươi",
     "lẵng hoa tươi",
