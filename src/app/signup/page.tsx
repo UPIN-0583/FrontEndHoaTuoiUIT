@@ -16,6 +16,7 @@ const SignUp = () => {
     const [password2, setPassword2] = useState("");
     const [showPassword2, setShowPassword2] = useState(false);
     const [email, setEmail] = useState("");
+    const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "https://backendhoatuoiuit.onrender.com";
 
     const togglePasswordVisibility = () => {
         setShowPassword((prev) => !prev);
@@ -52,7 +53,7 @@ const SignUp = () => {
 
         try {
             const res = await fetch(
-                `https://backendhoatuoiuit.onrender.com/api/customers/signup`,
+                `${API_BASE_URL}/api/customers/signup`,
                 {
                     method: "POST",
                     headers: {

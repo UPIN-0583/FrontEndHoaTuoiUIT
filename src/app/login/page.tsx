@@ -13,7 +13,7 @@ const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
-
+    const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "https://backendhoatuoiuit.onrender.com";
     const togglePasswordVisibility = () => {
         setShowPassword((prevState) => !prevState);
     };
@@ -28,7 +28,7 @@ const Login = () => {
             return;
         }
 
-        axios.post(`https://backendhoatuoiuit.onrender.com/api/customers/login`, {
+        axios.post(`${API_BASE_URL}/api/customers/login`, {
             email: email,
             password: password
         }).then((res) => {

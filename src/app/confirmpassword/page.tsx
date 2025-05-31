@@ -19,6 +19,7 @@ const ConfirmNewPassword = () => {
     const togglePasswordVisibility = () => {
         setShowPassword((prevState) => !prevState);
     };
+    const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "https://backendhoatuoiuit.onrender.com";
 
     const handleClick = () => {
 
@@ -47,7 +48,7 @@ const ConfirmNewPassword = () => {
         }
 
 
-        axios.post('https://backendhoatuoiuit.onrender.com/api/confirm', {
+        axios.post(`${API_BASE_URL}/api/confirm`, {
             newPassword: password,
             email: email,
             code: code
@@ -79,9 +80,10 @@ const ConfirmNewPassword = () => {
                                 <Image src={logo} alt="Logo" width={300} />
                             </Link>
 
-
-                            <p style={{ fontSize: '20px', fontWeight: '500', }}>Tiên phong công nghệ - Chất lượng hàng đầu</p>
-
+                            <h1 className="text-purple-600 text-4xl font-bold">Hoa Tươi UIT</h1>
+                            <p className="text-2xl font-medium">
+                                Hoa của sự tinh túy
+                            </p>
                         </div>
                     </div>
 

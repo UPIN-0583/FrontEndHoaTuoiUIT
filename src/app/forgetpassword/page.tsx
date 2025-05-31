@@ -12,7 +12,7 @@ const ForgotPassowrd = () => {
     const router = useRouter();
 
     const [email, setEmail] = useState("")
-
+    const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "https://backendhoatuoiuit.onrender.com";
 
     const handleClick = () => {
         if (!email) {
@@ -26,7 +26,7 @@ const ForgotPassowrd = () => {
         console.log('data', email);
 
 
-        axios.post("https://backendhoatuoiuit.onrender.com/api/forgotpass",
+        axios.post(`${API_BASE_URL}/api/forgotpass`,
             {
                 user_email: email
             },
@@ -58,10 +58,10 @@ const ForgotPassowrd = () => {
                             <Link href="/" className="mb-5.5 inline-block">
                                 <Image src={logo} alt="Logo" width={300} />
                             </Link>
-
-
-                            <p style={{ fontSize: '20px', fontWeight: '500', }}>Tiên phong công nghệ - Chất lượng hàng đầu</p>
-
+                            <h1 className="text-purple-600 text-4xl font-bold">Hoa Tươi UIT</h1>
+                            <p className="text-2xl font-medium">
+                                Hoa của sự tinh túy
+                            </p>
                         </div>
                     </div>
 
