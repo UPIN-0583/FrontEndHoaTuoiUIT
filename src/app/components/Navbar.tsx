@@ -83,7 +83,7 @@ const LogNavbar = () => {
           </ul>
         </nav>
         <div className="flex flex-row sm:flex-row  space-x-4 text-gray-700">
-          <div className="relative group hidden sm:block">
+          {/* <div className="relative group hidden sm:block">
             <input type="text" placeholder="Search"
               className="absolute right-0 w-0 group-hover:w-[300px] transition-all duration-300 rounded-full group-hover:border group-hover:border-gray-500 px-3 focus:outline-none bg-white "
             />
@@ -91,7 +91,13 @@ const LogNavbar = () => {
               icon={faSearch}
               className="text-gray-700 hover:text-purple-500 relative top-1/2 z-10 -translate-y-2.5 right-3 duration-200 cursor-pointer"
             />
-          </div>
+          </div> */}
+          <Link href="/search">
+            <FontAwesomeIcon
+              icon={faSearch}
+              className="text-gray-700 hover:text-purple-500 text-xl"
+            />
+          </Link>
           <Link href="/wishlist">
             <FontAwesomeIcon
               icon={faHeart}
