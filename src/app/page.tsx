@@ -13,7 +13,7 @@ import Chatbox from "./components/ChatBox";
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "https://backendhoatuoiuit.onrender.com";
 
 export const metadata: Metadata = {
-  title: "Hoa Tươi UIT - Mua Hoa Tươi Đẹp, Giá Tốt Tại Làng Đại Học Thủ Đức",
+  title: "Hoa Tươi UIT - Mua Hoa Tươi Đẹp, Giá Sinh Viên Tại Làng Đại Học Thủ Đức",
   description: "Hoa Tươi UIT cung cấp giỏ hoa tươi, hộp hoa đẹp, giao nhanh tận nơi. Đặt hoa online dễ dàng, đa dạng mẫu mã, giá hợp lý tại làng đại học Thủ Đức.",
   keywords: [
     "Hoa Tươi UIT",

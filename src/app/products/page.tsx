@@ -40,6 +40,7 @@ export const metadata: Metadata = {
     "hoa cảm ơn",
     "Hoa Tươi UIT",
     "Hoa Tươi Làng Đại Học",
+    "Hoa Tươi Giá Sinh Viên",
     "Hoa Tươi Giao Nhanh Tận Nơi",
     "Mua Hoa Tươi UIT",
   ],
