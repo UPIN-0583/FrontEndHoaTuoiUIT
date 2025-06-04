@@ -53,6 +53,8 @@ export const metadata: Metadata = {
     "Hoa Tươi Làng Đại Học",
     "Hoa Tươi Giao Nhanh Tận Nơi",
     "Mua Hoa Tươi UIT",
+    "Cách bảo quản hoa tươi lâu",
+    "Cách chọn hoa tươi theo dịp lễ",
   ],
   alternates: {
     canonical: "https://hoatuoiuit.id.vn/blog",
