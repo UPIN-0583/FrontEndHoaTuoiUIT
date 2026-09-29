@@ -1,37 +1,132 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# HoaTuoiUIT — Customer Store
 
-## Getting Started
+Customer-facing e-commerce web application for an online flower shop.
 
-First, run the development server:
+The application provides product browsing, cart and checkout flows, customer accounts, orders, product reviews, and blog content.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## Overview
+
+HoaTuoiUIT is the customer-facing part of a full-stack e-commerce system.
+
+```text
+Next.js / React
+       ↓
+   REST API
+       ↓
+ Spring Boot
+       ↓
+  PostgreSQL
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The project is organized into three separate repositories:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+* **Frontend** — customer-facing web application
+* **Backend** — REST API and business logic
+* **Admin** — administrative dashboard
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Tech Stack
 
-## Learn More
+* Next.js 15
+* React 19
+* TypeScript
+* Tailwind CSS
+* Axios
+* React Toastify
+* Swiper
+* Font Awesome
+* next-sitemap
 
-To learn more about Next.js, take a look at the following resources:
+## Main Features
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Product Browsing
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+* Browse flower products
+* Product detail pages
+* Product-related content
+* Product filtering and navigation
 
-## Deploy on Vercel
+### Customer Authentication
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+* Login
+* Account registration
+* Password recovery
+* Password confirmation flow
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-"# FrontEndHoaTuoiUIT" 
+### Cart & Checkout
+
+* Add products to cart
+* Manage cart items
+* Checkout flow
+* Payment-method selection
+* Order creation
+
+### Orders
+
+* Order confirmation
+* Customer order information
+* Order status information
+
+### Product Reviews
+
+* Product review functionality
+* Review-related customer interactions
+
+### Blog
+
+* Blog listing
+* Blog detail pages
+* Blog content navigation
+
+### Account
+
+* Customer account pages
+* Customer order-related information
+* Account-related actions
+
+## Project Structure
+
+The application uses the Next.js App Router.
+
+```text
+src/
+└── app/
+    ├── about/
+    ├── blog/
+    ├── cart/
+    ├── checkout/
+    ├── confirmpassword/
+    ├── contact/
+    ├── forgetpassword/
+    ├── login/
+    ├── myaccount/
+    ├── order-confirmation/
+    ├── components/
+    ├── layout.tsx
+    └── page.tsx
+```
+
+## Application Integration
+
+The frontend communicates with the Spring Boot backend through REST APIs.
+
+Authentication, product data, cart operations, orders, reviews, and other application features are connected to the backend API.
+
+The application also includes:
+
+* Google Analytics integration
+* Google Tag Manager integration
+* Schema.org structured data
+* SEO-related configuration
+
+## Related Repositories
+
+- **Backend:** https://github.com/UPIN-0583/backendhoatuoiuit
+- **Admin:** https://github.com/UPIN-0583/admin-hoatuoituit
+
+## Demo
+
+[Watch Demo](https://drive.google.com/file/d/1GaBvQiyyy_MdYWSE1nWZoCXcR6ClVaqo/view)
+
+## Notes
+
+This repository contains the customer-facing frontend only. Backend services and administrative functionality are maintained in the related repositories.
